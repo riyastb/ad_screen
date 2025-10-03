@@ -1,0 +1,74 @@
+syntax="proto3";
+package exchangerate;
+
+option go_package = "domain/exchangerate";
+
+
+service ExchangeRateService{
+    rpc Create(RateReq) returns (Response){} //For create the Rates - forexbuy, forexsell, remittance
+    rpc UpdateAllByID(stream Payload) returns (Response){} // for fututre use
+    rpc GetBranchByLongitudeAndLatitude(GetReq) returns (stream Payload){}
+	rpc GetAllByBranch(GetReq) returns (stream Payload){}//Get all rate by branchid
+	rpc CreateBannerDecrption(Banner) returns(Response){}
+}
+
+
+message RateReq{
+	repeated Payload Payload =1;
+
+}
+
+message Payload{
+    string Id							=1;				
+	string BranchName					=2;				
+	string BranchCode					=3;	
+	string CountryName                  =4;
+	string CountryCode					=5;
+	string CountryFlag                  =6;
+	string CurrencyName					=7;	
+	string CurrencyCode					=8;
+	string RemittanceRate				=9;
+	string RemittanceCharge             =10;
+	string ForexBuyRate                 =11;
+    string ForexSellRate                =12;
+	string ForexBuyCharge               =13;
+    string ForexSellCharge              =14; 
+	string PriorityCurrency             =15;							
+	string LastModifiedUserId			=16;				
+	string LastModifiedUserName			=17;				
+	string LastModifiedDate				=18;				
+	string LastModifiedTime				=19;				
+	int64  Active					    =20;
+	string TickerBannerDescription      =21;
+	string OfferDescription             =22;
+	string AdImageUrl                   =23;
+}
+
+
+message Banner{	
+	string TickerBannerDescription      =1;
+	string OfferDescription             =2;
+	string AdImageUrl                   =3;
+}
+
+
+message Response{
+    bool 	Result					=1;
+	string 	Id 						=2;
+	string 	ResponseStatus 			=3;
+	string 	ResponseData			=4;
+	string 	ResponseCode			=5;
+	string LastModifiedDate		    =6;
+	string LastModifiedTime		    =7;
+	string BranchCode               =8;
+	string BranchName               =9;
+}
+
+
+
+
+message GetReq{
+	string Latitude                     =1;
+	string Longitude                    =2;
+	string BranchCode                   =3;
+}
