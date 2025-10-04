@@ -99,7 +99,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
           Expanded(
             child: _buildRateColumn(
               sellRate ?? 0,
-              Colors.redAccent,
+              Colors.yellow,
               fontSize,
               context,
             ),

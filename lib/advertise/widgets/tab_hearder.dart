@@ -7,9 +7,12 @@ class TabHearder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fontSize = MediaQuery.of(context).size.width * 0.012;
-
+final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Container(
-      width: MediaQuery.of(context).size.width * 0.68,
+     width: isLandscape == false
+          ? MediaQuery.of(context).size.width
+          : MediaQuery.of(context).size.width * 0.68,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
@@ -46,7 +49,7 @@ class TabHearder extends StatelessWidget {
               child: Text(
                 'Transfer',
                 style: GoogleFonts.poppins(
-                  color: Colors.yellow,
+                  color: Colors.green,
                   fontSize: fontSize,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.1,
@@ -72,7 +75,7 @@ class TabHearder extends StatelessWidget {
               child: Text(
                 'Sell',
                 style: GoogleFonts.poppins(
-                  color: Colors.redAccent,
+                  color: Colors.yellow,
                   fontSize: fontSize,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.1,

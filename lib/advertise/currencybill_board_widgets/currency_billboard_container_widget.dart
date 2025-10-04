@@ -9,7 +9,8 @@ class CurrenceyBillBoardContainerWidget extends StatefulWidget {
   final CurrencyBillBoardController? controller;
   final List<Branch>? branches;
 
-  const CurrenceyBillBoardContainerWidget({super.key, this.controller, this.branches});
+  const CurrenceyBillBoardContainerWidget(
+      {super.key, this.controller, this.branches});
 
   @override
   State<CurrenceyBillBoardContainerWidget> createState() =>
@@ -64,19 +65,24 @@ class _CurrenceyBillBoardContainerWidgetState
   List<Branch> _getCurrentVisibleBranches() {
     final items = widget.branches ?? const <Branch>[];
     if (items.isEmpty) return [];
-    
+
     final dataIndices = _controller.currentDataIndices;
     return dataIndices.map((index) => items[index]).toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final currentBranches = _getCurrentVisibleBranches();
-    print('------------------Visible Branches: ${currentBranches.length}, Data Indices: ${_controller.currentDataIndices}--------------------');
-    
+    print(
+        '------------------Visible Branches: ${currentBranches.length}, Data Indices: ${_controller.currentDataIndices}--------------------');
+
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(13)),
-      width: MediaQuery.of(context).size.width * 0.68,
+      width: isLandscape == false
+          ? MediaQuery.of(context).size.width
+          : MediaQuery.of(context).size.width * 0.68,
       height: MediaQuery.of(context).size.height * 0.74,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
