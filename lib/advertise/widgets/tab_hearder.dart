@@ -44,7 +44,7 @@ class TabHearder extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                'Remittance',
+                'Transfer',
                 style: GoogleFonts.poppins(
                   color: Colors.yellow,
                   fontSize: fontSize,
@@ -57,7 +57,7 @@ class TabHearder extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                'Forex Buy',
+                'Buy',
                 style: GoogleFonts.poppins(
                   color: Colors.greenAccent,
                   fontSize: fontSize,
@@ -70,7 +70,7 @@ class TabHearder extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                'Forex Sell',
+                'Sell',
                 style: GoogleFonts.poppins(
                   color: Colors.redAccent,
                   fontSize: fontSize,

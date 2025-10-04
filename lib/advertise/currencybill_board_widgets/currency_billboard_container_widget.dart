@@ -19,7 +19,6 @@ class CurrenceyBillBoardContainerWidget extends StatefulWidget {
 class _CurrenceyBillBoardContainerWidgetState
     extends State<CurrenceyBillBoardContainerWidget> {
   late CurrencyBillBoardController _controller;
-  
 
   @override
   void initState() {
@@ -27,6 +26,12 @@ class _CurrenceyBillBoardContainerWidgetState
 
     // Use provided controller or create a new one
     _controller = widget.controller ?? CurrencyBillBoardController();
+    _controller.onDataChanged = () {
+      setState(() {
+        // Rebuild when data changes
+      });
+    };
+
     final effectiveLength = widget.branches?.length ?? 0;
     _controller.initialize(effectiveLength);
 
@@ -56,38 +61,62 @@ class _CurrenceyBillBoardContainerWidgetState
     super.dispose();
   }
 
+  List<Branch> _getCurrentVisibleBranches() {
+    final items = widget.branches ?? const <Branch>[];
+    if (items.isEmpty) return [];
+    
+    final dataIndices = _controller.currentDataIndices;
+    return dataIndices.map((index) => items[index]).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final items = widget.branches ?? const <Branch>[];
-    print('------------------$items--------------------1---------------');
+    final currentBranches = _getCurrentVisibleBranches();
+    print('------------------Visible Branches: ${currentBranches.length}, Data Indices: ${_controller.currentDataIndices}--------------------');
+    
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(13)),
       width: MediaQuery.of(context).size.width * 0.68,
       height: MediaQuery.of(context).size.height * 0.74,
-      child: ListView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(items.length, (index) {
-              final branch = items[index];
-              return FlipCardAnimationWidget(
-                key: _controller.flipCardKeys[index],
-                front: CurrencyBillboardTileWidget(
-                  currencyCode: branch.currencyCode,
-                  buyRate: branch.forexBuyRate,
-                  sellRate: branch.forexSellRate,
-                  remittanceRate: branch.remittanceRate,
-                  baseCurrencyCode: 'AED',
-                ),
-                back: CurrencyBillboardTileWidget(
-                  currencyCode: branch.countryCode,
-                  buyRate: branch.forexBuyRate,
-                  sellRate: branch.forexSellRate,
-                  remittanceRate: branch.remittanceRate,
-                  baseCurrencyCode: 'AED',
-                ),
-              );
-            }),
+          // Optional: Show current data range
+          if (widget.branches != null && widget.branches!.length > 8)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Showing ${currentBranches.length} of ${widget.branches!.length} currencies',
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ),
+          // Cards container
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(currentBranches.length, (index) {
+                final branch = currentBranches[index];
+                return Expanded(
+                  child: FlipCardAnimationWidget(
+                    key: _controller.flipCardKeys[index],
+                    front: CurrencyBillboardTileWidget(
+                      currencyCode: branch.currencyCode,
+                      buyRate: branch.forexBuyRate,
+                      sellRate: branch.forexSellRate,
+                      remittanceRate: branch.remittanceRate,
+                      baseCurrencyCode: 'AED',
+                    ),
+                    back: CurrencyBillboardTileWidget(
+                      currencyCode: branch.countryCode,
+                      buyRate: branch.forexBuyRate,
+                      sellRate: branch.forexSellRate,
+                      remittanceRate: branch.remittanceRate,
+                      baseCurrencyCode: 'AED',
+                    ),
+                  ),
+                );
+              }),
+            ),
           ),
         ],
       ),
