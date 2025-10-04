@@ -27,20 +27,23 @@ class TabHearder extends StatelessWidget {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Currency',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.1,
+          Expanded(
+            child: Center(
+              child: Text(
+                'Currency',
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.1,
+                ),
+              ),
             ),
           ),
-          Row(
-            children: [
-              Text(
+          Expanded(
+            child: Center(
+              child: Text(
                 'Remittance',
                 style: GoogleFonts.poppins(
                   color: Colors.yellow,
@@ -49,15 +52,11 @@ class TabHearder extends StatelessWidget {
                   letterSpacing: 1.1,
                 ),
               ),
-              const SizedBox(width: 22),
-              // 🔹 Small vertical separator
-              Container(
-                width: 2,
-                height: fontSize + 4,
-                color: Colors.white.withOpacity(0.5),
-              ),
-              const SizedBox(width: 22),
-              Text(
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
                 'Forex Buy',
                 style: GoogleFonts.poppins(
                   color: Colors.greenAccent,
@@ -66,8 +65,11 @@ class TabHearder extends StatelessWidget {
                   letterSpacing: 1.1,
                 ),
               ),
-              const SizedBox(width: 20),
-              Text(
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
                 'Forex Sell',
                 style: GoogleFonts.poppins(
                   color: Colors.redAccent,
@@ -76,7 +78,7 @@ class TabHearder extends StatelessWidget {
                   letterSpacing: 1.1,
                 ),
               ),
-            ],
+            ),
           ),
         ],
       ),

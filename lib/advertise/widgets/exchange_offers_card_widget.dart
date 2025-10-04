@@ -1,10 +1,24 @@
+import 'package:advertisment_screen/domain/branch/model/branch.dart';
 import 'package:flutter/material.dart';
 
-class ExchangeOffersCardWidget extends StatelessWidget {
-  const ExchangeOffersCardWidget({super.key});
+class ExchangeOffersCardWidget extends StatefulWidget {
+  final List<Branch>? branches;
+  const ExchangeOffersCardWidget({super.key, this.branches});
 
   @override
+  State<ExchangeOffersCardWidget> createState() =>
+      _ExchangeOffersCardWidgetState();
+}
+
+class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
+  @override
   Widget build(BuildContext context) {
+    // Filter branches with priorityCurrency == 1
+    final filteredBranches = (widget.branches ?? [])
+        .where((branch) => branch.priorityCurrency == 1)
+        .take(5)
+        .toList(); // Take max 5 entries
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.3,
       height: MediaQuery.of(context).size.height * 0.8,
@@ -26,7 +40,7 @@ class ExchangeOffersCardWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text(
+          const Text(
             "BEST EXCHANGE RATES",
             style: TextStyle(
               color: Colors.white,
@@ -35,19 +49,30 @@ class ExchangeOffersCardWidget extends StatelessWidget {
               letterSpacing: 1.2,
             ),
           ),
-
-          Column(
-            children: [
-              _buildRateRow("USD", "EUR", "0.92"),
-              _buildRateRow("GBP", "USD", "1.35"),
-              _buildRateRow("JPY", "USD", "0.0091"),
-              _buildRateRow("AUD", "CAD", "0.95"),
-            ],
-          ),
-
+          if (filteredBranches.isNotEmpty)
+            Column(
+              children: filteredBranches.map((branch) {
+                final remittanceRate =
+                    branch.remittanceRate?.toStringAsFixed(4) ?? '-';
+                final currencyCode = branch.currencyCode ?? '-';
+                return _buildRateRow(
+                  currencyCode,
+                  "AED",
+                  remittanceRate,
+                );
+              }).toList(),
+            )
+          else
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                "No Priority Currency branches available",
+                style: TextStyle(color: Colors.white70),
+              ),
+            ),
           Container(
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.all(20),
+            margin: const EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [
@@ -66,7 +91,7 @@ class ExchangeOffersCardWidget extends StatelessWidget {
               ],
               borderRadius: BorderRadius.circular(15),
             ),
-            child: Text(
+            child: const Text(
               "Zero Commission!\nLimited Time Offer",
               style: TextStyle(
                 fontSize: 18,
@@ -76,29 +101,9 @@ class ExchangeOffersCardWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFFFFA000),
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-            child: Text(
-              "EXCHANGE NOW",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Icon(Icons.security, color: Colors.white70),
               SizedBox(width: 10),
               Text(
@@ -115,12 +120,13 @@ class ExchangeOffersCardWidget extends StatelessWidget {
 
 Widget _buildRateRow(String from, String to, String rate) {
   return Padding(
-    padding: EdgeInsets.symmetric(vertical: 8),
+    padding: const EdgeInsets.symmetric(vertical: 8),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("1 $from =", style: TextStyle(color: Colors.white, fontSize: 16)),
-        SizedBox(width: 5),
+        Text("1 $from =",
+            style: const TextStyle(color: Colors.white, fontSize: 16)),
+        const SizedBox(width: 5),
         Text(
           rate,
           style: TextStyle(
@@ -129,8 +135,8 @@ Widget _buildRateRow(String from, String to, String rate) {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(width: 5),
-        Text(to, style: TextStyle(color: Colors.white, fontSize: 16)),
+        const SizedBox(width: 5),
+        Text(to, style: const TextStyle(color: Colors.white, fontSize: 16)),
       ],
     ),
   );

@@ -1,8 +1,10 @@
 import 'package:advertisment_screen/controllers/scroll_announcementcontroller.dart';
+import 'package:advertisment_screen/domain/branch/model/branch.dart';
 import 'package:flutter/material.dart';
 
 class ScrollFooterWidget extends StatefulWidget {
-  const ScrollFooterWidget({super.key});
+    final List<Branch>? branches;
+  const ScrollFooterWidget({super.key,this.branches});
 
   @override
   State<ScrollFooterWidget> createState() => _ScrollFooterWidgetState();
@@ -28,6 +30,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
 
   @override
   Widget build(BuildContext context) {
+     final items = widget.branches ?? const <Branch>[];
     return Container(
       height: MediaQuery.of(context).size.height * 0.06,
       decoration: BoxDecoration(
@@ -57,7 +60,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
               (index) => Padding(
                 padding: const EdgeInsets.only(right: 32.0),
                 child: Text(
-                  _controller.message,
+                  items.first.tickerBannerDescription.toString()??"",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

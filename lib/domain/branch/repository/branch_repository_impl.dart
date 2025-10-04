@@ -108,6 +108,7 @@ class BranchRepositoryImpl implements BranchRepository {
           forexBuyCharge: double.tryParse(payload.forexBuyCharge),
           forexSellCharge: double.tryParse(payload.forexSellCharge),
           priorityCurrency: int.tryParse(payload.priorityCurrency),
+          tickerBannerDescription:payload.tickerBannerDescription
         );
         branches.add(branch);
         

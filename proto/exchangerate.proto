@@ -7,9 +7,9 @@ option go_package = "domain/exchangerate";
 service ExchangeRateService{
     rpc Create(RateReq) returns (Response){} //For create the Rates - forexbuy, forexsell, remittance
     rpc UpdateAllByID(stream Payload) returns (Response){} // for fututre use
-    rpc GetBranchByLongitudeAndLatitude(GetReq) returns (stream Payload){}
+    rpc GetBranchRateByLongitudeAndLatitude(GetReq) returns (RateData){}
 	rpc GetAllByBranch(GetReq) returns (stream Payload){}//Get all rate by branchid
-	rpc CreateBannerDecrption(Banner) returns(Response){}
+	rpc CreateBannerDescription(Banner) returns(Response){}
 }
 
 
@@ -17,6 +17,16 @@ message RateReq{
 	repeated Payload Payload =1;
 
 }
+
+
+message RateData{
+	repeated Payload Payload            =1;
+	string TickerBannerDescription      =2;
+	string OfferDescription             =3;
+	string AdImageUrl                   =4;
+
+}
+
 
 message Payload{
     string Id							=1;				
@@ -39,9 +49,7 @@ message Payload{
 	string LastModifiedDate				=18;				
 	string LastModifiedTime				=19;				
 	int64  Active					    =20;
-	string TickerBannerDescription      =21;
-	string OfferDescription             =22;
-	string AdImageUrl                   =23;
+	
 }
 
 

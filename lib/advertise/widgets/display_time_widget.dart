@@ -124,7 +124,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> {
                       formattedDate,
                       style: GoogleFonts.robotoMono(
                         color: Colors.white70,
-                        fontSize: MediaQuery.of(context).size.width * 0.009,
+                        fontSize: MediaQuery.of(context).size.width * 0.011,
                       ),
                     ),
                   ],
@@ -143,7 +143,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> {
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: MediaQuery.of(context).size.width * 0.009,
+                        fontSize: MediaQuery.of(context).size.width * 0.011,
                       ),
                     ),
                   ],

@@ -73,14 +73,14 @@ class _CurrenceyBillBoardContainerWidgetState
               return FlipCardAnimationWidget(
                 key: _controller.flipCardKeys[index],
                 front: CurrencyBillboardTileWidget(
-                  currencyCode: branch.currencyCode?.isNotEmpty == true ? branch.currencyCode : branch.currencyName,
+                  currencyCode: branch.currencyCode,
                   buyRate: branch.forexBuyRate,
                   sellRate: branch.forexSellRate,
                   remittanceRate: branch.remittanceRate,
                   baseCurrencyCode: 'AED',
                 ),
                 back: CurrencyBillboardTileWidget(
-                  currencyCode: branch.currencyCode?.isNotEmpty == true ? branch.currencyCode : branch.currencyName,
+                  currencyCode: branch.countryCode,
                   buyRate: branch.forexBuyRate,
                   sellRate: branch.forexSellRate,
                   remittanceRate: branch.remittanceRate,

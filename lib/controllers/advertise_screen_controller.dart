@@ -44,7 +44,7 @@ class CurrencyBillBoardController {
       flipCardKeys[i].currentState?.flip();
     }
 
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 10));
     if (_isAnimating) {
       _flipCardsSequentially(); // Continue looping
     }
