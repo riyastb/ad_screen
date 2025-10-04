@@ -52,16 +52,29 @@ class BranchRepositoryImpl implements BranchRepository {
         'branchCode': getReq.branchCode,
       }, _logger);
 
-      final responseStream = _client.getBranchByLongitudeAndLatitude(getReq);
+      // Attach required metadata
+      final metadata = {'Action': 'NA'};
+      AppLogger.logObject('gRPC Metadata', metadata, _logger);
+
+      // Unary call now returns RateData (with payload list + banner fields)
+      final rateData = await _client.getBranchRateByLongitudeAndLatitude(
+        getReq,
+        options: CallOptions(metadata: metadata),
+      );
+
+      // Log banner/meta info
+      AppLogger.logObject('gRPC Response (RateData)', {
+        'tickerBannerDescription': rateData.tickerBannerDescription,
+        'offerDescription': rateData.offerDescription,
+        'adImageUrl': rateData.adImageUrl,
+        'payloadLength': rateData.payload.length,
+      }, _logger);
+
       final List<Branch> branches = [];
       int payloadCount = 0;
 
-      _logger.d('📡 Starting to receive stream data...');
-      
-      await for (final payload in responseStream) {
+      for (final payload in rateData.payload) {
         payloadCount++;
-        _logger.t('📦 Received payload #$payloadCount');
-        
         // Log each payload in detail
         AppLogger.logObject('Payload #$payloadCount', {
           'id': payload.id,
@@ -85,7 +98,7 @@ class BranchRepositoryImpl implements BranchRepository {
           'lastModifiedTime': payload.lastModifiedTime,
           'active': payload.active,
         }, _logger);
-        
+
         final branch = Branch(
           id: payload.id,
           branchName: payload.branchName,
@@ -108,14 +121,16 @@ class BranchRepositoryImpl implements BranchRepository {
           forexBuyCharge: double.tryParse(payload.forexBuyCharge),
           forexSellCharge: double.tryParse(payload.forexSellCharge),
           priorityCurrency: int.tryParse(payload.priorityCurrency),
-          tickerBannerDescription:payload.tickerBannerDescription
+          tickerBannerDescription: rateData.tickerBannerDescription,
+          offerDescription: rateData.offerDescription,
+          adImageUrl: rateData.adImageUrl,
         );
         branches.add(branch);
-        
+
         _logger.d('✅ Converted payload #$payloadCount to Branch: ${branch.branchName}');
       }
 
-      _logger.i('🎯 Stream completed. Retrieved ${branches.length} branches for location: ${request.latitude}, ${request.longitude}');
+      _logger.i('🎯 Completed. Retrieved ${branches.length} branches for location: ${request.latitude}, ${request.longitude}');
       AppLogger.logObject('Final Branches List', branches.map((b) => b.toJson()).toList(), _logger);
       
       return branches;
@@ -131,3 +146,4 @@ class BranchRepositoryImpl implements BranchRepository {
     await _channel.shutdown();
   }
 }
+

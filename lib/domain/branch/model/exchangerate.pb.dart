@@ -58,6 +58,92 @@ class RateReq extends $pb.GeneratedMessage {
   $core.List<Payload> get payload => $_getList(0);
 }
 
+class RateData extends $pb.GeneratedMessage {
+  factory RateData({
+    $core.Iterable<Payload>? payload,
+    $core.String? tickerBannerDescription,
+    $core.String? offerDescription,
+    $core.String? adImageUrl,
+  }) {
+    final $result = create();
+    if (payload != null) {
+      $result.payload.addAll(payload);
+    }
+    if (tickerBannerDescription != null) {
+      $result.tickerBannerDescription = tickerBannerDescription;
+    }
+    if (offerDescription != null) {
+      $result.offerDescription = offerDescription;
+    }
+    if (adImageUrl != null) {
+      $result.adImageUrl = adImageUrl;
+    }
+    return $result;
+  }
+  RateData._() : super();
+  factory RateData.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RateData.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RateData', package: const $pb.PackageName(_omitMessageNames ? '' : 'exchangerate'), createEmptyInstance: create)
+    ..pc<Payload>(1, _omitFieldNames ? '' : 'Payload', $pb.PbFieldType.PM, protoName: 'Payload', subBuilder: Payload.create)
+    ..aOS(2, _omitFieldNames ? '' : 'TickerBannerDescription', protoName: 'TickerBannerDescription')
+    ..aOS(3, _omitFieldNames ? '' : 'OfferDescription', protoName: 'OfferDescription')
+    ..aOS(4, _omitFieldNames ? '' : 'AdImageUrl', protoName: 'AdImageUrl')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RateData clone() => RateData()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RateData copyWith(void Function(RateData) updates) => super.copyWith((message) => updates(message as RateData)) as RateData;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static RateData create() => RateData._();
+  RateData createEmptyInstance() => create();
+  static $pb.PbList<RateData> createRepeated() => $pb.PbList<RateData>();
+  @$core.pragma('dart2js:noInline')
+  static RateData getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RateData>(create);
+  static RateData? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<Payload> get payload => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $core.String get tickerBannerDescription => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set tickerBannerDescription($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTickerBannerDescription() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTickerBannerDescription() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get offerDescription => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set offerDescription($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasOfferDescription() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearOfferDescription() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get adImageUrl => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set adImageUrl($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasAdImageUrl() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearAdImageUrl() => clearField(4);
+}
+
 class Payload extends $pb.GeneratedMessage {
   factory Payload({
     $core.String? id,
@@ -80,9 +166,6 @@ class Payload extends $pb.GeneratedMessage {
     $core.String? lastModifiedDate,
     $core.String? lastModifiedTime,
     $fixnum.Int64? active,
-    $core.String? tickerBannerDescription,
-    $core.String? offerDescription,
-    $core.String? adImageUrl,
   }) {
     final $result = create();
     if (id != null) {
@@ -145,15 +228,6 @@ class Payload extends $pb.GeneratedMessage {
     if (active != null) {
       $result.active = active;
     }
-    if (tickerBannerDescription != null) {
-      $result.tickerBannerDescription = tickerBannerDescription;
-    }
-    if (offerDescription != null) {
-      $result.offerDescription = offerDescription;
-    }
-    if (adImageUrl != null) {
-      $result.adImageUrl = adImageUrl;
-    }
     return $result;
   }
   Payload._() : super();
@@ -181,9 +255,6 @@ class Payload extends $pb.GeneratedMessage {
     ..aOS(18, _omitFieldNames ? '' : 'LastModifiedDate', protoName: 'LastModifiedDate')
     ..aOS(19, _omitFieldNames ? '' : 'LastModifiedTime', protoName: 'LastModifiedTime')
     ..aInt64(20, _omitFieldNames ? '' : 'Active', protoName: 'Active')
-    ..aOS(21, _omitFieldNames ? '' : 'TickerBannerDescription', protoName: 'TickerBannerDescription')
-    ..aOS(22, _omitFieldNames ? '' : 'OfferDescription', protoName: 'OfferDescription')
-    ..aOS(23, _omitFieldNames ? '' : 'AdImageUrl', protoName: 'AdImageUrl')
     ..hasRequiredFields = false
   ;
 
@@ -387,33 +458,6 @@ class Payload extends $pb.GeneratedMessage {
   $core.bool hasActive() => $_has(19);
   @$pb.TagNumber(20)
   void clearActive() => clearField(20);
-
-  @$pb.TagNumber(21)
-  $core.String get tickerBannerDescription => $_getSZ(20);
-  @$pb.TagNumber(21)
-  set tickerBannerDescription($core.String v) { $_setString(20, v); }
-  @$pb.TagNumber(21)
-  $core.bool hasTickerBannerDescription() => $_has(20);
-  @$pb.TagNumber(21)
-  void clearTickerBannerDescription() => clearField(21);
-
-  @$pb.TagNumber(22)
-  $core.String get offerDescription => $_getSZ(21);
-  @$pb.TagNumber(22)
-  set offerDescription($core.String v) { $_setString(21, v); }
-  @$pb.TagNumber(22)
-  $core.bool hasOfferDescription() => $_has(21);
-  @$pb.TagNumber(22)
-  void clearOfferDescription() => clearField(22);
-
-  @$pb.TagNumber(23)
-  $core.String get adImageUrl => $_getSZ(22);
-  @$pb.TagNumber(23)
-  set adImageUrl($core.String v) { $_setString(22, v); }
-  @$pb.TagNumber(23)
-  $core.bool hasAdImageUrl() => $_has(22);
-  @$pb.TagNumber(23)
-  void clearAdImageUrl() => clearField(23);
 }
 
 class Banner extends $pb.GeneratedMessage {

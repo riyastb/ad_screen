@@ -19,15 +19,40 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
         .take(5)
         .toList(); // Take max 5 entries
 
+    // Use first branch as source for banner/offer data
+    final first = (widget.branches?.isNotEmpty ?? false) ? widget.branches!.first : null;
+    final offerText = (first?.offerDescription ?? '').trim().isNotEmpty
+        ? first!.offerDescription!.trim()
+        : 'Zero Commission!\nLimited Time Offer';
+    final adImageUrl = (first?.adImageUrl ?? '').trim();
+    bool _isValidHttpUrl(String url) {
+      if (url.isEmpty) return false;
+      final uri = Uri.tryParse(url);
+      if (uri == null) return false;
+      final hasScheme = uri.scheme == 'http' || uri.scheme == 'https';
+      return hasScheme && (uri.host.isNotEmpty);
+    }
+    final hasValidImage = _isValidHttpUrl(adImageUrl);
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.3,
       height: MediaQuery.of(context).size.height * 0.8,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF203A43), Color(0xFF2C5364)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: !hasValidImage
+            ? const LinearGradient(
+                colors: [Color(0xFF203A43), Color(0xFF2C5364)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : null,
+        image: hasValidImage
+            ? DecorationImage(
+                image: NetworkImage(adImageUrl),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.35), BlendMode.darken),
+              )
+            : null,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -79,8 +104,8 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
                   Color(0xFFFFC107), // Amber
                   Color(0xFFFFA000), // Dark amber/orange
                 ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
               ),
               boxShadow: [
                 BoxShadow(
@@ -91,9 +116,9 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
               ],
               borderRadius: BorderRadius.circular(15),
             ),
-            child: const Text(
-              "Zero Commission!\nLimited Time Offer",
-              style: TextStyle(
+            child: Text(
+              offerText,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,

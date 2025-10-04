@@ -26,6 +26,24 @@ final $typed_data.Uint8List rateReqDescriptor = $convert.base64Decode(
     'CgdSYXRlUmVxEi8KB1BheWxvYWQYASADKAsyFS5leGNoYW5nZXJhdGUuUGF5bG9hZFIHUGF5bG'
     '9hZA==');
 
+@$core.Deprecated('Use rateDataDescriptor instead')
+const RateData$json = {
+  '1': 'RateData',
+  '2': [
+    {'1': 'Payload', '3': 1, '4': 3, '5': 11, '6': '.exchangerate.Payload', '10': 'Payload'},
+    {'1': 'TickerBannerDescription', '3': 2, '4': 1, '5': 9, '10': 'TickerBannerDescription'},
+    {'1': 'OfferDescription', '3': 3, '4': 1, '5': 9, '10': 'OfferDescription'},
+    {'1': 'AdImageUrl', '3': 4, '4': 1, '5': 9, '10': 'AdImageUrl'},
+  ],
+};
+
+/// Descriptor for `RateData`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List rateDataDescriptor = $convert.base64Decode(
+    'CghSYXRlRGF0YRIvCgdQYXlsb2FkGAEgAygLMhUuZXhjaGFuZ2VyYXRlLlBheWxvYWRSB1BheW'
+    'xvYWQSOAoXVGlja2VyQmFubmVyRGVzY3JpcHRpb24YAiABKAlSF1RpY2tlckJhbm5lckRlc2Ny'
+    'aXB0aW9uEioKEE9mZmVyRGVzY3JpcHRpb24YAyABKAlSEE9mZmVyRGVzY3JpcHRpb24SHgoKQW'
+    'RJbWFnZVVybBgEIAEoCVIKQWRJbWFnZVVybA==');
+
 @$core.Deprecated('Use payloadDescriptor instead')
 const Payload$json = {
   '1': 'Payload',
@@ -50,9 +68,6 @@ const Payload$json = {
     {'1': 'LastModifiedDate', '3': 18, '4': 1, '5': 9, '10': 'LastModifiedDate'},
     {'1': 'LastModifiedTime', '3': 19, '4': 1, '5': 9, '10': 'LastModifiedTime'},
     {'1': 'Active', '3': 20, '4': 1, '5': 3, '10': 'Active'},
-    {'1': 'TickerBannerDescription', '3': 21, '4': 1, '5': 9, '10': 'TickerBannerDescription'},
-    {'1': 'OfferDescription', '3': 22, '4': 1, '5': 9, '10': 'OfferDescription'},
-    {'1': 'AdImageUrl', '3': 23, '4': 1, '5': 9, '10': 'AdImageUrl'},
   ],
 };
 
@@ -71,10 +86,7 @@ final $typed_data.Uint8List payloadDescriptor = $convert.base64Decode(
     'TW9kaWZpZWRVc2VySWQYECABKAlSEkxhc3RNb2RpZmllZFVzZXJJZBIyChRMYXN0TW9kaWZpZW'
     'RVc2VyTmFtZRgRIAEoCVIUTGFzdE1vZGlmaWVkVXNlck5hbWUSKgoQTGFzdE1vZGlmaWVkRGF0'
     'ZRgSIAEoCVIQTGFzdE1vZGlmaWVkRGF0ZRIqChBMYXN0TW9kaWZpZWRUaW1lGBMgASgJUhBMYX'
-    'N0TW9kaWZpZWRUaW1lEhYKBkFjdGl2ZRgUIAEoA1IGQWN0aXZlEjgKF1RpY2tlckJhbm5lckRl'
-    'c2NyaXB0aW9uGBUgASgJUhdUaWNrZXJCYW5uZXJEZXNjcmlwdGlvbhIqChBPZmZlckRlc2NyaX'
-    'B0aW9uGBYgASgJUhBPZmZlckRlc2NyaXB0aW9uEh4KCkFkSW1hZ2VVcmwYFyABKAlSCkFkSW1h'
-    'Z2VVcmw=');
+    'N0TW9kaWZpZWRUaW1lEhYKBkFjdGl2ZRgUIAEoA1IGQWN0aXZl');
 
 @$core.Deprecated('Use bannerDescriptor instead')
 const Banner$json = {

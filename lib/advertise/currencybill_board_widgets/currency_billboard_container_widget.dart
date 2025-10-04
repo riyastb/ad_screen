@@ -113,7 +113,7 @@ class _CurrenceyBillBoardContainerWidgetState
                       baseCurrencyCode: 'AED',
                     ),
                     back: CurrencyBillboardTileWidget(
-                      currencyCode: branch.countryCode,
+                      currencyCode: branch.currencyCode,
                       buyRate: branch.forexBuyRate,
                       sellRate: branch.forexSellRate,
                       remittanceRate: branch.remittanceRate,

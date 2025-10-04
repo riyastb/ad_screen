@@ -29,16 +29,16 @@ class ExchangeRateServiceClient extends $grpc.Client {
       '/exchangerate.ExchangeRateService/UpdateAllByID',
       ($0.Payload value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Response.fromBuffer(value));
-  static final _$getBranchByLongitudeAndLatitude = $grpc.ClientMethod<$0.GetReq, $0.Payload>(
-      '/exchangerate.ExchangeRateService/GetBranchByLongitudeAndLatitude',
+  static final _$getBranchRateByLongitudeAndLatitude = $grpc.ClientMethod<$0.GetReq, $0.RateData>(
+      '/exchangerate.ExchangeRateService/GetBranchRateByLongitudeAndLatitude',
       ($0.GetReq value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.Payload.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.RateData.fromBuffer(value));
   static final _$getAllByBranch = $grpc.ClientMethod<$0.GetReq, $0.Payload>(
       '/exchangerate.ExchangeRateService/GetAllByBranch',
       ($0.GetReq value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Payload.fromBuffer(value));
-  static final _$createBannerDecrption = $grpc.ClientMethod<$0.Banner, $0.Response>(
-      '/exchangerate.ExchangeRateService/CreateBannerDecrption',
+  static final _$createBannerDescription = $grpc.ClientMethod<$0.Banner, $0.Response>(
+      '/exchangerate.ExchangeRateService/CreateBannerDescription',
       ($0.Banner value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Response.fromBuffer(value));
 
@@ -56,16 +56,16 @@ class ExchangeRateServiceClient extends $grpc.Client {
     return $createStreamingCall(_$updateAllByID, request, options: options).single;
   }
 
-  $grpc.ResponseStream<$0.Payload> getBranchByLongitudeAndLatitude($0.GetReq request, {$grpc.CallOptions? options}) {
-    return $createStreamingCall(_$getBranchByLongitudeAndLatitude, $async.Stream.fromIterable([request]), options: options);
+  $grpc.ResponseFuture<$0.RateData> getBranchRateByLongitudeAndLatitude($0.GetReq request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getBranchRateByLongitudeAndLatitude, request, options: options);
   }
 
   $grpc.ResponseStream<$0.Payload> getAllByBranch($0.GetReq request, {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$getAllByBranch, $async.Stream.fromIterable([request]), options: options);
   }
 
-  $grpc.ResponseFuture<$0.Response> createBannerDecrption($0.Banner request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$createBannerDecrption, request, options: options);
+  $grpc.ResponseFuture<$0.Response> createBannerDescription($0.Banner request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createBannerDescription, request, options: options);
   }
 }
 
@@ -88,13 +88,13 @@ abstract class ExchangeRateServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Payload.fromBuffer(value),
         ($0.Response value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetReq, $0.Payload>(
-        'GetBranchByLongitudeAndLatitude',
-        getBranchByLongitudeAndLatitude_Pre,
+    $addMethod($grpc.ServiceMethod<$0.GetReq, $0.RateData>(
+        'GetBranchRateByLongitudeAndLatitude',
+        getBranchRateByLongitudeAndLatitude_Pre,
         false,
-        true,
+        false,
         ($core.List<$core.int> value) => $0.GetReq.fromBuffer(value),
-        ($0.Payload value) => value.writeToBuffer()));
+        ($0.RateData value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetReq, $0.Payload>(
         'GetAllByBranch',
         getAllByBranch_Pre,
@@ -103,8 +103,8 @@ abstract class ExchangeRateServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) => $0.GetReq.fromBuffer(value),
         ($0.Payload value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.Banner, $0.Response>(
-        'CreateBannerDecrption',
-        createBannerDecrption_Pre,
+        'CreateBannerDescription',
+        createBannerDescription_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.Banner.fromBuffer(value),
@@ -115,21 +115,21 @@ abstract class ExchangeRateServiceBase extends $grpc.Service {
     return create(call, await request);
   }
 
-  $async.Stream<$0.Payload> getBranchByLongitudeAndLatitude_Pre($grpc.ServiceCall call, $async.Future<$0.GetReq> request) async* {
-    yield* getBranchByLongitudeAndLatitude(call, await request);
+  $async.Future<$0.RateData> getBranchRateByLongitudeAndLatitude_Pre($grpc.ServiceCall call, $async.Future<$0.GetReq> request) async {
+    return getBranchRateByLongitudeAndLatitude(call, await request);
   }
 
   $async.Stream<$0.Payload> getAllByBranch_Pre($grpc.ServiceCall call, $async.Future<$0.GetReq> request) async* {
     yield* getAllByBranch(call, await request);
   }
 
-  $async.Future<$0.Response> createBannerDecrption_Pre($grpc.ServiceCall call, $async.Future<$0.Banner> request) async {
-    return createBannerDecrption(call, await request);
+  $async.Future<$0.Response> createBannerDescription_Pre($grpc.ServiceCall call, $async.Future<$0.Banner> request) async {
+    return createBannerDescription(call, await request);
   }
 
   $async.Future<$0.Response> create($grpc.ServiceCall call, $0.RateReq request);
   $async.Future<$0.Response> updateAllByID($grpc.ServiceCall call, $async.Stream<$0.Payload> request);
-  $async.Stream<$0.Payload> getBranchByLongitudeAndLatitude($grpc.ServiceCall call, $0.GetReq request);
+  $async.Future<$0.RateData> getBranchRateByLongitudeAndLatitude($grpc.ServiceCall call, $0.GetReq request);
   $async.Stream<$0.Payload> getAllByBranch($grpc.ServiceCall call, $0.GetReq request);
-  $async.Future<$0.Response> createBannerDecrption($grpc.ServiceCall call, $0.Banner request);
+  $async.Future<$0.Response> createBannerDescription($grpc.ServiceCall call, $0.Banner request);
 }
