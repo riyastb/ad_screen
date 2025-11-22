@@ -206,27 +206,30 @@ class _AdvertisementMainHomeScreenState
                             isError: _hasError,
                           ),
                         )
-                      : isLandscape
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  children: [
-                                    TabHearder(theme: theme),
-                                    SizedBox(height: responsive.getSpacing(3)),
-                                    CurrenceyBillBoardContainerWidget(
-                                      branches: _branches,
-                                      theme: theme,
-                                    ),
-                                  ],
-                                ),
-                                // ExchangeOffersCardWidget(
-                                //   branches: _branches,
-                                //   theme: theme,
-                                // ),
-                              ],
-                            )
-                          : Column(
+                      :
+                      //  isLandscape
+                      //     ? 
+                      //     Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Column(
+                      //             children: [
+                      //               TabHearder(theme: theme),
+                      //               SizedBox(height: responsive.getSpacing(3)),
+                      //               CurrenceyBillBoardContainerWidget(
+                      //                 branches: _branches,
+                      //                 theme: theme,
+                      //               ),
+                      //             ],
+                      //           ),
+                      //           // ExchangeOffersCardWidget(
+                      //           //   branches: _branches,
+                      //           //   theme: theme,
+                      //           // ),
+                      //         ],
+                      //       )
+                      //     : 
+                          Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
@@ -238,6 +241,7 @@ class _AdvertisementMainHomeScreenState
                                       theme: theme,
                                     ),
                                     SizedBox(height: responsive.getSpacing(2)),
+                                    if(!isLandscape)
                                     OfferDescriptionBanner(
                                       branches: _branches,
                                       theme: theme,

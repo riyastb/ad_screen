@@ -20,7 +20,7 @@ class TabHearder extends StatelessWidget {
     
     return Container(
       width: responsive.isLandscape
-          ? responsive.getWidth(0.68)
+          ? responsive.width
           : responsive.width,
       padding: EdgeInsets.symmetric(
         horizontal: responsive.getPadding(20),

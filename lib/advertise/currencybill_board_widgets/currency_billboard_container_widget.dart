@@ -47,7 +47,7 @@ class _CurrenceyBillBoardContainerWidgetState
       final responsive = context.responsive;
       final isLandscape = responsive.isLandscape;
       _lastOrientation = isLandscape;
-      final visibleCards = isLandscape ? 8 : 12;
+      final visibleCards = isLandscape ? 9 : 13;
       _controller.initialize(effectiveLength, visibleCards: visibleCards);
       _isInitialized = true;
 
@@ -67,8 +67,8 @@ class _CurrenceyBillBoardContainerWidgetState
     final responsive = context.responsive;
     final isLandscape = responsive.isLandscape;
     // Portrait mode (1080x1920): show 12 cards, Landscape: show 8 cards
-    final visibleCards = isLandscape ? 8 : 12;
-    
+    final visibleCards = isLandscape ? 9 : 13;
+
     // Reinitialize if branch count changed or orientation changed
     if (newLen != oldLen || _lastOrientation != isLandscape) {
       _lastOrientation = isLandscape;
@@ -97,7 +97,7 @@ class _CurrenceyBillBoardContainerWidgetState
 
     final dataIndices = _controller.currentDataIndices;
     if (dataIndices.isEmpty) return [];
-    
+
     return dataIndices
         .where((index) => index >= 0 && index < items.length)
         .map((index) => items[index])
@@ -113,10 +113,10 @@ class _CurrenceyBillBoardContainerWidgetState
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(13)),
       ),
-      width: responsive.isLandscape
-          ? responsive.getWidth(0.68)
-          : responsive.width,
-      height: responsive.getHeight(0.5),
+      width: responsive.isLandscape ? responsive.width : responsive.width,
+      height: responsive.isLandscape
+          ? responsive.getHeight(0.7)
+          : responsive.getHeight(0.54),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -147,12 +147,14 @@ class _CurrenceyBillBoardContainerWidgetState
                         }
                         final branch = currentBranches[index];
                         // Use branch.countryCode if valid (not empty and not "UN"), otherwise map from currency code
-                        final rawCountryCode = branch.countryCode?.toUpperCase().trim();
-                        final countryCode = (rawCountryCode != null && 
-                                           rawCountryCode.isNotEmpty && 
-                                           rawCountryCode != 'UN')
+                        final rawCountryCode =
+                            branch.countryCode?.toUpperCase().trim();
+                        final countryCode = (rawCountryCode != null &&
+                                rawCountryCode.isNotEmpty &&
+                                rawCountryCode != 'UN')
                             ? rawCountryCode
-                            : getCountryCodeFromCurrency(branch.currencyCode ?? '');
+                            : getCountryCodeFromCurrency(
+                                branch.currencyCode ?? '');
                         return Expanded(
                           child: FlipCardAnimationWidget(
                             key: _controller.flipCardKeys[index],
@@ -184,10 +186,11 @@ class _CurrenceyBillBoardContainerWidgetState
       ),
     );
   }
+
   String? getCountryCodeFromCurrency(String code) {
     return currencyToCountryCodeMap[code.toUpperCase()];
   }
-  
+
   // Map currency codes to ISO 3166-1 alpha-2 country codes
   Map<String, String> currencyToCountryCodeMap = {
     // Major currencies
@@ -202,7 +205,7 @@ class _CurrenceyBillBoardContainerWidgetState
     "NZD": "NZ",
     "SGD": "SG",
     "HKD": "HK",
-    
+
     // Middle East
     "AED": "AE",
     "SAR": "SA",
@@ -216,7 +219,7 @@ class _CurrenceyBillBoardContainerWidgetState
     "IRR": "IR",
     "IQD": "IQ",
     "YER": "YE",
-    
+
     // South Asia
     "INR": "IN",
     "PKR": "PK",
@@ -224,7 +227,7 @@ class _CurrenceyBillBoardContainerWidgetState
     "LKR": "LK",
     "NPR": "NP",
     "AFN": "AF",
-    
+
     // Southeast Asia
     "MYR": "MY",
     "THB": "TH",
@@ -234,12 +237,12 @@ class _CurrenceyBillBoardContainerWidgetState
     "MMK": "MM",
     "KHR": "KH",
     "LAK": "LA",
-    
+
     // East Asia
     "KRW": "KR",
     "TWD": "TW",
     "MOP": "MO",
-    
+
     // Africa
     "ZAR": "ZA",
     "NGN": "NG",
@@ -254,7 +257,7 @@ class _CurrenceyBillBoardContainerWidgetState
     "TND": "TN",
     "XOF": "SN", // West African CFA franc (Senegal as representative)
     "XAF": "CM", // Central African CFA franc (Cameroon as representative)
-    
+
     // Europe
     "NOK": "NO",
     "SEK": "SE",
@@ -276,7 +279,7 @@ class _CurrenceyBillBoardContainerWidgetState
     "GEL": "GE",
     "AMD": "AM",
     "AZN": "AZ",
-    
+
     // Americas
     "BRL": "BR",
     "MXN": "MX",
@@ -298,9 +301,10 @@ class _CurrenceyBillBoardContainerWidgetState
     "TTD": "TT",
     "BBD": "BB",
     "BZD": "BZ",
-    "XCD": "AG", // East Caribbean dollar (Antigua and Barbuda as representative)
+    "XCD":
+        "AG", // East Caribbean dollar (Antigua and Barbuda as representative)
     "STD": "ST", // São Tomé and Príncipe (São Tomé and Príncipe dobra)
-    
+
     // Other
     "TRY": "TR",
     "RUB": "RU",
@@ -310,10 +314,9 @@ class _CurrenceyBillBoardContainerWidgetState
     "TJS": "TJ",
     "TMT": "TM",
     "MNT": "MN",
-    
+
     // Special codes that might come from backend
     "101": "IN", // Indian Rupee (alternative code)
     "RS2": "IN", // Rupees (alternative code)
   };
-
 }
