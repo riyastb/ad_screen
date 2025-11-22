@@ -17,13 +17,39 @@ class ScrollFooterWidget extends StatefulWidget {
 class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
   final ScrollFooterWidgetController _controller =
       ScrollFooterWidgetController();
+  String? _lastDisplayText;
 
   @override
   void initState() {
     super.initState();
     _controller.init(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
+  }
+
+  @override
+  void didUpdateWidget(ScrollFooterWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Restart scrolling if content changed
+    final items = widget.branches ?? const <Branch>[];
+    if (items.isNotEmpty) {
+      final tickerText = (items.first.tickerBannerDescription ?? '').trim();
+      final displayText = tickerText.isNotEmpty
+          ? tickerText
+          : 'Welcome to Lari Exchange • Best rates • Fast and secure service';
+      
+      if (displayText != _lastDisplayText) {
+        _lastDisplayText = displayText;
+        // Restart scrolling with new content
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _controller.restart();
+          }
+        });
+      }
+    }
   }
 
   @override
@@ -46,6 +72,11 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
      final displayText = tickerText.isNotEmpty
          ? tickerText
          : 'Welcome to Lari Exchange • Best rates • Fast and secure service';
+     
+     // Initialize last display text on first build
+     if (_lastDisplayText == null) {
+       _lastDisplayText = displayText;
+     }
     final tickerBackground = widget.theme.footerBackground;
     final tickerTextColor = widget.theme.footerTextColor ?? Colors.white;
 
@@ -75,10 +106,12 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
         child: SingleChildScrollView(
           controller: _controller.scrollController,
           scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(), // Disable manual scrolling, only programmatic
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Repeat the text a few times to enable continuous scrolling feel
-              for (int i = 0; i < 6; i++)
+              for (int i = 0; i < 10; i++)
                 Padding(
                   padding: EdgeInsets.only(right: responsive.getPadding(48.0)),
                   child: Text(

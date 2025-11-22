@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class ScrollFooterWidgetController {
   final ScrollController scrollController = ScrollController();
@@ -9,36 +10,104 @@ class ScrollFooterWidgetController {
 
   late VoidCallback _onScrollComplete;
   bool _isDisposed = false;
+  Timer? _retryTimer;
+  bool _isScrolling = false;
 
   void init(VoidCallback onScrollComplete) {
     _onScrollComplete = onScrollComplete;
 
+    // Wait for the scroll controller to be attached
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _startScrolling();
+      _waitForScrollController();
     });
   }
 
+  void restart() {
+    if (!_isDisposed && scrollController.hasClients) {
+      scrollController.jumpTo(0);
+      _isScrolling = false;
+      _waitForScrollController();
+    }
+  }
+
+  void _waitForScrollController() {
+    if (_isDisposed) return;
+
+    if (scrollController.hasClients && scrollController.position.maxScrollExtent > 0) {
+      _startScrolling();
+    } else {
+      // Retry after a short delay if controller is not ready
+      _retryTimer?.cancel();
+      _retryTimer = Timer(const Duration(milliseconds: 100), () {
+        if (!_isDisposed) {
+          _waitForScrollController();
+        }
+      });
+    }
+  }
+
   void _startScrolling() {
-    if (_isDisposed || !scrollController.hasClients) return;
+    if (_isDisposed || _isScrolling) return;
+    if (!scrollController.hasClients) {
+      _waitForScrollController();
+      return;
+    }
 
     final maxScroll = scrollController.position.maxScrollExtent;
+    if (maxScroll <= 0) {
+      // No content to scroll, retry later
+      _retryTimer?.cancel();
+      _retryTimer = Timer(const Duration(milliseconds: 200), () {
+        if (!_isDisposed) {
+          _waitForScrollController();
+        }
+      });
+      return;
+    }
 
+    _isScrolling = true;
+    // Calculate duration: scroll at ~2 pixels per second (very slow and readable)
+    // Convert to milliseconds: (maxScroll / 2) * 1000
+    final durationMs = ((maxScroll / 2) * 1000).round().clamp(5000, 180000);
     scrollController
         .animateTo(
           maxScroll,
-          duration: Duration(seconds: (maxScroll / 30).round()),
+          duration: Duration(milliseconds: durationMs),
           curve: Curves.linear,
         )
         .then((_) {
-          if (_isDisposed) return;
+          if (_isDisposed) {
+            _isScrolling = false;
+            return;
+          }
 
           scrollController.jumpTo(0);
-          _startScrolling();
+          _isScrolling = false;
+          
+          // Small delay before restarting
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (!_isDisposed) {
+              _startScrolling();
+            }
+          });
+        })
+        .catchError((error) {
+          _isScrolling = false;
+          // Retry on error
+          if (!_isDisposed) {
+            Future.delayed(const Duration(milliseconds: 500), () {
+              if (!_isDisposed) {
+                _waitForScrollController();
+              }
+            });
+          }
         });
   }
 
   void dispose() {
     _isDisposed = true;
+    _isScrolling = false;
+    _retryTimer?.cancel();
     scrollController.dispose();
   }
 }

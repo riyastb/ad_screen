@@ -10,6 +10,7 @@ import 'package:advertisment_screen/domain/branch/branch.dart';
 import 'package:advertisment_screen/advertise/currencybill_board_widgets/currency_billboard_container_widget.dart';
 import 'package:advertisment_screen/advertise/widgets/scroll_footer_widget.dart';
 import 'package:advertisment_screen/advertise/widgets/offer_description_banner.dart';
+import 'package:advertisment_screen/advertise/widgets/no_data_found_widget.dart';
 import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 
 class AdvertisementMainHomeScreen extends StatefulWidget {
@@ -30,6 +31,7 @@ class _AdvertisementMainHomeScreenState
   late final BranchService _branchService;
   List<Branch>? _branches;
   bool _isLoading = false;
+  bool _hasError = false;
   final FocusNode _keyboardFocusNode = FocusNode();
   bool _isLandscapeMode = false;
   
@@ -84,6 +86,7 @@ class _AdvertisementMainHomeScreenState
     if (!mounted) return;
     setState(() {
       _isLoading = true;
+      _hasError = false;
     });
     try {
       final locationRequest = LocationRequest.defaultLocation();
@@ -95,6 +98,7 @@ class _AdvertisementMainHomeScreenState
         setState(() {
           _branches = branches;
           _isLoading = false;
+          _hasError = false;
         });
       }
     } catch (_) {
@@ -102,6 +106,7 @@ class _AdvertisementMainHomeScreenState
         setState(() {
           _branches = [];
           _isLoading = false;
+          _hasError = true;
         });
       }
     }
@@ -186,47 +191,62 @@ class _AdvertisementMainHomeScreenState
                 calendarTextColor: theme.calendarTextColor,
                 branchImageAsset: 'assets/images/branch_logo.png', // Branch logo asset path
               ),
-              isLandscape
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            TabHearder(theme: theme),
-                            SizedBox(height: responsive.getSpacing(3)),
-                            CurrenceyBillBoardContainerWidget(
-                              branches: _branches,
-                              theme: theme,
-                            ),
-                          ],
+              _isLoading
+                  ? Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: theme.currencyTextColor ?? Colors.white,
                         ),
-                        // ExchangeOffersCardWidget(
-                        //   branches: _branches,
-                        //   theme: theme,
-                        // ),
-                      ],
+                      ),
                     )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            TabHearder(theme: theme),
-                            SizedBox(height: responsive.getSpacing(3)),
-                            CurrenceyBillBoardContainerWidget(
-                              branches: _branches,
-                              theme: theme,
+                  : (_branches == null || _branches!.isEmpty)
+                      ? Expanded(
+                          child: NoDataFoundWidget(
+                            theme: theme,
+                            isError: _hasError,
+                          ),
+                        )
+                      : isLandscape
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  children: [
+                                    TabHearder(theme: theme),
+                                    SizedBox(height: responsive.getSpacing(3)),
+                                    CurrenceyBillBoardContainerWidget(
+                                      branches: _branches,
+                                      theme: theme,
+                                    ),
+                                  ],
+                                ),
+                                // ExchangeOffersCardWidget(
+                                //   branches: _branches,
+                                //   theme: theme,
+                                // ),
+                              ],
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  children: [
+                                    TabHearder(theme: theme),
+                                    SizedBox(height: responsive.getSpacing(3)),
+                                    CurrenceyBillBoardContainerWidget(
+                                      branches: _branches,
+                                      theme: theme,
+                                    ),
+                                    SizedBox(height: responsive.getSpacing(2)),
+                                    OfferDescriptionBanner(
+                                      branches: _branches,
+                                      theme: theme,
+                                    ),
+                                  ],
+                                ),
+                             //   ExchangeOffersCardWidget(branches: _branches, theme: null,),
+                              ],
                             ),
-                            SizedBox(height: responsive.getSpacing(2)),
-                            OfferDescriptionBanner(
-                              branches: _branches,
-                              theme: theme,
-                            ),
-                          ],
-                        ),
-                     //   ExchangeOffersCardWidget(branches: _branches, theme: null,),
-                      ],
-                    ),
               Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: responsive.getPadding(10),
