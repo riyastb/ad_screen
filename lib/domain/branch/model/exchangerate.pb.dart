@@ -62,8 +62,19 @@ class RateData extends $pb.GeneratedMessage {
   factory RateData({
     $core.Iterable<Payload>? payload,
     $core.String? tickerBannerDescription,
+    $core.String? bBColor,
+    $core.String? branchNameTextColor,
+    $core.String? transferRateTextColor,
+    $core.String? sellRateTextColor,
+    $core.String? footerBgColor,
+    $core.String? rateCardBgColor,
+    $core.String? clockTextColor,
+    $core.String? calenderTextColor,
+    $core.String? currencyTextColor,
+    $core.String? buyRateTextColor,
+    $core.String? footerTextColor,
+    $core.String? headerBBColor,
     $core.String? offerDescription,
-    $core.String? adImageUrl,
   }) {
     final $result = create();
     if (payload != null) {
@@ -72,11 +83,44 @@ class RateData extends $pb.GeneratedMessage {
     if (tickerBannerDescription != null) {
       $result.tickerBannerDescription = tickerBannerDescription;
     }
+    if (bBColor != null) {
+      $result.bBColor = bBColor;
+    }
+    if (branchNameTextColor != null) {
+      $result.branchNameTextColor = branchNameTextColor;
+    }
+    if (transferRateTextColor != null) {
+      $result.transferRateTextColor = transferRateTextColor;
+    }
+    if (sellRateTextColor != null) {
+      $result.sellRateTextColor = sellRateTextColor;
+    }
+    if (footerBgColor != null) {
+      $result.footerBgColor = footerBgColor;
+    }
+    if (rateCardBgColor != null) {
+      $result.rateCardBgColor = rateCardBgColor;
+    }
+    if (clockTextColor != null) {
+      $result.clockTextColor = clockTextColor;
+    }
+    if (calenderTextColor != null) {
+      $result.calenderTextColor = calenderTextColor;
+    }
+    if (currencyTextColor != null) {
+      $result.currencyTextColor = currencyTextColor;
+    }
+    if (buyRateTextColor != null) {
+      $result.buyRateTextColor = buyRateTextColor;
+    }
+    if (footerTextColor != null) {
+      $result.footerTextColor = footerTextColor;
+    }
+    if (headerBBColor != null) {
+      $result.headerBBColor = headerBBColor;
+    }
     if (offerDescription != null) {
       $result.offerDescription = offerDescription;
-    }
-    if (adImageUrl != null) {
-      $result.adImageUrl = adImageUrl;
     }
     return $result;
   }
@@ -87,8 +131,19 @@ class RateData extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RateData', package: const $pb.PackageName(_omitMessageNames ? '' : 'exchangerate'), createEmptyInstance: create)
     ..pc<Payload>(1, _omitFieldNames ? '' : 'Payload', $pb.PbFieldType.PM, protoName: 'Payload', subBuilder: Payload.create)
     ..aOS(2, _omitFieldNames ? '' : 'TickerBannerDescription', protoName: 'TickerBannerDescription')
-    ..aOS(3, _omitFieldNames ? '' : 'OfferDescription', protoName: 'OfferDescription')
-    ..aOS(4, _omitFieldNames ? '' : 'AdImageUrl', protoName: 'AdImageUrl')
+    ..aOS(3, _omitFieldNames ? '' : 'BBColor', protoName: 'BBColor')
+    ..aOS(4, _omitFieldNames ? '' : 'BranchNameTextColor', protoName: 'BranchNameTextColor')
+    ..aOS(5, _omitFieldNames ? '' : 'TransferRateTextColor', protoName: 'TransferRateTextColor')
+    ..aOS(6, _omitFieldNames ? '' : 'SellRateTextColor', protoName: 'SellRateTextColor')
+    ..aOS(7, _omitFieldNames ? '' : 'FooterBgColor', protoName: 'FooterBgColor')
+    ..aOS(8, _omitFieldNames ? '' : 'RateCardBgColor', protoName: 'RateCardBgColor')
+    ..aOS(9, _omitFieldNames ? '' : 'ClockTextColor', protoName: 'ClockTextColor')
+    ..aOS(10, _omitFieldNames ? '' : 'CalenderTextColor', protoName: 'CalenderTextColor')
+    ..aOS(11, _omitFieldNames ? '' : 'CurrencyTextColor', protoName: 'CurrencyTextColor')
+    ..aOS(12, _omitFieldNames ? '' : 'BuyRateTextColor', protoName: 'BuyRateTextColor')
+    ..aOS(13, _omitFieldNames ? '' : 'FooterTextColor', protoName: 'FooterTextColor')
+    ..aOS(14, _omitFieldNames ? '' : 'HeaderBBColor', protoName: 'HeaderBBColor')
+    ..aOS(15, _omitFieldNames ? '' : 'OfferDescription', protoName: 'OfferDescription')
     ..hasRequiredFields = false
   ;
 
@@ -126,22 +181,121 @@ class RateData extends $pb.GeneratedMessage {
   void clearTickerBannerDescription() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get offerDescription => $_getSZ(2);
+  $core.String get bBColor => $_getSZ(2);
   @$pb.TagNumber(3)
-  set offerDescription($core.String v) { $_setString(2, v); }
+  set bBColor($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasOfferDescription() => $_has(2);
+  $core.bool hasBBColor() => $_has(2);
   @$pb.TagNumber(3)
-  void clearOfferDescription() => clearField(3);
+  void clearBBColor() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get adImageUrl => $_getSZ(3);
+  $core.String get branchNameTextColor => $_getSZ(3);
   @$pb.TagNumber(4)
-  set adImageUrl($core.String v) { $_setString(3, v); }
+  set branchNameTextColor($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasAdImageUrl() => $_has(3);
+  $core.bool hasBranchNameTextColor() => $_has(3);
   @$pb.TagNumber(4)
-  void clearAdImageUrl() => clearField(4);
+  void clearBranchNameTextColor() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get transferRateTextColor => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set transferRateTextColor($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasTransferRateTextColor() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearTransferRateTextColor() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get sellRateTextColor => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set sellRateTextColor($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasSellRateTextColor() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearSellRateTextColor() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get footerBgColor => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set footerBgColor($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasFooterBgColor() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearFooterBgColor() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get rateCardBgColor => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set rateCardBgColor($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasRateCardBgColor() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearRateCardBgColor() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get clockTextColor => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set clockTextColor($core.String v) { $_setString(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasClockTextColor() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearClockTextColor() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get calenderTextColor => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set calenderTextColor($core.String v) { $_setString(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasCalenderTextColor() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearCalenderTextColor() => clearField(10);
+
+  @$pb.TagNumber(11)
+  $core.String get currencyTextColor => $_getSZ(10);
+  @$pb.TagNumber(11)
+  set currencyTextColor($core.String v) { $_setString(10, v); }
+  @$pb.TagNumber(11)
+  $core.bool hasCurrencyTextColor() => $_has(10);
+  @$pb.TagNumber(11)
+  void clearCurrencyTextColor() => clearField(11);
+
+  @$pb.TagNumber(12)
+  $core.String get buyRateTextColor => $_getSZ(11);
+  @$pb.TagNumber(12)
+  set buyRateTextColor($core.String v) { $_setString(11, v); }
+  @$pb.TagNumber(12)
+  $core.bool hasBuyRateTextColor() => $_has(11);
+  @$pb.TagNumber(12)
+  void clearBuyRateTextColor() => clearField(12);
+
+  @$pb.TagNumber(13)
+  $core.String get footerTextColor => $_getSZ(12);
+  @$pb.TagNumber(13)
+  set footerTextColor($core.String v) { $_setString(12, v); }
+  @$pb.TagNumber(13)
+  $core.bool hasFooterTextColor() => $_has(12);
+  @$pb.TagNumber(13)
+  void clearFooterTextColor() => clearField(13);
+
+  @$pb.TagNumber(14)
+  $core.String get headerBBColor => $_getSZ(13);
+  @$pb.TagNumber(14)
+  set headerBBColor($core.String v) { $_setString(13, v); }
+  @$pb.TagNumber(14)
+  $core.bool hasHeaderBBColor() => $_has(13);
+  @$pb.TagNumber(14)
+  void clearHeaderBBColor() => clearField(14);
+
+  @$pb.TagNumber(15)
+  $core.String get offerDescription => $_getSZ(14);
+  @$pb.TagNumber(15)
+  set offerDescription($core.String v) { $_setString(14, v); }
+  @$pb.TagNumber(15)
+  $core.bool hasOfferDescription() => $_has(14);
+  @$pb.TagNumber(15)
+  void clearOfferDescription() => clearField(15);
 }
 
 class Payload extends $pb.GeneratedMessage {
@@ -464,7 +618,19 @@ class Banner extends $pb.GeneratedMessage {
   factory Banner({
     $core.String? tickerBannerDescription,
     $core.String? offerDescription,
-    $core.String? adImageUrl,
+    $core.String? bBColor,
+    $core.String? branchNameTextColor,
+    $core.String? transferRateTextColor,
+    $core.String? sellRateTextColor,
+    $core.String? footerBgColor,
+    $core.String? rateCardBgColor,
+    $core.String? clockTextColor,
+    $core.String? calenderTextColor,
+    $core.String? currencyTextColor,
+    $core.String? buyRateTextColor,
+    $core.String? footerTextColor,
+    $core.String? headerBBColor,
+    $core.String? branchCode,
   }) {
     final $result = create();
     if (tickerBannerDescription != null) {
@@ -473,8 +639,44 @@ class Banner extends $pb.GeneratedMessage {
     if (offerDescription != null) {
       $result.offerDescription = offerDescription;
     }
-    if (adImageUrl != null) {
-      $result.adImageUrl = adImageUrl;
+    if (bBColor != null) {
+      $result.bBColor = bBColor;
+    }
+    if (branchNameTextColor != null) {
+      $result.branchNameTextColor = branchNameTextColor;
+    }
+    if (transferRateTextColor != null) {
+      $result.transferRateTextColor = transferRateTextColor;
+    }
+    if (sellRateTextColor != null) {
+      $result.sellRateTextColor = sellRateTextColor;
+    }
+    if (footerBgColor != null) {
+      $result.footerBgColor = footerBgColor;
+    }
+    if (rateCardBgColor != null) {
+      $result.rateCardBgColor = rateCardBgColor;
+    }
+    if (clockTextColor != null) {
+      $result.clockTextColor = clockTextColor;
+    }
+    if (calenderTextColor != null) {
+      $result.calenderTextColor = calenderTextColor;
+    }
+    if (currencyTextColor != null) {
+      $result.currencyTextColor = currencyTextColor;
+    }
+    if (buyRateTextColor != null) {
+      $result.buyRateTextColor = buyRateTextColor;
+    }
+    if (footerTextColor != null) {
+      $result.footerTextColor = footerTextColor;
+    }
+    if (headerBBColor != null) {
+      $result.headerBBColor = headerBBColor;
+    }
+    if (branchCode != null) {
+      $result.branchCode = branchCode;
     }
     return $result;
   }
@@ -485,7 +687,19 @@ class Banner extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Banner', package: const $pb.PackageName(_omitMessageNames ? '' : 'exchangerate'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'TickerBannerDescription', protoName: 'TickerBannerDescription')
     ..aOS(2, _omitFieldNames ? '' : 'OfferDescription', protoName: 'OfferDescription')
-    ..aOS(3, _omitFieldNames ? '' : 'AdImageUrl', protoName: 'AdImageUrl')
+    ..aOS(3, _omitFieldNames ? '' : 'BBColor', protoName: 'BBColor')
+    ..aOS(4, _omitFieldNames ? '' : 'BranchNameTextColor', protoName: 'BranchNameTextColor')
+    ..aOS(5, _omitFieldNames ? '' : 'TransferRateTextColor', protoName: 'TransferRateTextColor')
+    ..aOS(6, _omitFieldNames ? '' : 'SellRateTextColor', protoName: 'SellRateTextColor')
+    ..aOS(7, _omitFieldNames ? '' : 'FooterBgColor', protoName: 'FooterBgColor')
+    ..aOS(8, _omitFieldNames ? '' : 'RateCardBgColor', protoName: 'RateCardBgColor')
+    ..aOS(9, _omitFieldNames ? '' : 'ClockTextColor', protoName: 'ClockTextColor')
+    ..aOS(10, _omitFieldNames ? '' : 'CalenderTextColor', protoName: 'CalenderTextColor')
+    ..aOS(11, _omitFieldNames ? '' : 'CurrencyTextColor', protoName: 'CurrencyTextColor')
+    ..aOS(12, _omitFieldNames ? '' : 'BuyRateTextColor', protoName: 'BuyRateTextColor')
+    ..aOS(13, _omitFieldNames ? '' : 'FooterTextColor', protoName: 'FooterTextColor')
+    ..aOS(14, _omitFieldNames ? '' : 'HeaderBBColor', protoName: 'HeaderBBColor')
+    ..aOS(15, _omitFieldNames ? '' : 'BranchCode', protoName: 'BranchCode')
     ..hasRequiredFields = false
   ;
 
@@ -529,13 +743,121 @@ class Banner extends $pb.GeneratedMessage {
   void clearOfferDescription() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get adImageUrl => $_getSZ(2);
+  $core.String get bBColor => $_getSZ(2);
   @$pb.TagNumber(3)
-  set adImageUrl($core.String v) { $_setString(2, v); }
+  set bBColor($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasAdImageUrl() => $_has(2);
+  $core.bool hasBBColor() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAdImageUrl() => clearField(3);
+  void clearBBColor() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get branchNameTextColor => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set branchNameTextColor($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasBranchNameTextColor() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearBranchNameTextColor() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get transferRateTextColor => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set transferRateTextColor($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasTransferRateTextColor() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearTransferRateTextColor() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get sellRateTextColor => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set sellRateTextColor($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasSellRateTextColor() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearSellRateTextColor() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get footerBgColor => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set footerBgColor($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasFooterBgColor() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearFooterBgColor() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get rateCardBgColor => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set rateCardBgColor($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasRateCardBgColor() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearRateCardBgColor() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get clockTextColor => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set clockTextColor($core.String v) { $_setString(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasClockTextColor() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearClockTextColor() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get calenderTextColor => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set calenderTextColor($core.String v) { $_setString(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasCalenderTextColor() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearCalenderTextColor() => clearField(10);
+
+  @$pb.TagNumber(11)
+  $core.String get currencyTextColor => $_getSZ(10);
+  @$pb.TagNumber(11)
+  set currencyTextColor($core.String v) { $_setString(10, v); }
+  @$pb.TagNumber(11)
+  $core.bool hasCurrencyTextColor() => $_has(10);
+  @$pb.TagNumber(11)
+  void clearCurrencyTextColor() => clearField(11);
+
+  @$pb.TagNumber(12)
+  $core.String get buyRateTextColor => $_getSZ(11);
+  @$pb.TagNumber(12)
+  set buyRateTextColor($core.String v) { $_setString(11, v); }
+  @$pb.TagNumber(12)
+  $core.bool hasBuyRateTextColor() => $_has(11);
+  @$pb.TagNumber(12)
+  void clearBuyRateTextColor() => clearField(12);
+
+  @$pb.TagNumber(13)
+  $core.String get footerTextColor => $_getSZ(12);
+  @$pb.TagNumber(13)
+  set footerTextColor($core.String v) { $_setString(12, v); }
+  @$pb.TagNumber(13)
+  $core.bool hasFooterTextColor() => $_has(12);
+  @$pb.TagNumber(13)
+  void clearFooterTextColor() => clearField(13);
+
+  @$pb.TagNumber(14)
+  $core.String get headerBBColor => $_getSZ(13);
+  @$pb.TagNumber(14)
+  set headerBBColor($core.String v) { $_setString(13, v); }
+  @$pb.TagNumber(14)
+  $core.bool hasHeaderBBColor() => $_has(13);
+  @$pb.TagNumber(14)
+  void clearHeaderBBColor() => clearField(14);
+
+  @$pb.TagNumber(15)
+  $core.String get branchCode => $_getSZ(14);
+  @$pb.TagNumber(15)
+  set branchCode($core.String v) { $_setString(14, v); }
+  @$pb.TagNumber(15)
+  $core.bool hasBranchCode() => $_has(14);
+  @$pb.TagNumber(15)
+  void clearBranchCode() => clearField(15);
 }
 
 class Response extends $pb.GeneratedMessage {
@@ -549,6 +871,7 @@ class Response extends $pb.GeneratedMessage {
     $core.String? lastModifiedTime,
     $core.String? branchCode,
     $core.String? branchName,
+    $core.String? imagePath,
   }) {
     final $result = create();
     if (result != null) {
@@ -578,6 +901,9 @@ class Response extends $pb.GeneratedMessage {
     if (branchName != null) {
       $result.branchName = branchName;
     }
+    if (imagePath != null) {
+      $result.imagePath = imagePath;
+    }
     return $result;
   }
   Response._() : super();
@@ -594,6 +920,7 @@ class Response extends $pb.GeneratedMessage {
     ..aOS(7, _omitFieldNames ? '' : 'LastModifiedTime', protoName: 'LastModifiedTime')
     ..aOS(8, _omitFieldNames ? '' : 'BranchCode', protoName: 'BranchCode')
     ..aOS(9, _omitFieldNames ? '' : 'BranchName', protoName: 'BranchName')
+    ..aOS(10, _omitFieldNames ? '' : 'ImagePath', protoName: 'ImagePath')
     ..hasRequiredFields = false
   ;
 
@@ -698,6 +1025,15 @@ class Response extends $pb.GeneratedMessage {
   $core.bool hasBranchName() => $_has(8);
   @$pb.TagNumber(9)
   void clearBranchName() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get imagePath => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set imagePath($core.String v) { $_setString(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasImagePath() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearImagePath() => clearField(10);
 }
 
 class GetReq extends $pb.GeneratedMessage {
@@ -776,6 +1112,256 @@ class GetReq extends $pb.GeneratedMessage {
   $core.bool hasBranchCode() => $_has(2);
   @$pb.TagNumber(3)
   void clearBranchCode() => clearField(3);
+}
+
+class ImageData extends $pb.GeneratedMessage {
+  factory ImageData({
+    ImageInfo? info,
+    $core.List<$core.int>? chunkData,
+  }) {
+    final $result = create();
+    if (info != null) {
+      $result.info = info;
+    }
+    if (chunkData != null) {
+      $result.chunkData = chunkData;
+    }
+    return $result;
+  }
+  ImageData._() : super();
+  factory ImageData.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ImageData.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ImageData', package: const $pb.PackageName(_omitMessageNames ? '' : 'exchangerate'), createEmptyInstance: create)
+    ..aOM<ImageInfo>(1, _omitFieldNames ? '' : 'info', subBuilder: ImageInfo.create)
+    ..a<$core.List<$core.int>>(2, _omitFieldNames ? '' : 'chunkData', $pb.PbFieldType.OY)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ImageData clone() => ImageData()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ImageData copyWith(void Function(ImageData) updates) => super.copyWith((message) => updates(message as ImageData)) as ImageData;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ImageData create() => ImageData._();
+  ImageData createEmptyInstance() => create();
+  static $pb.PbList<ImageData> createRepeated() => $pb.PbList<ImageData>();
+  @$core.pragma('dart2js:noInline')
+  static ImageData getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ImageData>(create);
+  static ImageData? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  ImageInfo get info => $_getN(0);
+  @$pb.TagNumber(1)
+  set info(ImageInfo v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasInfo() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearInfo() => clearField(1);
+  @$pb.TagNumber(1)
+  ImageInfo ensureInfo() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $core.List<$core.int> get chunkData => $_getN(1);
+  @$pb.TagNumber(2)
+  set chunkData($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasChunkData() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearChunkData() => clearField(2);
+}
+
+class ImageInfo extends $pb.GeneratedMessage {
+  factory ImageInfo({
+    $core.String? id,
+    $core.String? imageID,
+    $core.String? imageType,
+    $core.String? flag,
+    $core.String? branchcode,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (imageID != null) {
+      $result.imageID = imageID;
+    }
+    if (imageType != null) {
+      $result.imageType = imageType;
+    }
+    if (flag != null) {
+      $result.flag = flag;
+    }
+    if (branchcode != null) {
+      $result.branchcode = branchcode;
+    }
+    return $result;
+  }
+  ImageInfo._() : super();
+  factory ImageInfo.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ImageInfo.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ImageInfo', package: const $pb.PackageName(_omitMessageNames ? '' : 'exchangerate'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'Id', protoName: 'Id')
+    ..aOS(2, _omitFieldNames ? '' : 'ImageID', protoName: 'ImageID')
+    ..aOS(3, _omitFieldNames ? '' : 'ImageType', protoName: 'ImageType')
+    ..aOS(4, _omitFieldNames ? '' : 'flag')
+    ..aOS(5, _omitFieldNames ? '' : 'branchcode')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ImageInfo clone() => ImageInfo()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ImageInfo copyWith(void Function(ImageInfo) updates) => super.copyWith((message) => updates(message as ImageInfo)) as ImageInfo;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ImageInfo create() => ImageInfo._();
+  ImageInfo createEmptyInstance() => create();
+  static $pb.PbList<ImageInfo> createRepeated() => $pb.PbList<ImageInfo>();
+  @$core.pragma('dart2js:noInline')
+  static ImageInfo getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ImageInfo>(create);
+  static ImageInfo? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get imageID => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set imageID($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasImageID() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearImageID() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get imageType => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set imageType($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasImageType() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearImageType() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get flag => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set flag($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasFlag() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearFlag() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get branchcode => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set branchcode($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasBranchcode() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearBranchcode() => clearField(5);
+}
+
+class ImageReq extends $pb.GeneratedMessage {
+  factory ImageReq({
+    $core.String? id,
+    $core.String? imageId,
+    $core.String? branchcode,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (imageId != null) {
+      $result.imageId = imageId;
+    }
+    if (branchcode != null) {
+      $result.branchcode = branchcode;
+    }
+    return $result;
+  }
+  ImageReq._() : super();
+  factory ImageReq.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ImageReq.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ImageReq', package: const $pb.PackageName(_omitMessageNames ? '' : 'exchangerate'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'Id', protoName: 'Id')
+    ..aOS(2, _omitFieldNames ? '' : 'ImageId', protoName: 'ImageId')
+    ..aOS(3, _omitFieldNames ? '' : 'branchcode')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ImageReq clone() => ImageReq()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ImageReq copyWith(void Function(ImageReq) updates) => super.copyWith((message) => updates(message as ImageReq)) as ImageReq;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ImageReq create() => ImageReq._();
+  ImageReq createEmptyInstance() => create();
+  static $pb.PbList<ImageReq> createRepeated() => $pb.PbList<ImageReq>();
+  @$core.pragma('dart2js:noInline')
+  static ImageReq getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ImageReq>(create);
+  static ImageReq? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get imageId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set imageId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasImageId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearImageId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get branchcode => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set branchcode($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasBranchcode() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearBranchcode() => clearField(3);
 }
 
 

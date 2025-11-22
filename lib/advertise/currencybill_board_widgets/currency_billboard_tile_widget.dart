@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 
 class CurrencyBillboardTileWidget extends StatelessWidget {
   final String? currencyCode;
@@ -21,24 +22,31 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fontSize = screenWidth * 0.016;
+    final responsive = context.responsive;
+    final baseFontSize = responsive.width * 0.016;
+    final fontSize = responsive.getFontSize(baseFontSize);
 
     return Container(
-      margin: const EdgeInsets.only(top: 6, right: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+      margin: EdgeInsets.only(
+        top: responsive.getMargin(6),
+        right: responsive.getMargin(6),
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.getPadding(14.0),
+        vertical: responsive.getPadding(8.0),
+      ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(responsive.getBorderRadius(14)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
+            blurRadius: responsive.getPadding(6),
+            offset: Offset(0, responsive.getPadding(2)),
           ),
         ],
       ),
@@ -52,14 +60,17 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
                 CircleAvatar(
                   radius: fontSize * 0.8,
                   backgroundColor: Colors.white12,
-                  child: Text(flag ??"🏳️",style: TextStyle(fontSize: 30),),
+                  child: Text(
+                    flag ?? "🏳️",
+                    style: TextStyle(fontSize: responsive.getFontSize(30)),
+                  ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: responsive.getSpacing(10)),
                 Text(
                   currencyCode ?? '-',
                   style: GoogleFonts.poppins(
                     color: Colors.white,
-                    fontSize: fontSize + 1,
+                    fontSize: fontSize + responsive.getFontSize(1),
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
                   ),
@@ -136,6 +147,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
     BuildContext context, {
     required String hintText,
   }) {
+    final responsive = context.responsive;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,7 +160,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 2),
+        SizedBox(height: responsive.getSpacing(2)),
         Text(
           hintText,
           style: GoogleFonts.poppins(

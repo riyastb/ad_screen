@@ -4,6 +4,7 @@ import 'package:advertisment_screen/controllers/advertise_screen_controller.dart
 import 'package:advertisment_screen/domain/branch/branch.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 
 class CurrenceyBillBoardContainerWidget extends StatefulWidget {
   final CurrencyBillBoardController? controller;
@@ -72,30 +73,34 @@ class _CurrenceyBillBoardContainerWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final responsive = context.responsive;
     final currentBranches = _getCurrentVisibleBranches();
     print(
         '------------------Visible Branches: ${currentBranches.length}, Data Indices: ${_controller.currentDataIndices}--------------------');
 
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(13)),
-      width: isLandscape == false
-          ? MediaQuery.of(context).size.width
-          : MediaQuery.of(context).size.width * 0.68,
-      height: MediaQuery.of(context).size.height * 0.74,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(responsive.getBorderRadius(13)),
+      ),
+      width: responsive.isLandscape
+          ? responsive.getWidth(0.68)
+          : responsive.width,
+      height: responsive.getHeight(0.74),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Optional: Show current data range
-          if (widget.branches != null && widget.branches!.length > 8)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Showing ${currentBranches.length} of ${widget.branches!.length} currencies',
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
-              ),
-            ),
+          // if (widget.branches != null && widget.branches!.length > 8)
+          //   Padding(
+          //     padding: EdgeInsets.all(responsive.getPadding(8.0)),
+          //     child: Text(
+          //       'Showing ${currentBranches.length} of ${widget.branches!.length} currencies',
+          //       style: TextStyle(
+          //         fontSize: responsive.getFontSize(12),
+          //         color: Colors.grey,
+          //       ),
+          //     ),
+          //   ),
           // Cards container
           Expanded(
             child: Column(

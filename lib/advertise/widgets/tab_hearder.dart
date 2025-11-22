@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 
 class TabHearder extends StatelessWidget {
   const TabHearder({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final fontSize = MediaQuery.of(context).size.width * 0.012;
-final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final responsive = context.responsive;
+    final baseFontSize = responsive.width * 0.012;
+    final fontSize = responsive.getFontSize(baseFontSize);
+    
     return Container(
-     width: isLandscape == false
-          ? MediaQuery.of(context).size.width
-          : MediaQuery.of(context).size.width * 0.68,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      width: responsive.isLandscape
+          ? responsive.getWidth(0.68)
+          : responsive.width,
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.getPadding(20),
+        vertical: responsive.getPadding(12),
+      ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(responsive.getBorderRadius(16)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            blurRadius: responsive.getPadding(8),
+            offset: Offset(0, responsive.getPadding(4)),
           ),
         ],
       ),

@@ -37,8 +37,10 @@ class BranchRepositoryImpl implements BranchRepository {
   Future<List<Branch>> getAllBranchByLongitudeAndLatitude(LocationRequest request) async {
     try {
       final getReq = GetReq()
-        ..latitude = request.latitude
-        ..longitude = request.longitude;
+        // ..latitude = request.latitude
+        // ..longitude = request.longitude;
+          ..latitude = '12.6496964'
+        ..longitude = '54.0205833';
       
       if (request.branchCode != null) {
         getReq.branchCode = request.branchCode!;
@@ -66,7 +68,7 @@ class BranchRepositoryImpl implements BranchRepository {
       AppLogger.logObject('gRPC Response (RateData)', {
         'tickerBannerDescription': rateData.tickerBannerDescription,
         'offerDescription': rateData.offerDescription,
-        'adImageUrl': rateData.adImageUrl,
+      //  'adImageUrl': rateData.adImageUrl,
         'payloadLength': rateData.payload.length,
       }, _logger);
 
@@ -123,7 +125,7 @@ class BranchRepositoryImpl implements BranchRepository {
           priorityCurrency: int.tryParse(payload.priorityCurrency),
           tickerBannerDescription: rateData.tickerBannerDescription,
           offerDescription: rateData.offerDescription,
-          adImageUrl: rateData.adImageUrl,
+         // adImageUrl: rateData.adImageUrl,
         );
         branches.add(branch);
 

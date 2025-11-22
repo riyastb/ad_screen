@@ -1,5 +1,6 @@
 import 'package:advertisment_screen/domain/branch/model/branch.dart';
 import 'package:flutter/material.dart';
+import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 
 class ExchangeOffersCardWidget extends StatefulWidget {
   final List<Branch>? branches;
@@ -13,6 +14,7 @@ class ExchangeOffersCardWidget extends StatefulWidget {
 class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
   @override
   Widget build(BuildContext context) {
+    final responsive = context.responsive;
     // Filter branches with priorityCurrency == 1
     final filteredBranches = (widget.branches ?? [])
         .where((branch) => branch.priorityCurrency == 1)
@@ -35,8 +37,8 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
     final hasValidImage = _isValidHttpUrl(adImageUrl);
 
     return Container(
-      width: MediaQuery.of(context).size.width * 0.3,
-      height: MediaQuery.of(context).size.height * 0.8,
+      width: responsive.getWidth(0.3),
+      height: responsive.getHeight(0.8),
       decoration: BoxDecoration(
         gradient: !hasValidImage
             ? const LinearGradient(
@@ -53,23 +55,23 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
                     Colors.black.withOpacity(0.35), BlendMode.darken),
               )
             : null,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(responsive.getBorderRadius(12)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            offset: const Offset(0, 2),
-            blurRadius: 4,
+            offset: Offset(0, responsive.getPadding(2)),
+            blurRadius: responsive.getPadding(4),
           ),
         ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const Text(
+          Text(
             "BEST EXCHANGE RATES",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 22,
+              fontSize: responsive.getFontSize(22),
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
             ),
@@ -81,6 +83,7 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
                     branch.remittanceRate?.toStringAsFixed(4) ?? '-';
                 final currencyCode = branch.currencyCode ?? '-';
                 return _buildRateRow(
+                  context,
                   currencyCode,
                   "AED",
                   remittanceRate,
@@ -88,16 +91,19 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
               }).toList(),
             )
           else
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: EdgeInsets.all(responsive.getPadding(16.0)),
               child: Text(
                 "No Priority Currency branches available",
-                style: TextStyle(color: Colors.white70),
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: responsive.getFontSize(14),
+                ),
               ),
             ),
           Container(
-            padding: const EdgeInsets.all(20),
-            margin: const EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.all(responsive.getPadding(20)),
+            margin: EdgeInsets.symmetric(horizontal: responsive.getMargin(15)),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [
@@ -110,16 +116,16 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.3),
-                  blurRadius: 6,
-                  offset: const Offset(0, 3),
+                  blurRadius: responsive.getPadding(6),
+                  offset: Offset(0, responsive.getPadding(3)),
                 ),
               ],
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(responsive.getBorderRadius(15)),
             ),
             child: Text(
               offerText,
-              style: const TextStyle(
-                fontSize: 18,
+              style: TextStyle(
+                fontSize: responsive.getFontSize(18),
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -128,12 +134,19 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(Icons.security, color: Colors.white70),
-              SizedBox(width: 10),
+            children: [
+              Icon(
+                Icons.security,
+                color: Colors.white70,
+                size: responsive.getIconSize(20),
+              ),
+              SizedBox(width: responsive.getSpacing(10)),
               Text(
                 "Secure Transactions • 24/7 Service",
-                style: TextStyle(color: Colors.white70),
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: responsive.getFontSize(14),
+                ),
               ),
             ],
           ),
@@ -143,25 +156,37 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
   }
 }
 
-Widget _buildRateRow(String from, String to, String rate) {
+Widget _buildRateRow(BuildContext context, String from, String to, String rate) {
+  final responsive = context.responsive;
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8),
+    padding: EdgeInsets.symmetric(vertical: responsive.getPadding(8)),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("1 $from =",
-            style: const TextStyle(color: Colors.white, fontSize: 16)),
-        const SizedBox(width: 5),
+        Text(
+          "1 $from =",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: responsive.getFontSize(16),
+          ),
+        ),
+        SizedBox(width: responsive.getSpacing(5)),
         Text(
           rate,
           style: TextStyle(
             color: Colors.yellow[700],
-            fontSize: 18,
+            fontSize: responsive.getFontSize(18),
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(width: 5),
-        Text(to, style: const TextStyle(color: Colors.white, fontSize: 16)),
+        SizedBox(width: responsive.getSpacing(5)),
+        Text(
+          to,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: responsive.getFontSize(16),
+          ),
+        ),
       ],
     ),
   );

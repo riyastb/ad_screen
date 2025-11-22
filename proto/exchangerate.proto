@@ -8,8 +8,10 @@ service ExchangeRateService{
     rpc Create(RateReq) returns (Response){} //For create the Rates - forexbuy, forexsell, remittance
     rpc UpdateAllByID(stream Payload) returns (Response){} // for fututre use
     rpc GetBranchRateByLongitudeAndLatitude(GetReq) returns (RateData){}
-	rpc GetAllByBranch(GetReq) returns (stream Payload){}//Get all rate by branchid
-	rpc CreateBannerDescription(Banner) returns(Response){}
+	rpc GetAllByBranch(GetReq) returns (RateData){}//Get all rate by branchid
+	rpc CreateBannerDescription(stream Banner) returns(Response){}
+    rpc UploadImage(ImageData)returns(Response){}
+    rpc DownloadImage(ImageReq)returns(ImageData){}
 }
 
 
@@ -22,8 +24,19 @@ message RateReq{
 message RateData{
 	repeated Payload Payload            =1;
 	string TickerBannerDescription      =2;
-	string OfferDescription             =3;
-	string AdImageUrl                   =4;
+	string BBColor                      =3;
+	string BranchNameTextColor          =4;
+	string TransferRateTextColor        =5;
+	string SellRateTextColor            =6;
+	string FooterBgColor                =7;
+	string RateCardBgColor              =8;
+	string ClockTextColor               =9;
+	string CalenderTextColor            =10;
+	string CurrencyTextColor            =11;
+	string BuyRateTextColor             =12;
+	string FooterTextColor              =13;
+	string HeaderBBColor                =14;
+	string OfferDescription             =15;
 
 }
 
@@ -56,7 +69,20 @@ message Payload{
 message Banner{	
 	string TickerBannerDescription      =1;
 	string OfferDescription             =2;
-	string AdImageUrl                   =3;
+	string BBColor                      =3;
+	string BranchNameTextColor          =4;
+	string TransferRateTextColor        =5;
+	string SellRateTextColor            =6;
+	string FooterBgColor                =7;
+	string RateCardBgColor              =8;
+	string ClockTextColor               =9;
+	string CalenderTextColor            =10;
+	string CurrencyTextColor            =11;
+	string BuyRateTextColor             =12;
+	string FooterTextColor              =13;
+	string HeaderBBColor                =14;
+	string BranchCode					=15;	
+	 
 }
 
 
@@ -70,6 +96,7 @@ message Response{
 	string LastModifiedTime		    =7;
 	string BranchCode               =8;
 	string BranchName               =9;
+	string ImagePath                =10;
 }
 
 
@@ -80,3 +107,31 @@ message GetReq{
 	string Longitude                    =2;
 	string BranchCode                   =3;
 }
+
+
+message ImageData{
+
+     ImageInfo info = 1;
+      bytes chunk_data = 2;
+
+}
+
+
+message ImageInfo {
+  
+  string Id=1;
+  string ImageID = 2;
+  string ImageType = 3;
+  string flag       =4;
+  string branchcode  =5;
+ 
+  }
+
+  message ImageReq {
+
+  string Id =1;
+  string ImageId =2;
+  string branchcode =3;
+}
+  
+

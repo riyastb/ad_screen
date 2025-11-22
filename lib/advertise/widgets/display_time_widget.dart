@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 
 class DateTimeDisplay extends StatefulWidget {
   final String branchName;
@@ -51,6 +52,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
+    final responsive = context.responsive;
     final formattedDate = DateFormat('EEEE, MMMM d, yyyy').format(_now); // Polished date
     final hour = DateFormat('hh').format(_now);
     final minute = DateFormat('mm').format(_now);
@@ -58,9 +60,12 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
     final ampm = DateFormat('a').format(_now);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.symmetric(vertical: responsive.getPadding(8.0)),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: EdgeInsets.symmetric(
+          horizontal: responsive.getPadding(20),
+          vertical: responsive.getPadding(12),
+        ),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [
@@ -71,12 +76,12 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(responsive.getBorderRadius(16)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.3),
-              offset: const Offset(0, 4),
-              blurRadius: 8,
+              offset: Offset(0, responsive.getPadding(4)),
+              blurRadius: responsive.getPadding(8),
             ),
           ],
         ),
@@ -86,8 +91,12 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
             // LEFT SIDE (Branch Info)
             Row(
               children: [
-                const Icon(Icons.store, color: Colors.white70, size: 60),
-                const SizedBox(width: 12),
+                Icon(
+                  Icons.store,
+                  color: Colors.white70,
+                  size: responsive.getIconSize(60),
+                ),
+                SizedBox(width: responsive.getSpacing(12)),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -95,16 +104,16 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                       'Branch Name',
                       style: GoogleFonts.robotoMono(
                         color: Colors.white70,
-                        fontSize: 12,
+                        fontSize: responsive.getFontSize(12),
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: responsive.getSpacing(4)),
                     Text(
                       widget.branchName,
                       style: GoogleFonts.poppins(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: responsive.getFontSize(16),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -120,25 +129,33 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                 // Polished Date
                 Row(
                   children: [
-                    const Icon(Icons.calendar_today, color: Colors.white70, size: 20),
-                    const SizedBox(width: 6),
+                    Icon(
+                      Icons.calendar_today,
+                      color: Colors.white70,
+                      size: responsive.getIconSize(20),
+                    ),
+                    SizedBox(width: responsive.getSpacing(6)),
                     Text(
                       formattedDate,
                       style: GoogleFonts.robotoMono(
                         color: Colors.white70,
-                        fontSize: 14,
+                        fontSize: responsive.getFontSize(14),
                         letterSpacing: 0.5,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: responsive.getSpacing(12)),
 
                 // Digital Clock with blinking colon
                 Row(
                   children: [
-                    const Icon(Icons.access_time, color: Colors.white70, size: 20),
-                    const SizedBox(width: 6),
+                    Icon(
+                      Icons.access_time,
+                      color: Colors.white70,
+                      size: responsive.getIconSize(20),
+                    ),
+                    SizedBox(width: responsive.getSpacing(6)),
                     AnimatedBuilder(
                       animation: _colonAnimation,
                       builder: (context, child) {
@@ -146,7 +163,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                           TextSpan(
                             style: GoogleFonts.robotoMono(
                               color: Colors.white,
-                              fontSize: 32,
+                              fontSize: responsive.getFontSize(32),
                               fontWeight: FontWeight.bold,
                             ),
                             children: [
@@ -167,8 +184,8 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                               TextSpan(text: '$second '),
                               TextSpan(
                                 text: ampm,
-                                style: const TextStyle(
-                                  fontSize: 16,
+                                style: TextStyle(
+                                  fontSize: responsive.getFontSize(16),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),

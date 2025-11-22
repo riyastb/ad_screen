@@ -7,6 +7,7 @@ import 'package:advertisment_screen/core/logger/app_logger.dart';
 import 'package:advertisment_screen/advertise/widgets/exchange_offers_card_widget.dart';
 import 'package:advertisment_screen/advertise/currencybill_board_widgets/currency_billboard_container_widget.dart';
 import 'package:advertisment_screen/advertise/widgets/scroll_footer_widget.dart';
+import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 
 class AdvertisementMainHomeScreen extends StatefulWidget {
   const AdvertisementMainHomeScreen({super.key});
@@ -28,6 +29,7 @@ class _AdvertisementMainHomeScreenState
     super.initState();
     _branchService = BranchService();
     _loadBranches();
+
   }
 
   @override
@@ -97,8 +99,7 @@ class _AdvertisementMainHomeScreenState
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final responsive = context.responsive;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -110,25 +111,28 @@ class _AdvertisementMainHomeScreenState
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+              blurRadius: responsive.getPadding(8),
+              offset: Offset(0, responsive.getPadding(4)),
             ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.only(right: 10, left: 10),
+          padding: EdgeInsets.only(
+            right: responsive.getPadding(10),
+            left: responsive.getPadding(10),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const DateTimeDisplay(),
-              isLandscape == true
+             const DateTimeDisplay(),
+              responsive.isLandscape
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           children: [
                             TabHearder(),
-                            SizedBox(height: 3),
+                            SizedBox(height: responsive.getSpacing(3)),
                             CurrenceyBillBoardContainerWidget(
                                 branches: _branches),
                           ],
@@ -142,7 +146,7 @@ class _AdvertisementMainHomeScreenState
                         Column(
                           children: [
                             TabHearder(),
-                            SizedBox(height: 3),
+                            SizedBox(height: responsive.getSpacing(3)),
                             CurrenceyBillBoardContainerWidget(
                                 branches: _branches),
                           ],
@@ -151,7 +155,9 @@ class _AdvertisementMainHomeScreenState
                       ],
                     ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsive.getPadding(10),
+                ),
                 child: ScrollFooterWidget(branches: _branches),
               ),
             ],
