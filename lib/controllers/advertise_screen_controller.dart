@@ -5,7 +5,7 @@ class CurrencyBillBoardController {
   final List<GlobalKey<FlipCardAnimationWidgetState>> flipCardKeys = [];
   bool _isAnimating = false;
   int _totalItems = 0;
-  static const int visibleCards = 8;
+  int _visibleCards = 8;
   
   // Track current data indices for each visible card
   List<int> _currentDataIndices = [];
@@ -13,16 +13,17 @@ class CurrencyBillBoardController {
   // Callback to notify when data changes
   Function()? onDataChanged;
 
-  void initialize(int length) {
+  void initialize(int length, {int visibleCards = 8}) {
     _totalItems = length;
+    _visibleCards = visibleCards;
     _initializeDataIndices();
     _updateFlipCardKeys();
   }
 
   void _initializeDataIndices() {
     _currentDataIndices.clear();
-    // Initialize with first 8 items (or available items if less than 8)
-    final itemCount = _totalItems < visibleCards ? _totalItems : visibleCards;
+    // Initialize with first N items (or available items if less than N)
+    final itemCount = _totalItems < _visibleCards ? _totalItems : _visibleCards;
     _currentDataIndices = List.generate(itemCount, (index) => index);
   }
 
@@ -89,7 +90,7 @@ class CurrencyBillBoardController {
   void _rotateDataForCard(int cardIndex) {
     if (cardIndex < _currentDataIndices.length) {
       // Move to next data item, wrapping around if necessary
-      _currentDataIndices[cardIndex] = (_currentDataIndices[cardIndex] + visibleCards) % _totalItems;
+      _currentDataIndices[cardIndex] = (_currentDataIndices[cardIndex] + _visibleCards) % _totalItems;
     }
   }
 

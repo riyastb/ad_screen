@@ -25,6 +25,18 @@ class Branch {
   final String? tickerBannerDescription;
   final String? offerDescription;
   final String? adImageUrl;
+  final String? bbColor;
+  final String? branchNameTextColor;
+  final String? transferRateTextColor;
+  final String? sellRateTextColor;
+  final String? footerBgColor;
+  final String? rateCardBgColor;
+  final String? clockTextColor;
+  final String? calenderTextColor;
+  final String? currencyTextColor;
+  final String? buyRateTextColor;
+  final String? footerTextColor;
+  final String? headerBBColor;
 
   const Branch({
     required this.id,
@@ -51,6 +63,18 @@ class Branch {
     this.tickerBannerDescription,
     this.offerDescription,
     this.adImageUrl,
+    this.bbColor,
+    this.branchNameTextColor,
+    this.transferRateTextColor,
+    this.sellRateTextColor,
+    this.footerBgColor,
+    this.rateCardBgColor,
+    this.clockTextColor,
+    this.calenderTextColor,
+    this.currencyTextColor,
+    this.buyRateTextColor,
+    this.footerTextColor,
+    this.headerBBColor,
   });
 
   factory Branch.fromJson(Map<String, dynamic> json) {
@@ -100,6 +124,18 @@ class Branch {
       tickerBannerDescription: json['TickerBannerDescription'] ?? json['tickerBannerDescription'],
       offerDescription: json['OfferDescription'] ?? json['offerDescription'],
       adImageUrl: json['AdImageUrl'] ?? json['adImageUrl'],
+      bbColor: json['BBColor'] ?? json['bbColor'],
+      branchNameTextColor: json['BranchNameTextColor'] ?? json['branchNameTextColor'],
+      transferRateTextColor: json['TransferRateTextColor'] ?? json['transferRateTextColor'],
+      sellRateTextColor: json['SellRateTextColor'] ?? json['sellRateTextColor'],
+      footerBgColor: json['FooterBgColor'] ?? json['footerBgColor'],
+      rateCardBgColor: json['RateCardBgColor'] ?? json['rateCardBgColor'],
+      clockTextColor: json['ClockTextColor'] ?? json['clockTextColor'],
+      calenderTextColor: json['CalenderTextColor'] ?? json['calenderTextColor'],
+      currencyTextColor: json['CurrencyTextColor'] ?? json['currencyTextColor'],
+      buyRateTextColor: json['BuyRateTextColor'] ?? json['buyRateTextColor'],
+      footerTextColor: json['FooterTextColor'] ?? json['footerTextColor'],
+      headerBBColor: json['HeaderBBColor'] ?? json['headerBBColor'],
     );
   }
 
@@ -129,6 +165,18 @@ class Branch {
       if (tickerBannerDescription != null) 'tickerBannerDescription': tickerBannerDescription,
       if (offerDescription != null) 'offerDescription': offerDescription,
       if (adImageUrl != null) 'adImageUrl': adImageUrl,
+      if (bbColor != null) 'bbColor': bbColor,
+      if (branchNameTextColor != null) 'branchNameTextColor': branchNameTextColor,
+      if (transferRateTextColor != null) 'transferRateTextColor': transferRateTextColor,
+      if (sellRateTextColor != null) 'sellRateTextColor': sellRateTextColor,
+      if (footerBgColor != null) 'footerBgColor': footerBgColor,
+      if (rateCardBgColor != null) 'rateCardBgColor': rateCardBgColor,
+      if (clockTextColor != null) 'clockTextColor': clockTextColor,
+      if (calenderTextColor != null) 'calenderTextColor': calenderTextColor,
+      if (currencyTextColor != null) 'currencyTextColor': currencyTextColor,
+      if (buyRateTextColor != null) 'buyRateTextColor': buyRateTextColor,
+      if (footerTextColor != null) 'footerTextColor': footerTextColor,
+      if (headerBBColor != null) 'headerBBColor': headerBBColor,
     };
   }
 

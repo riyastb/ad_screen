@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
+import 'package:advertisment_screen/advertise/models/branch_theme.dart';
 
 class CurrencyBillboardTileWidget extends StatelessWidget {
   final String? currencyCode;
@@ -9,6 +10,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
   final double? sellRate;
   final double? remittanceRate;
   final String baseCurrencyCode;
+  final BranchTheme theme;
 
   const CurrencyBillboardTileWidget({
     super.key,
@@ -18,6 +20,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
     required this.sellRate,
     this.remittanceRate,
     this.baseCurrencyCode = 'AED',
+    required this.theme,
   });
 
   @override
@@ -25,6 +28,11 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
     final responsive = context.responsive;
     final baseFontSize = responsive.width * 0.016;
     final fontSize = responsive.getFontSize(baseFontSize);
+    final cardBackground = theme.rateCardBackground;
+    final currencyTextColor = theme.currencyTextColor ?? Colors.white;
+    final transferColor = theme.transferRateTextColor ?? Colors.green;
+    final buyColor = theme.buyRateTextColor ?? Colors.greenAccent;
+    final sellColor = theme.sellRateTextColor ?? Colors.yellow;
 
     return Container(
       margin: EdgeInsets.only(
@@ -36,11 +44,14 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
         vertical: responsive.getPadding(8.0),
       ),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: cardBackground == null
+            ? const LinearGradient(
+                colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : null,
+        color: cardBackground,
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(14)),
         boxShadow: [
           BoxShadow(
@@ -69,7 +80,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
                 Text(
                   currencyCode ?? '-',
                   style: GoogleFonts.poppins(
-                    color: Colors.white,
+                    color: currencyTextColor,
                     fontSize: fontSize + responsive.getFontSize(1),
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
@@ -83,7 +94,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
             child: remittanceRate != null && remittanceRate! > 0
                 ? _buildRemittanceRateColumn(
                     remittanceRate!,
-                    Colors.green,
+                    transferColor,
                     fontSize,
                     context,
                     hintText: _buildRemittanceHint(),
@@ -103,7 +114,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
           Expanded(
             child: _buildRateColumn(
               buyRate ?? 0,
-              Colors.greenAccent,
+              buyColor,
               fontSize,
               context,
             ),
@@ -112,7 +123,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
           Expanded(
             child: _buildRateColumn(
               sellRate ?? 0,
-              Colors.yellow,
+              sellColor,
               fontSize,
               context,
             ),

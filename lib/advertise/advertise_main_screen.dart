@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
+import 'package:advertisment_screen/advertise/models/branch_theme.dart';
 import 'package:advertisment_screen/advertise/widgets/display_time_widget.dart';
 import 'package:advertisment_screen/advertise/widgets/tab_hearder.dart';
 import 'package:advertisment_screen/domain/branch/branch.dart';
-import 'package:advertisment_screen/core/logger/app_logger.dart';
-import 'package:advertisment_screen/advertise/widgets/exchange_offers_card_widget.dart';
 import 'package:advertisment_screen/advertise/currencybill_board_widgets/currency_billboard_container_widget.dart';
 import 'package:advertisment_screen/advertise/widgets/scroll_footer_widget.dart';
+import 'package:advertisment_screen/advertise/widgets/offer_description_banner.dart';
 import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 
 class AdvertisementMainHomeScreen extends StatefulWidget {
-  const AdvertisementMainHomeScreen({super.key});
+  final bool enableRemoteTheme;
+
+  const AdvertisementMainHomeScreen({
+    super.key,
+    this.enableRemoteTheme = false,
+  });
   @override
   State<AdvertisementMainHomeScreen> createState() =>
       _AdvertisementMainHomeScreenState();
@@ -22,7 +27,6 @@ class _AdvertisementMainHomeScreenState
   late final BranchService _branchService;
   List<Branch>? _branches;
   bool _isLoading = false;
-  final _logger = AppLogger.createLogger('AdvertiseScreen');
   
   @override
   void initState() {
@@ -45,18 +49,6 @@ class _AdvertisementMainHomeScreenState
     });
     try {
       final locationRequest = LocationRequest.defaultLocation();
-      AppLogger.logRequest(
-          'getAllBranchByLongitudeAndLatitude',
-          {
-            'latitude': locationRequest.latitude,
-            'longitude': locationRequest.longitude,
-            'branchCode': locationRequest.branchCode,
-            'host': 'ratecontrol.uat.lariexchange.com',
-            'port': 443,
-          },
-          _logger);
-
-      AppLogger.logObject('LocationRequest', locationRequest.toJson(), _logger);
 
       final branches = await _branchService
           .getAllBranchByLongitudeAndLatitude(locationRequest);
@@ -66,28 +58,8 @@ class _AdvertisementMainHomeScreenState
           _branches = branches;
           _isLoading = false;
         });
-
-        AppLogger.logResponse(
-            'getAllBranchByLongitudeAndLatitude',
-            {
-              'totalBranches': (_branches ?? []).length,
-              'branches': (_branches ?? []).map((b) => b.toJson()).toList(),
-            },
-            _logger);
-
-        if (branches.isEmpty) {
-          _logger.w('⚠️ No branches returned from service.');
-        }
-        _logger.i('✅ Using ${(_branches ?? []).length} branches for display');
-
-        for (int i = 0; i < (_branches ?? []).length; i++) {
-          final branch = (_branches ?? [])[i];
-          _logger.d('🏢 Branch [$i]: ${branch.branchName}');
-          AppLogger.logObject('Branch Details [$i]', branch.toJson(), _logger);
-        }
       }
-    } catch (e, stackTrace) {
-      AppLogger.logError('Loading branches', e, stackTrace, _logger);
+    } catch (_) {
       if (mounted) {
         setState(() {
           _branches = [];
@@ -100,14 +72,25 @@ class _AdvertisementMainHomeScreenState
   @override
   Widget build(BuildContext context) {
     final responsive = context.responsive;
+    final hasBranches = _branches?.isNotEmpty ?? false;
+    final Branch? firstBranch = hasBranches ? _branches!.first : null;
+    final theme = BranchTheme.fromBranch(
+      firstBranch,
+      useRemoteTheme: widget.enableRemoteTheme,
+    );
+
     return Scaffold(
+      backgroundColor: theme.bodyBackground ?? Colors.transparent,
       body: Container(
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF2C5364), Color(0xFF203A43), Color(0xFF0F2027)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: theme.bodyBackground == null
+              ? const LinearGradient(
+                  colors: [Color(0xFF2C5364), Color(0xFF203A43), Color(0xFF0F2027)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          color: theme.bodyBackground,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.3),
@@ -124,20 +107,31 @@ class _AdvertisementMainHomeScreenState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-             const DateTimeDisplay(),
+              DateTimeDisplay(
+                branchName: firstBranch?.branchName ?? 'Main Branch',
+                headerBackgroundColor: theme.headerBackground,
+                branchNameTextColor: theme.branchNameTextColor,
+                clockTextColor: theme.clockTextColor,
+                calendarTextColor: theme.calendarTextColor,
+              ),
               responsive.isLandscape
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           children: [
-                            TabHearder(),
+                            TabHearder(theme: theme),
                             SizedBox(height: responsive.getSpacing(3)),
                             CurrenceyBillBoardContainerWidget(
-                                branches: _branches),
+                              branches: _branches,
+                              theme: theme,
+                            ),
                           ],
                         ),
-                        ExchangeOffersCardWidget(branches: _branches),
+                        // ExchangeOffersCardWidget(
+                        //   branches: _branches,
+                        //   theme: theme,
+                        // ),
                       ],
                     )
                   : Column(
@@ -145,10 +139,17 @@ class _AdvertisementMainHomeScreenState
                       children: [
                         Column(
                           children: [
-                            TabHearder(),
+                            TabHearder(theme: theme),
                             SizedBox(height: responsive.getSpacing(3)),
                             CurrenceyBillBoardContainerWidget(
-                                branches: _branches),
+                              branches: _branches,
+                              theme: theme,
+                            ),
+                            SizedBox(height: responsive.getSpacing(2)),
+                            OfferDescriptionBanner(
+                              branches: _branches,
+                              theme: theme,
+                            ),
                           ],
                         ),
                       //  ExchangeOffersCardWidget(branches: _branches),
@@ -158,7 +159,10 @@ class _AdvertisementMainHomeScreenState
                 padding: EdgeInsets.symmetric(
                   vertical: responsive.getPadding(10),
                 ),
-                child: ScrollFooterWidget(branches: _branches),
+                child: ScrollFooterWidget(
+                  branches: _branches,
+                  theme: theme,
+                ),
               ),
             ],
           ),

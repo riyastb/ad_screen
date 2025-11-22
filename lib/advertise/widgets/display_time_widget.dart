@@ -6,10 +6,18 @@ import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 
 class DateTimeDisplay extends StatefulWidget {
   final String branchName;
+  final Color? headerBackgroundColor;
+  final Color? branchNameTextColor;
+  final Color? clockTextColor;
+  final Color? calendarTextColor;
 
   const DateTimeDisplay({
     super.key,
     this.branchName = 'Main Branch',
+    this.headerBackgroundColor,
+    this.branchNameTextColor,
+    this.clockTextColor,
+    this.calendarTextColor,
   });
 
   @override
@@ -58,6 +66,10 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
     final minute = DateFormat('mm').format(_now);
     final second = DateFormat('ss').format(_now);
     final ampm = DateFormat('a').format(_now);
+    final branchTextColor = widget.branchNameTextColor ?? Colors.white;
+    final branchLabelColor = branchTextColor.withOpacity(0.7);
+    final clockTextColor = widget.clockTextColor ?? Colors.white;
+    final calendarTextColor = widget.calendarTextColor ?? Colors.white70;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: responsive.getPadding(8.0)),
@@ -67,15 +79,18 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
           vertical: responsive.getPadding(12),
         ),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFF0F2027),
-              Color(0xFF203A43),
-              Color(0xFF2C5364),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: widget.headerBackgroundColor == null
+              ? const LinearGradient(
+                  colors: [
+                    Color(0xFF0F2027),
+                    Color(0xFF203A43),
+                    Color(0xFF2C5364),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          color: widget.headerBackgroundColor,
           borderRadius: BorderRadius.circular(responsive.getBorderRadius(16)),
           boxShadow: [
             BoxShadow(
@@ -93,7 +108,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
               children: [
                 Icon(
                   Icons.store,
-                  color: Colors.white70,
+                  color: branchLabelColor,
                   size: responsive.getIconSize(60),
                 ),
                 SizedBox(width: responsive.getSpacing(12)),
@@ -103,7 +118,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                     Text(
                       'Branch Name',
                       style: GoogleFonts.robotoMono(
-                        color: Colors.white70,
+                        color: branchLabelColor,
                         fontSize: responsive.getFontSize(12),
                         fontWeight: FontWeight.w400,
                       ),
@@ -112,7 +127,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                     Text(
                       widget.branchName,
                       style: GoogleFonts.poppins(
-                        color: Colors.white,
+                        color: branchTextColor,
                         fontSize: responsive.getFontSize(16),
                         fontWeight: FontWeight.w600,
                       ),
@@ -131,14 +146,14 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                   children: [
                     Icon(
                       Icons.calendar_today,
-                      color: Colors.white70,
+                      color: calendarTextColor,
                       size: responsive.getIconSize(20),
                     ),
                     SizedBox(width: responsive.getSpacing(6)),
                     Text(
                       formattedDate,
                       style: GoogleFonts.robotoMono(
-                        color: Colors.white70,
+                        color: calendarTextColor,
                         fontSize: responsive.getFontSize(14),
                         letterSpacing: 0.5,
                       ),
@@ -152,7 +167,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                   children: [
                     Icon(
                       Icons.access_time,
-                      color: Colors.white70,
+                      color: clockTextColor,
                       size: responsive.getIconSize(20),
                     ),
                     SizedBox(width: responsive.getSpacing(6)),
@@ -162,7 +177,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                         return Text.rich(
                           TextSpan(
                             style: GoogleFonts.robotoMono(
-                              color: Colors.white,
+                              color: clockTextColor,
                               fontSize: responsive.getFontSize(32),
                               fontWeight: FontWeight.bold,
                             ),
@@ -171,14 +186,14 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                               TextSpan(
                                 text: ':',
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(_colonAnimation.value),
+                                  color: clockTextColor.withOpacity(_colonAnimation.value),
                                 ),
                               ),
                               TextSpan(text: '$minute'),
                               TextSpan(
                                 text: ':',
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(_colonAnimation.value),
+                                  color: clockTextColor.withOpacity(_colonAnimation.value),
                                 ),
                               ),
                               TextSpan(text: '$second '),

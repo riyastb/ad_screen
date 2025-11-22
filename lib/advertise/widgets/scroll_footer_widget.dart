@@ -2,10 +2,13 @@ import 'package:advertisment_screen/controllers/scroll_announcementcontroller.da
 import 'package:advertisment_screen/domain/branch/model/branch.dart';
 import 'package:flutter/material.dart';
 import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
+import 'package:advertisment_screen/advertise/models/branch_theme.dart';
 
 class ScrollFooterWidget extends StatefulWidget {
-    final List<Branch>? branches;
-  const ScrollFooterWidget({super.key,this.branches});
+  final List<Branch>? branches;
+  final BranchTheme theme;
+
+  const ScrollFooterWidget({super.key,this.branches, required this.theme});
 
   @override
   State<ScrollFooterWidget> createState() => _ScrollFooterWidgetState();
@@ -43,15 +46,21 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
      final displayText = tickerText.isNotEmpty
          ? tickerText
          : 'Welcome to Lari Exchange • Best rates • Fast and secure service';
+    final tickerBackground = widget.theme.footerBackground;
+    final tickerTextColor = widget.theme.footerTextColor ?? Colors.white;
+
     return Container(
       width: responsive.width,
       height: responsive.getHeight(0.06),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFFFC107), Color(0xFFFFA000)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: tickerBackground == null
+            ? const LinearGradient(
+                colors: [Color(0xFFFFC107), Color(0xFFFFA000)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : null,
+        color: tickerBackground,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
@@ -75,7 +84,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
                   child: Text(
                     displayText,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: tickerTextColor,
                       fontWeight: FontWeight.bold,
                       fontSize: responsive.getFontSize(responsive.width * 0.018),
                     ),

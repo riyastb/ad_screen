@@ -5,13 +5,15 @@ import 'package:advertisment_screen/domain/branch/branch.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
+import 'package:advertisment_screen/advertise/models/branch_theme.dart';
 
 class CurrenceyBillBoardContainerWidget extends StatefulWidget {
   final CurrencyBillBoardController? controller;
   final List<Branch>? branches;
+  final BranchTheme theme;
 
   const CurrenceyBillBoardContainerWidget(
-      {super.key, this.controller, this.branches});
+      {super.key, this.controller, this.branches, required this.theme});
 
   @override
   State<CurrenceyBillBoardContainerWidget> createState() =>
@@ -21,6 +23,8 @@ class CurrenceyBillBoardContainerWidget extends StatefulWidget {
 class _CurrenceyBillBoardContainerWidgetState
     extends State<CurrenceyBillBoardContainerWidget> {
   late CurrencyBillBoardController _controller;
+  bool? _lastOrientation;
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -33,13 +37,26 @@ class _CurrenceyBillBoardContainerWidgetState
         // Rebuild when data changes
       });
     };
+  }
 
-    final effectiveLength = widget.branches?.length ?? 0;
-    _controller.initialize(effectiveLength);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInitialized) {
+      final effectiveLength = widget.branches?.length ?? 0;
+      final responsive = context.responsive;
+      final isLandscape = responsive.isLandscape;
+      _lastOrientation = isLandscape;
+      final visibleCards = isLandscape ? 8 : 12;
+      _controller.initialize(effectiveLength, visibleCards: visibleCards);
+      _isInitialized = true;
 
-    Future.delayed(const Duration(seconds: 1), () {
-      _controller.startAnimation();
-    });
+      Future.delayed(const Duration(seconds: 1), () {
+        if (mounted) {
+          _controller.startAnimation();
+        }
+      });
+    }
   }
 
   @override
@@ -47,10 +64,20 @@ class _CurrenceyBillBoardContainerWidgetState
     super.didUpdateWidget(oldWidget);
     final oldLen = oldWidget.branches?.length ?? 0;
     final newLen = widget.branches?.length ?? 0;
-    if (newLen != oldLen) {
-      _controller.initialize(newLen);
+    final responsive = context.responsive;
+    final isLandscape = responsive.isLandscape;
+    final visibleCards = isLandscape ? 8 : 9;
+    
+    // Reinitialize if branch count changed or orientation changed
+    if (newLen != oldLen || _lastOrientation != isLandscape) {
+      _lastOrientation = isLandscape;
+      _controller.initialize(newLen, visibleCards: visibleCards);
       // Optionally restart the animation to reflect new items
-      Future.microtask(() => _controller.startAnimation());
+      Future.microtask(() {
+        if (mounted) {
+          _controller.startAnimation();
+        }
+      });
     }
   }
 
@@ -65,18 +92,21 @@ class _CurrenceyBillBoardContainerWidgetState
 
   List<Branch> _getCurrentVisibleBranches() {
     final items = widget.branches ?? const <Branch>[];
-    if (items.isEmpty) return [];
+    if (items.isEmpty || !_isInitialized) return [];
 
     final dataIndices = _controller.currentDataIndices;
-    return dataIndices.map((index) => items[index]).toList();
+    if (dataIndices.isEmpty) return [];
+    
+    return dataIndices
+        .where((index) => index >= 0 && index < items.length)
+        .map((index) => items[index])
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final responsive = context.responsive;
     final currentBranches = _getCurrentVisibleBranches();
-    print(
-        '------------------Visible Branches: ${currentBranches.length}, Data Indices: ${_controller.currentDataIndices}--------------------');
 
     return Container(
       decoration: BoxDecoration(
@@ -85,7 +115,7 @@ class _CurrenceyBillBoardContainerWidgetState
       width: responsive.isLandscape
           ? responsive.getWidth(0.68)
           : responsive.width,
-      height: responsive.getHeight(0.74),
+      height: responsive.getHeight(0.5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -103,34 +133,44 @@ class _CurrenceyBillBoardContainerWidgetState
           //   ),
           // Cards container
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(currentBranches.length, (index) {
-                final branch = currentBranches[index];
-                return Expanded(
-                  child: FlipCardAnimationWidget(
-                    key: _controller.flipCardKeys[index],
-                    front: CurrencyBillboardTileWidget(
-                      flag: getFlagFromCurrency(branch.currencyCode??''),
-
-                      currencyCode: branch.currencyCode,
-                      buyRate: branch.forexBuyRate,
-                      sellRate: branch.forexSellRate,
-                      remittanceRate: branch.remittanceRate,
-                      baseCurrencyCode: 'AED',
-                    ),
-                    back: CurrencyBillboardTileWidget(
-                      flag: getFlagFromCurrency(branch.currencyCode??''),
-                      currencyCode: branch.currencyCode,
-                      buyRate: branch.forexBuyRate,
-                      sellRate: branch.forexSellRate,
-                      remittanceRate: branch.remittanceRate,
-                      baseCurrencyCode: 'AED',
+            child: currentBranches.isEmpty
+                ? const SizedBox.shrink()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                      currentBranches.length,
+                      (index) {
+                        if (index >= currentBranches.length ||
+                            index >= _controller.flipCardKeys.length) {
+                          return const SizedBox.shrink();
+                        }
+                        final branch = currentBranches[index];
+                        return Expanded(
+                          child: FlipCardAnimationWidget(
+                            key: _controller.flipCardKeys[index],
+                            front: CurrencyBillboardTileWidget(
+                              flag: getFlagFromCurrency(branch.currencyCode ?? ''),
+                              currencyCode: branch.currencyCode,
+                              buyRate: branch.forexBuyRate,
+                              sellRate: branch.forexSellRate,
+                              remittanceRate: branch.remittanceRate,
+                              baseCurrencyCode: 'AED',
+                              theme: widget.theme,
+                            ),
+                            back: CurrencyBillboardTileWidget(
+                              flag: getFlagFromCurrency(branch.currencyCode ?? ''),
+                              currencyCode: branch.currencyCode,
+                              buyRate: branch.forexBuyRate,
+                              sellRate: branch.forexSellRate,
+                              remittanceRate: branch.remittanceRate,
+                              baseCurrencyCode: 'AED',
+                              theme: widget.theme,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                );
-              }),
-            ),
           ),
         ],
       ),

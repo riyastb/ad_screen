@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
+import 'package:advertisment_screen/advertise/models/branch_theme.dart';
 
 class TabHearder extends StatelessWidget {
-  const TabHearder({super.key});
+  final BranchTheme theme;
+
+  const TabHearder({super.key, required this.theme});
 
   @override
   Widget build(BuildContext context) {
     final responsive = context.responsive;
     final baseFontSize = responsive.width * 0.012;
     final fontSize = responsive.getFontSize(baseFontSize);
+    final currencyColor = theme.branchNameTextColor ?? Colors.white;
+    final transferColor = theme.transferRateTextColor ?? Colors.green;
+    final buyColor = theme.buyRateTextColor ?? Colors.greenAccent;
+    final sellColor = theme.sellRateTextColor ?? Colors.yellow;
     
     return Container(
       width: responsive.isLandscape
@@ -20,11 +27,14 @@ class TabHearder extends StatelessWidget {
         vertical: responsive.getPadding(12),
       ),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: theme.headerBackground == null
+            ? const LinearGradient(
+                colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : null,
+        color: theme.headerBackground,
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(16)),
         boxShadow: [
           BoxShadow(
@@ -41,7 +51,7 @@ class TabHearder extends StatelessWidget {
               child: Text(
                 'Currency',
                 style: GoogleFonts.poppins(
-                  color: Colors.white,
+                  color: currencyColor,
                   fontSize: fontSize,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.1,
@@ -54,7 +64,7 @@ class TabHearder extends StatelessWidget {
               child: Text(
                 'Transfer',
                 style: GoogleFonts.poppins(
-                  color: Colors.green,
+                  color: transferColor,
                   fontSize: fontSize,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.1,
@@ -67,7 +77,7 @@ class TabHearder extends StatelessWidget {
               child: Text(
                 'Buy',
                 style: GoogleFonts.poppins(
-                  color: Colors.greenAccent,
+                  color: buyColor,
                   fontSize: fontSize,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.1,
@@ -80,7 +90,7 @@ class TabHearder extends StatelessWidget {
               child: Text(
                 'Sell',
                 style: GoogleFonts.poppins(
-                  color: Colors.yellow,
+                  color: sellColor,
                   fontSize: fontSize,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.1,

@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'package:logger/logger.dart';
-import '../../../core/logger/app_logger.dart';
-
 import 'package:grpc/grpc.dart';
 
 import '../model/exchangerate.pbgrpc.dart';
@@ -12,14 +9,11 @@ import 'branch_repository.dart';
 class BranchRepositoryImpl implements BranchRepository {
   late ClientChannel _channel;
   late ExchangeRateServiceClient _client;
-  final Logger _logger = AppLogger.createLogger('BranchRepository');
   
   BranchRepositoryImpl({String? host, int? port}) {
     final serverHost = host ?? 'ratecontrol2.uat.lariexchange.com';
     final serverPort = port ?? 443;
-    
-    _logger.i('🔧 Initializing gRPC connection to $serverHost:$serverPort');
-    
+
     _channel = ClientChannel(
       serverHost,
       port: serverPort,
@@ -29,8 +23,6 @@ class BranchRepositoryImpl implements BranchRepository {
       ),
     );
     _client = ExchangeRateServiceClient(_channel);
-    
-    _logger.i('✅ gRPC client initialized successfully');
   }
 
   @override
@@ -39,24 +31,20 @@ class BranchRepositoryImpl implements BranchRepository {
       final getReq = GetReq()
         // ..latitude = request.latitude
         // ..longitude = request.longitude;
-          ..latitude = '12.6496964'
+        ..latitude = '12.6496964'
         ..longitude = '54.0205833';
       
       if (request.branchCode != null) {
         getReq.branchCode = request.branchCode!;
       }
 
-      // Log detailed gRPC request
-      _logger.i('🚀 Making gRPC call: getAllBranchByLongitudeAndLatitude');
-      AppLogger.logObject('gRPC Request (GetReq)', {
-        'latitude': getReq.latitude,
-        'longitude': getReq.longitude,
-        'branchCode': getReq.branchCode,
-      }, _logger);
-
       // Attach required metadata
       final metadata = {'Action': 'NA'};
-      AppLogger.logObject('gRPC Metadata', metadata, _logger);
+
+      print('🚀 Request:');
+      print('  Latitude: ${getReq.latitude}');
+      print('  Longitude: ${getReq.longitude}');
+      print('  BranchCode: ${getReq.branchCode}');
 
       // Unary call now returns RateData (with payload list + banner fields)
       final rateData = await _client.getBranchRateByLongitudeAndLatitude(
@@ -64,43 +52,37 @@ class BranchRepositoryImpl implements BranchRepository {
         options: CallOptions(metadata: metadata),
       );
 
-      // Log banner/meta info
-      AppLogger.logObject('gRPC Response (RateData)', {
-        'tickerBannerDescription': rateData.tickerBannerDescription,
-        'offerDescription': rateData.offerDescription,
-      //  'adImageUrl': rateData.adImageUrl,
-        'payloadLength': rateData.payload.length,
-      }, _logger);
+      // print('✅ Response Received:');
+      // print('  TickerBannerDescription: ${rateData.tickerBannerDescription}');
+      // print('  OfferDescription: ${rateData.offerDescription}');
+      // print('  BBColor: ${rateData.bBColor}');
+      // print('  BranchNameTextColor: ${rateData.branchNameTextColor}');
+      // print('  TransferRateTextColor: ${rateData.transferRateTextColor}');
+      // print('  SellRateTextColor: ${rateData.sellRateTextColor}');
+      // print('  FooterBgColor: ${rateData.footerBgColor}');
+      // print('  RateCardBgColor: ${rateData.rateCardBgColor}');
+      // print('  ClockTextColor: ${rateData.clockTextColor}');
+      // print('  CalenderTextColor: ${rateData.calenderTextColor}');
+      // print('  CurrencyTextColor: ${rateData.currencyTextColor}');
+      // print('  BuyRateTextColor: ${rateData.buyRateTextColor}');
+      // print('  FooterTextColor: ${rateData.footerTextColor}');
+      // print('  HeaderBBColor: ${rateData.headerBBColor}');
+      // print('  Payload Count: ${rateData.payload.length}');
 
       final List<Branch> branches = [];
-      int payloadCount = 0;
-
+      int payloadIndex = 0;
       for (final payload in rateData.payload) {
-        payloadCount++;
-        // Log each payload in detail
-        AppLogger.logObject('Payload #$payloadCount', {
-          'id': payload.id,
-          'branchName': payload.branchName,
-          'branchCode': payload.branchCode,
-          'countryName': payload.countryName,
-          'countryCode': payload.countryCode,
-          'countryFlag': payload.countryFlag,
-          'currencyName': payload.currencyName,
-          'currencyCode': payload.currencyCode,
-          'remittanceRate': payload.remittanceRate,
-          'remittanceCharge': payload.remittanceCharge,
-          'forexBuyRate': payload.forexBuyRate,
-          'forexSellRate': payload.forexSellRate,
-          'forexBuyCharge': payload.forexBuyCharge,
-          'forexSellCharge': payload.forexSellCharge,
-          'priorityCurrency': payload.priorityCurrency,
-          'lastModifiedUserId': payload.lastModifiedUserId,
-          'lastModifiedUserName': payload.lastModifiedUserName,
-          'lastModifiedDate': payload.lastModifiedDate,
-          'lastModifiedTime': payload.lastModifiedTime,
-          'active': payload.active,
-        }, _logger);
-
+        payloadIndex++;
+        // print('📦 Payload #$payloadIndex:');
+        // print('  Id: ${payload.id}');
+        // print('  BranchName: ${payload.branchName}');
+        // print('  BranchCode: ${payload.branchCode}');
+        // print('  CurrencyCode: ${payload.currencyCode}');
+        // print('  ForexBuyRate: ${payload.forexBuyRate}');
+        // print('  ForexSellRate: ${payload.forexSellRate}');
+        // print('  RemittanceRate: ${payload.remittanceRate}');
+        // print('  PriorityCurrency: ${payload.priorityCurrency}');
+        
         final branch = Branch(
           id: payload.id,
           branchName: payload.branchName,
@@ -126,18 +108,27 @@ class BranchRepositoryImpl implements BranchRepository {
           tickerBannerDescription: rateData.tickerBannerDescription,
           offerDescription: rateData.offerDescription,
          // adImageUrl: rateData.adImageUrl,
+          bbColor: rateData.bBColor,
+          branchNameTextColor: rateData.branchNameTextColor,
+          transferRateTextColor: rateData.transferRateTextColor,
+          sellRateTextColor: rateData.sellRateTextColor,
+          footerBgColor: rateData.footerBgColor,
+          rateCardBgColor: rateData.rateCardBgColor,
+          clockTextColor: rateData.clockTextColor,
+          calenderTextColor: rateData.calenderTextColor,
+          currencyTextColor: rateData.currencyTextColor,
+          buyRateTextColor: rateData.buyRateTextColor,
+          footerTextColor: rateData.footerTextColor,
+          headerBBColor: rateData.headerBBColor,
         );
         branches.add(branch);
-
-        _logger.d('✅ Converted payload #$payloadCount to Branch: ${branch.branchName}');
       }
 
-      _logger.i('🎯 Completed. Retrieved ${branches.length} branches for location: ${request.latitude}, ${request.longitude}');
-      AppLogger.logObject('Final Branches List', branches.map((b) => b.toJson()).toList(), _logger);
-      
+      print('✅ Total Branches Created: ${branches.length}');
       return branches;
     } catch (e, stackTrace) {
-      AppLogger.logError('getAllBranchByLongitudeAndLatitude', e, stackTrace, _logger);
+      print('❌ Error: $e');
+      print('Stack Trace: $stackTrace');
       rethrow;
     }
   }
