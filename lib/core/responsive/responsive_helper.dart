@@ -28,10 +28,12 @@ class ResponsiveHelper {
   /// Get responsive font size based on screen width
   /// Uses a base size that scales with screen width
   /// All sizes are increased by 40%
+  /// For portrait mode (1080x1920), uses 1080 as reference width
   double getFontSize(double baseSize) {
-    // Use a reference width (e.g., 1920 for large screens)
-    // Scale proportionally for different screen sizes
-    final referenceWidth = 1920.0;
+    // Use reference width based on orientation
+    // Portrait (1080x1920): use 1080 as reference
+    // Landscape: use 1920 as reference
+    final referenceWidth = isPortrait ? 1080.0 : 1920.0;
     final scaleFactor = width / referenceWidth;
     
     // Clamp between 0.5 and 2.0 to prevent extreme scaling
@@ -47,8 +49,9 @@ class ResponsiveHelper {
 
   /// Get responsive padding based on screen width
   /// All sizes are increased by 40%
+  /// For portrait mode (1080x1920), uses 1080 as reference width
   double getPadding(double basePadding) {
-    final referenceWidth = 1920.0;
+    final referenceWidth = isPortrait ? 1080.0 : 1920.0;
     final scaleFactor = width / referenceWidth;
     final clampedScale = scaleFactor.clamp(0.5, 2.0);
     return basePadding * clampedScale * sizeMultiplier;

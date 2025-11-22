@@ -5,7 +5,7 @@ import 'package:advertisment_screen/advertise/models/branch_theme.dart';
 
 class CurrencyBillboardTileWidget extends StatelessWidget {
   final String? currencyCode;
-  final String? flag;
+  final String? countryCode;
   final double? buyRate;
   final double? sellRate;
   final double? remittanceRate;
@@ -15,7 +15,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
   const CurrencyBillboardTileWidget({
     super.key,
     required this.currencyCode,
-    required this.flag,
+    this.countryCode,
     required this.buyRate,
     required this.sellRate,
     this.remittanceRate,
@@ -26,7 +26,8 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final responsive = context.responsive;
-    final baseFontSize = responsive.width * 0.016;
+    // Reduced base font size for portrait mode (1080x1920) to prevent overflow
+    final baseFontSize = responsive.width * 0.012;
     final fontSize = responsive.getFontSize(baseFontSize);
     final cardBackground = theme.rateCardBackground;
     final currencyTextColor = theme.currencyTextColor ?? Colors.white;
@@ -36,12 +37,12 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.only(
-        top: responsive.getMargin(6),
-        right: responsive.getMargin(6),
+        top: responsive.getMargin(4),
+        right: responsive.getMargin(4),
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: responsive.getPadding(14.0),
-        vertical: responsive.getPadding(8.0),
+        horizontal: responsive.getPadding(10.0),
+        vertical: responsive.getPadding(4.0),
       ),
       decoration: BoxDecoration(
         gradient: cardBackground == null
@@ -68,10 +69,31 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  flag ?? "🏳️",
-                  style: TextStyle(fontSize: responsive.getFontSize(30)),
-                ),
+                if (countryCode != null && countryCode!.isNotEmpty)
+                  SizedBox(
+                    width: responsive.getFontSize(40),
+                    height: responsive.getFontSize(30),
+                    child: Image.asset(
+                      'icons/flags/png100px/${countryCode!.toLowerCase().trim()}.png',
+                      package: 'country_icons',
+                      width: responsive.getFontSize(40),
+                      height: responsive.getFontSize(30),
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.flag_outlined,
+                          size: responsive.getFontSize(30),
+                          color: currencyTextColor,
+                        );
+                      },
+                    ),
+                  )
+                else
+                  Icon(
+                    Icons.flag_outlined,
+                    size: responsive.getFontSize(30),
+                    color: currencyTextColor,
+                  ),
                 SizedBox(width: responsive.getSpacing(10)),
                 Text(
                   currencyCode ?? '-',
@@ -155,28 +177,36 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
     required String hintText,
   }) {
     final responsive = context.responsive;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          value.toStringAsFixed(4),
-          style: GoogleFonts.poppins(
-            color: color,
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            value.toStringAsFixed(4),
+            style: GoogleFonts.poppins(
+              color: color,
+              fontSize: fontSize * 0.85,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-        ),
-        SizedBox(height: responsive.getSpacing(2)),
-        Text(
-          hintText,
-          style: GoogleFonts.poppins(
-            color: Colors.grey,
-            fontSize: fontSize * 0.65,
+          SizedBox(height: responsive.getSpacing(0.5)),
+          Text(
+            hintText,
+            style: GoogleFonts.poppins(
+              color: Colors.grey,
+              fontSize: fontSize * 0.45,
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
-          textAlign: TextAlign.center,
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -66,7 +66,8 @@ class _CurrenceyBillBoardContainerWidgetState
     final newLen = widget.branches?.length ?? 0;
     final responsive = context.responsive;
     final isLandscape = responsive.isLandscape;
-    final visibleCards = isLandscape ? 8 : 9;
+    // Portrait mode (1080x1920): show 12 cards, Landscape: show 8 cards
+    final visibleCards = isLandscape ? 8 : 12;
     
     // Reinitialize if branch count changed or orientation changed
     if (newLen != oldLen || _lastOrientation != isLandscape) {
@@ -145,11 +146,18 @@ class _CurrenceyBillBoardContainerWidgetState
                           return const SizedBox.shrink();
                         }
                         final branch = currentBranches[index];
+                        // Use branch.countryCode if valid (not empty and not "UN"), otherwise map from currency code
+                        final rawCountryCode = branch.countryCode?.toUpperCase().trim();
+                        final countryCode = (rawCountryCode != null && 
+                                           rawCountryCode.isNotEmpty && 
+                                           rawCountryCode != 'UN')
+                            ? rawCountryCode
+                            : getCountryCodeFromCurrency(branch.currencyCode ?? '');
                         return Expanded(
                           child: FlipCardAnimationWidget(
                             key: _controller.flipCardKeys[index],
                             front: CurrencyBillboardTileWidget(
-                              flag: getFlagFromCurrency(branch.currencyCode ?? ''),
+                              countryCode: countryCode,
                               currencyCode: branch.currencyCode,
                               buyRate: branch.forexBuyRate,
                               sellRate: branch.forexSellRate,
@@ -158,7 +166,7 @@ class _CurrenceyBillBoardContainerWidgetState
                               theme: widget.theme,
                             ),
                             back: CurrencyBillboardTileWidget(
-                              flag: getFlagFromCurrency(branch.currencyCode ?? ''),
+                              countryCode: countryCode,
                               currencyCode: branch.currencyCode,
                               buyRate: branch.forexBuyRate,
                               sellRate: branch.forexSellRate,
@@ -176,133 +184,136 @@ class _CurrenceyBillBoardContainerWidgetState
       ),
     );
   }
-  String getFlagFromCurrency(String code) {
-    return currencyFlagMap[code.toUpperCase()] ?? "🏳️"; // default white flag if not found
+  String? getCountryCodeFromCurrency(String code) {
+    return currencyToCountryCodeMap[code.toUpperCase()];
   }
-   Map<String, String> currencyFlagMap = {
+  
+  // Map currency codes to ISO 3166-1 alpha-2 country codes
+  Map<String, String> currencyToCountryCodeMap = {
     // Major currencies
-    "USD": "🇺🇸",
-    "EUR": "🇪🇺",
-    "GBP": "🇬🇧",
-    "JPY": "🇯🇵",
-    "CNY": "🇨🇳",
-    "AUD": "🇦🇺",
-    "CAD": "🇨🇦",
-    "CHF": "🇨🇭",
-    "NZD": "🇳🇿",
-    "SGD": "🇸🇬",
-    "HKD": "🇭🇰",
+    "USD": "US",
+    "EUR": "DE", // European Union (using Germany as representative)
+    "GBP": "GB",
+    "JPY": "JP",
+    "CNY": "CN",
+    "AUD": "AU",
+    "CAD": "CA",
+    "CHF": "CH",
+    "NZD": "NZ",
+    "SGD": "SG",
+    "HKD": "HK",
     
     // Middle East
-    "AED": "🇦🇪",
-    "SAR": "🇸🇦",
-    "KWD": "🇰🇼",
-    "QAR": "🇶🇦",
-    "BHD": "🇧🇭",
-    "OMR": "🇴🇲",
-    "JOD": "🇯🇴",
-    "LBP": "🇱🇧",
-    "ILS": "🇮🇱",
-    "IRR": "🇮🇷",
-    "IQD": "🇮🇶",
-    "YER": "🇾🇪",
+    "AED": "AE",
+    "SAR": "SA",
+    "KWD": "KW",
+    "QAR": "QA",
+    "BHD": "BH",
+    "OMR": "OM",
+    "JOD": "JO",
+    "LBP": "LB",
+    "ILS": "IL",
+    "IRR": "IR",
+    "IQD": "IQ",
+    "YER": "YE",
     
     // South Asia
-    "INR": "🇮🇳",
-    "PKR": "🇵🇰",
-    "BDT": "🇧🇩",
-    "LKR": "🇱🇰",
-    "NPR": "🇳🇵",
-    "AFN": "🇦🇫",
+    "INR": "IN",
+    "PKR": "PK",
+    "BDT": "BD",
+    "LKR": "LK",
+    "NPR": "NP",
+    "AFN": "AF",
     
     // Southeast Asia
-    "MYR": "🇲🇾",
-    "THB": "🇹🇭",
-    "IDR": "🇮🇩",
-    "PHP": "🇵🇭",
-    "VND": "🇻🇳",
-    "MMK": "🇲🇲",
-    "KHR": "🇰🇭",
-    "LAK": "🇱🇦",
+    "MYR": "MY",
+    "THB": "TH",
+    "IDR": "ID",
+    "PHP": "PH",
+    "VND": "VN",
+    "MMK": "MM",
+    "KHR": "KH",
+    "LAK": "LA",
     
     // East Asia
-    "KRW": "🇰🇷",
-    "TWD": "🇹🇼",
-    "MOP": "🇲🇴",
+    "KRW": "KR",
+    "TWD": "TW",
+    "MOP": "MO",
     
     // Africa
-    "ZAR": "🇿🇦",
-    "NGN": "🇳🇬",
-    "EGP": "🇪🇬",
-    "KES": "🇰🇪",
-    "ETB": "🇪🇹",
-    "GHS": "🇬🇭",
-    "UGX": "🇺🇬",
-    "TZS": "🇹🇿",
-    "MAD": "🇲🇦",
-    "DZD": "🇩🇿",
-    "TND": "🇹🇳",
-    "XOF": "🇸🇳", // West African CFA franc
-    "XAF": "🇨🇲", // Central African CFA franc
+    "ZAR": "ZA",
+    "NGN": "NG",
+    "EGP": "EG",
+    "KES": "KE",
+    "ETB": "ET",
+    "GHS": "GH",
+    "UGX": "UG",
+    "TZS": "TZ",
+    "MAD": "MA",
+    "DZD": "DZ",
+    "TND": "TN",
+    "XOF": "SN", // West African CFA franc (Senegal as representative)
+    "XAF": "CM", // Central African CFA franc (Cameroon as representative)
     
     // Europe
-    "NOK": "🇳🇴",
-    "SEK": "🇸🇪",
-    "DKK": "🇩🇰",
-    "PLN": "🇵🇱",
-    "CZK": "🇨🇿",
-    "RON": "🇷🇴",
-    "HUF": "🇭🇺",
-    "BGN": "🇧🇬",
-    "HRK": "🇭🇷",
-    "RSD": "🇷🇸",
-    "BAM": "🇧🇦",
-    "MKD": "🇲🇰",
-    "ALL": "🇦🇱",
-    "ISK": "🇮🇸",
-    "UAH": "🇺🇦",
-    "BYN": "🇧🇾",
-    "MDL": "🇲🇩",
-    "GEL": "🇬🇪",
-    "AMD": "🇦🇲",
-    "AZN": "🇦🇿",
+    "NOK": "NO",
+    "SEK": "SE",
+    "DKK": "DK",
+    "PLN": "PL",
+    "CZK": "CZ",
+    "RON": "RO",
+    "HUF": "HU",
+    "BGN": "BG",
+    "HRK": "HR",
+    "RSD": "RS",
+    "BAM": "BA",
+    "MKD": "MK",
+    "ALL": "AL",
+    "ISK": "IS",
+    "UAH": "UA",
+    "BYN": "BY",
+    "MDL": "MD",
+    "GEL": "GE",
+    "AMD": "AM",
+    "AZN": "AZ",
     
     // Americas
-    "BRL": "🇧🇷",
-    "MXN": "🇲🇽",
-    "ARS": "🇦🇷",
-    "CLP": "🇨🇱",
-    "COP": "🇨🇴",
-    "PEN": "🇵🇪",
-    "UYU": "🇺🇾",
-    "PYG": "🇵🇾",
-    "BOB": "🇧🇴",
-    "VES": "🇻🇪",
-    "GTQ": "🇬🇹",
-    "HNL": "🇭🇳",
-    "NIO": "🇳🇮",
-    "CRC": "🇨🇷",
-    "PAB": "🇵🇦",
-    "DOP": "🇩🇴",
-    "JMD": "🇯🇲",
-    "TTD": "🇹🇹",
-    "BBD": "🇧🇧",
-    "BZD": "🇧🇿",
-    "XCD": "🇦🇬", // East Caribbean dollar
+    "BRL": "BR",
+    "MXN": "MX",
+    "ARS": "AR",
+    "CLP": "CL",
+    "COP": "CO",
+    "PEN": "PE",
+    "UYU": "UY",
+    "PYG": "PY",
+    "BOB": "BO",
+    "VES": "VE",
+    "GTQ": "GT",
+    "HNL": "HN",
+    "NIO": "NI",
+    "CRC": "CR",
+    "PAB": "PA",
+    "DOP": "DO",
+    "JMD": "JM",
+    "TTD": "TT",
+    "BBD": "BB",
+    "BZD": "BZ",
+    "XCD": "AG", // East Caribbean dollar (Antigua and Barbuda as representative)
+    "STD": "ST", // São Tomé and Príncipe (São Tomé and Príncipe dobra)
     
     // Other
-    "TRY": "🇹🇷",
-    "RUB": "🇷🇺",
-    "KZT": "🇰🇿",
-    "UZS": "🇺🇿",
-    "KGS": "🇰🇬",
-    "TJS": "🇹🇯",
-    "TMT": "🇹🇲",
-    "MNT": "🇲🇳",
+    "TRY": "TR",
+    "RUB": "RU",
+    "KZT": "KZ",
+    "UZS": "UZ",
+    "KGS": "KG",
+    "TJS": "TJ",
+    "TMT": "TM",
+    "MNT": "MN",
     
     // Special codes that might come from backend
-    "101": "🇮🇳", // Indian Rupee (alternative code)
-    "RS2": "🇮🇳", // Rupees (alternative code)
+    "101": "IN", // Indian Rupee (alternative code)
+    "RS2": "IN", // Rupees (alternative code)
   };
 
 }
