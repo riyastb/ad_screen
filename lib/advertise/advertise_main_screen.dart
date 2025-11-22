@@ -49,7 +49,7 @@ class _AdvertisementMainHomeScreenState
             'latitude': locationRequest.latitude,
             'longitude': locationRequest.longitude,
             'branchCode': locationRequest.branchCode,
-            'host': 'ratecontrol2.uat.lariexchange.com',
+            'host': 'ratecontrol.uat.lariexchange.com',
             'port': 443,
           },
           _logger);

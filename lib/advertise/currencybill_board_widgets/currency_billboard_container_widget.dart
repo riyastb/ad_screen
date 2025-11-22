@@ -106,6 +106,8 @@ class _CurrenceyBillBoardContainerWidgetState
                   child: FlipCardAnimationWidget(
                     key: _controller.flipCardKeys[index],
                     front: CurrencyBillboardTileWidget(
+                      flag: getFlagFromCurrency(branch.currencyCode??''),
+
                       currencyCode: branch.currencyCode,
                       buyRate: branch.forexBuyRate,
                       sellRate: branch.forexSellRate,
@@ -113,6 +115,7 @@ class _CurrenceyBillBoardContainerWidgetState
                       baseCurrencyCode: 'AED',
                     ),
                     back: CurrencyBillboardTileWidget(
+                      flag: getFlagFromCurrency(branch.currencyCode??''),
                       currencyCode: branch.currencyCode,
                       buyRate: branch.forexBuyRate,
                       sellRate: branch.forexSellRate,
@@ -128,4 +131,48 @@ class _CurrenceyBillBoardContainerWidgetState
       ),
     );
   }
+  String getFlagFromCurrency(String code) {
+    return currencyFlagMap[code.toUpperCase()] ?? "🏳️"; // default white flag if not found
+  }
+   Map<String, String> currencyFlagMap = {
+    "USD": "🇺🇸",
+    "EUR": "🇪🇺",
+    "GBP": "🇬🇧",
+    "JPY": "🇯🇵",
+    "AED": "🇦🇪",
+    "SAR": "🇸🇦",
+    "INR": "🇮🇳",
+    "CNY": "🇨🇳",
+    "AUD": "🇦🇺",
+    "CAD": "🇨🇦",
+    "CHF": "🇨🇭",
+    "KWD": "🇰🇼",
+    "QAR": "🇶🇦",
+    "BHD": "🇧🇭",
+    "OMR": "🇴🇲",
+    "SGD": "🇸🇬",
+    "MYR": "🇲🇾",
+    "PKR": "🇵🇰",
+    "BDT": "🇧🇩",
+    "ZAR": "🇿🇦",
+    "NGN": "🇳🇬",
+    "EGP": "🇪🇬",
+    "TRY": "🇹🇷",
+    "RUB": "🇷🇺",
+    "BRL": "🇧🇷",
+    "MXN": "🇲🇽",
+    "THB": "🇹🇭",
+    "KRW": "🇰🇷",
+    "HKD": "🇭🇰",
+    "ILS": "🇮🇱",
+    "NOK": "🇳🇴",
+    "SEK": "🇸🇪",
+    "DKK": "🇩🇰",
+    "PLN": "🇵🇱",
+    "CZK": "🇨🇿",
+    "RON": "🇷🇴",
+    "KES": "🇰🇪",
+    "ETB": "🇪🇹",
+  };
+
 }

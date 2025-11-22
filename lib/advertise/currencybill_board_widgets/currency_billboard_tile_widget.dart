@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CurrencyBillboardTileWidget extends StatelessWidget {
   final String? currencyCode;
+  final String? flag;
   final double? buyRate;
   final double? sellRate;
   final double? remittanceRate;
@@ -11,6 +12,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
   const CurrencyBillboardTileWidget({
     super.key,
     required this.currencyCode,
+    required this.flag,
     required this.buyRate,
     required this.sellRate,
     this.remittanceRate,
@@ -49,8 +51,8 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: fontSize * 0.8,
-                  backgroundColor: Colors.white24,
-                  child: Icon(Icons.monetization_on, color: Colors.white, size: fontSize * 0.7),
+                  backgroundColor: Colors.white12,
+                  child: Text(flag ??"🏳️",style: TextStyle(fontSize: 30),),
                 ),
                 const SizedBox(width: 10),
                 Text(

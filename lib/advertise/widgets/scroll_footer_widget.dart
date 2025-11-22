@@ -42,6 +42,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
          ? tickerText
          : 'Welcome to Lari Exchange • Best rates • Fast and secure service';
     return Container(
+      width: MediaQuery.of(context).size.width ,
       height: MediaQuery.of(context).size.height * 0.06,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
@@ -58,7 +59,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
         ],
         borderRadius: BorderRadius.circular(8),
       ),
-      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+     // margin: const EdgeInsets.symmetric(horizontal: 16.0),
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: ExcludeSemantics(
         child: SingleChildScrollView(
