@@ -1,4 +1,7 @@
+import 'dart:io';
+import 'package:advertisment_screen/advertise/widgets/exchange_offers_card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:advertisment_screen/advertise/models/branch_theme.dart';
 import 'package:advertisment_screen/advertise/widgets/display_time_widget.dart';
@@ -27,17 +30,52 @@ class _AdvertisementMainHomeScreenState
   late final BranchService _branchService;
   List<Branch>? _branches;
   bool _isLoading = false;
+  final FocusNode _keyboardFocusNode = FocusNode();
+  bool _isLandscapeMode = false;
   
   @override
   void initState() {
     super.initState();
     _branchService = BranchService();
     _loadBranches();
+    // Initialize orientation state - default to portrait
+    _isLandscapeMode = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _keyboardFocusNode.requestFocus();
+    });
+  }
 
+  void _toggleOrientation() {
+    setState(() {
+      _isLandscapeMode = !_isLandscapeMode;
+    });
+    
+    if (_isLandscapeMode) {
+      // Switch to landscape
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+      print('🔄 Switched to Landscape mode');
+    } else {
+      // Switch to portrait
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      print('🔄 Switched to Portrait mode');
+    }
   }
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    _keyboardFocusNode.dispose();
     _branchService.dispose();
     super.dispose();
   }
@@ -78,8 +116,41 @@ class _AdvertisementMainHomeScreenState
       firstBranch,
       useRemoteTheme: widget.enableRemoteTheme,
     );
+    
+    // Use tracked state for desktop, MediaQuery for mobile
+    final isLandscape = Platform.isWindows || Platform.isMacOS || Platform.isLinux
+        ? _isLandscapeMode
+        : responsive.isLandscape;
 
-    return Scaffold(
+    return KeyboardListener(
+      focusNode: _keyboardFocusNode,
+      onKeyEvent: (KeyEvent event) {
+        if (event is KeyDownEvent) {
+          final isMac = Platform.isMacOS;
+          final keyboard = HardwareKeyboard.instance;
+          final isControlPressed = keyboard.isControlPressed;
+          final isMetaPressed = keyboard.isMetaPressed;
+          final isShiftPressed = keyboard.isShiftPressed;
+          final isP = event.logicalKey == LogicalKeyboardKey.keyP;
+
+          print('🔑 Key pressed: ${event.logicalKey}, Control: $isControlPressed, Meta: $isMetaPressed, Shift: $isShiftPressed, Mac: $isMac');
+
+          // Windows/Linux: Ctrl+Shift+P
+          // Mac: Cmd+Shift+P or Ctrl+Shift+P (both work)
+          if (isP && isShiftPressed) {
+            if (isMac && isMetaPressed) {
+              // Mac: Cmd+Shift+P
+              print('✅ Mac Cmd+Shift+P detected');
+              _toggleOrientation();
+            } else if (isControlPressed) {
+              // Windows/Linux: Ctrl+Shift+P or Mac: Ctrl+Shift+P
+              print('✅ Ctrl+Shift+P detected');
+              _toggleOrientation();
+            }
+          }
+        }
+      },
+      child: Scaffold(
       backgroundColor: theme.bodyBackground ?? Colors.transparent,
       body: Container(
         decoration: BoxDecoration(
@@ -113,8 +184,9 @@ class _AdvertisementMainHomeScreenState
                 branchNameTextColor: theme.branchNameTextColor,
                 clockTextColor: theme.clockTextColor,
                 calendarTextColor: theme.calendarTextColor,
+                branchImageAsset: 'assets/images/branch_logo.png', // Branch logo asset path
               ),
-              responsive.isLandscape
+              isLandscape
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -152,7 +224,7 @@ class _AdvertisementMainHomeScreenState
                             ),
                           ],
                         ),
-                      //  ExchangeOffersCardWidget(branches: _branches),
+                     //   ExchangeOffersCardWidget(branches: _branches, theme: null,),
                       ],
                     ),
               Padding(
@@ -168,6 +240,6 @@ class _AdvertisementMainHomeScreenState
           ),
         ),
       ),
-    );
+    ));
   }
 }

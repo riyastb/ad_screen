@@ -10,6 +10,7 @@ class DateTimeDisplay extends StatefulWidget {
   final Color? branchNameTextColor;
   final Color? clockTextColor;
   final Color? calendarTextColor;
+  final String? branchImageAsset;
 
   const DateTimeDisplay({
     super.key,
@@ -18,6 +19,7 @@ class DateTimeDisplay extends StatefulWidget {
     this.branchNameTextColor,
     this.clockTextColor,
     this.calendarTextColor,
+    this.branchImageAsset,
   });
 
   @override
@@ -106,11 +108,33 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
             // LEFT SIDE (Branch Info)
             Row(
               children: [
-                Icon(
-                  Icons.store,
-                  color: branchLabelColor,
-                  size: responsive.getIconSize(60),
-                ),
+                widget.branchImageAsset != null && widget.branchImageAsset!.isNotEmpty
+                    ? Container(
+                        width: responsive.getIconSize(60),
+                        height: responsive.getIconSize(60),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(responsive.getBorderRadius(8)),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(responsive.getBorderRadius(8)),
+                          child: Image.asset(
+                            'assets/images/socotra_small.png',
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(
+                                Icons.store,
+                                color: branchLabelColor,
+                                size: responsive.getIconSize(60),
+                              );
+                            },
+                          ),
+                        ),
+                      )
+                    : Icon(
+                        Icons.store,
+                        color: branchLabelColor,
+                        size: responsive.getIconSize(60),
+                      ),
                 SizedBox(width: responsive.getSpacing(12)),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -68,13 +68,9 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: fontSize * 0.8,
-                  backgroundColor: Colors.white12,
-                  child: Text(
-                    flag ?? "🏳️",
-                    style: TextStyle(fontSize: responsive.getFontSize(30)),
-                  ),
+                Text(
+                  flag ?? "🏳️",
+                  style: TextStyle(fontSize: responsive.getFontSize(30)),
                 ),
                 SizedBox(width: responsive.getSpacing(10)),
                 Text(
