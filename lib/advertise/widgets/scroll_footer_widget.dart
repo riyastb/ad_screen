@@ -82,7 +82,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
 
     return Container(
       width: responsive.width,
-      height: responsive.getHeight(0.06),
+      height: responsive.getHeight(0.053),
       decoration: BoxDecoration(
         gradient: tickerBackground == null
             ? const LinearGradient(
@@ -101,7 +101,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
         ],
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(8)),
       ),
-      padding: EdgeInsets.symmetric(horizontal: responsive.getPadding(12.0)),
+     // padding: EdgeInsets.symmetric(horizontal: responsive.getPadding(12.0)),
       child: ExcludeSemantics(
         child: SingleChildScrollView(
           controller: _controller.scrollController,
@@ -113,13 +113,13 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
               // Repeat the text a few times to enable continuous scrolling feel
               for (int i = 0; i < 10; i++)
                 Padding(
-                  padding: EdgeInsets.only(right: responsive.getPadding(48.0)),
+                 padding: EdgeInsets.only(right: responsive.getPadding(48.0)),
                   child: Text(
                     displayText,
                     style: TextStyle(
                       color: tickerTextColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: responsive.getFontSize(responsive.width * 0.018),
+                      fontSize:responsive.isLandscape? responsive.getFontSize(responsive.width * 0.018):responsive.getFontSize(responsive.width * 0.030)
                     ),
                   ),
                 ),
