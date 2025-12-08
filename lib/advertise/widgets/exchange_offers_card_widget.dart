@@ -80,7 +80,7 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
             "BEST EXCHANGE RATES",
             style: TextStyle(
               color: Colors.white,
-              fontSize: responsive.getFontSize(22),
+              fontSize: responsive.getFontSize(33),
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
             ),
@@ -107,7 +107,7 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
                 "No Priority Currency branches available",
                 style: TextStyle(
                   color: Colors.white70,
-                  fontSize: responsive.getFontSize(14),
+                  fontSize: responsive.getFontSize(21),
                 ),
               ),
             ),
@@ -138,7 +138,7 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
             child: Text(
               offerText,
               style: TextStyle(
-                fontSize: responsive.getFontSize(18),
+                fontSize: responsive.getFontSize(27),
                 fontWeight: FontWeight.bold,
                 color: offerTextColor,
               ),
@@ -158,7 +158,7 @@ class _ExchangeOffersCardWidgetState extends State<ExchangeOffersCardWidget> {
                 "Secure Transactions • 24/7 Service",
                 style: TextStyle(
                   color: Colors.white70,
-                  fontSize: responsive.getFontSize(14),
+                  fontSize: responsive.getFontSize(21),
                 ),
               ),
             ],
@@ -188,7 +188,7 @@ Widget _buildRateRow(
           "1 $from =",
           style: TextStyle(
             color: primaryTextColor,
-            fontSize: responsive.getFontSize(16),
+            fontSize: responsive.getFontSize(24),
           ),
         ),
         SizedBox(width: responsive.getSpacing(5)),
@@ -196,7 +196,7 @@ Widget _buildRateRow(
           rate,
           style: TextStyle(
             color: highlightColor,
-            fontSize: responsive.getFontSize(18),
+            fontSize: responsive.getFontSize(27),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -205,7 +205,7 @@ Widget _buildRateRow(
           to,
           style: TextStyle(
             color: primaryTextColor,
-            fontSize: responsive.getFontSize(16),
+            fontSize: responsive.getFontSize(24),
           ),
         ),
       ],

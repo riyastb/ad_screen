@@ -47,7 +47,7 @@ class _CurrenceyBillBoardContainerWidgetState
       final responsive = context.responsive;
       final isLandscape = responsive.isLandscape;
       _lastOrientation = isLandscape;
-      final visibleCards = isLandscape ? 9 : 13;
+      final visibleCards = isLandscape ? 8 : 12;
       _controller.initialize(effectiveLength, visibleCards: visibleCards);
       _isInitialized = true;
 
@@ -67,7 +67,7 @@ class _CurrenceyBillBoardContainerWidgetState
     final responsive = context.responsive;
     final isLandscape = responsive.isLandscape;
     // Portrait mode (1080x1920): show 12 cards, Landscape: show 8 cards
-    final visibleCards = isLandscape ? 9 : 13;
+    final visibleCards = isLandscape ? 8 : 12;
 
     // Reinitialize if branch count changed or orientation changed
     if (newLen != oldLen || _lastOrientation != isLandscape) {

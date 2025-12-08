@@ -27,7 +27,8 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final responsive = context.responsive;
     // Reduced base font size for portrait mode (1080x1920) to prevent overflow
-    final baseFontSize = responsive.width * 0.012;
+    // Increased by 50%: 0.012 * 1.5 = 0.018
+    final baseFontSize = responsive.width * 0.018;
     final fontSize = responsive.getFontSize(baseFontSize);
     final cardBackground = theme.rateCardBackground;
     final currencyTextColor = theme.currencyTextColor ?? Colors.white;
@@ -71,18 +72,18 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
               children: [
                 if (countryCode != null && countryCode!.isNotEmpty)
                   SizedBox(
-                    width: responsive.getFontSize(40),
-                    height: responsive.getFontSize(30),
+                    width: responsive.getFontSize(60),
+                    height: responsive.getFontSize(45),
                     child: Image.asset(
                       'icons/flags/png100px/${countryCode!.toLowerCase().trim()}.png',
                       package: 'country_icons',
-                      width: responsive.getFontSize(40),
-                      height: responsive.getFontSize(30),
+                      width: responsive.getFontSize(60),
+                      height: responsive.getFontSize(45),
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) {
                         return Icon(
                           Icons.flag_outlined,
-                          size: responsive.getFontSize(30),
+                          size: responsive.getFontSize(45),
                           color: currencyTextColor,
                         );
                       },
@@ -91,7 +92,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
                 else
                   Icon(
                     Icons.flag_outlined,
-                    size: responsive.getFontSize(30),
+                    size: responsive.getFontSize(45),
                     color: currencyTextColor,
                   ),
                 SizedBox(width: responsive.getSpacing(10)),
@@ -99,7 +100,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
                   currencyCode ?? '-',
                   style: GoogleFonts.poppins(
                     color: currencyTextColor,
-                    fontSize: fontSize + responsive.getFontSize(1),
+                    fontSize: fontSize + responsive.getFontSize(1.5),
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
                   ),
