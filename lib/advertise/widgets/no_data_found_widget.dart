@@ -6,12 +6,14 @@ class NoDataFoundWidget extends StatelessWidget {
   final String? message;
   final BranchTheme theme;
   final bool isError;
+  final VoidCallback? onRefresh;
 
   const NoDataFoundWidget({
     super.key,
     this.message,
     required this.theme,
     this.isError = false,
+    this.onRefresh,
   });
 
   @override
@@ -64,6 +66,42 @@ class NoDataFoundWidget extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
+            if (onRefresh != null) ...[
+              SizedBox(height: responsive.getSpacing(24)),
+              ElevatedButton.icon(
+                onPressed: onRefresh,
+                icon: Icon(
+                  Icons.refresh,
+                  size: responsive.getIconSize(20),
+                  color: theme.currencyTextColor ?? Colors.white,
+                ),
+                label: Text(
+                  'Refresh',
+                  style: TextStyle(
+                    fontSize: responsive.getFontSize(16),
+                    fontWeight: FontWeight.w600,
+                    color: theme.currencyTextColor ?? Colors.white,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.rateCardBackground?.withOpacity(0.3) ?? 
+                      Colors.white.withOpacity(0.2),
+                  foregroundColor: theme.currencyTextColor ?? Colors.white,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.getPadding(24),
+                    vertical: responsive.getPadding(12),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(responsive.getBorderRadius(8)),
+                    side: BorderSide(
+                      color: (theme.currencyTextColor ?? Colors.white70).withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  elevation: 2,
+                ),
+              ),
+            ],
           ],
         ),
       ),

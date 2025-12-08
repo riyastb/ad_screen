@@ -41,100 +41,22 @@ class OfferDescriptionBanner extends StatelessWidget {
     // Check if OfferDescription is an image URL
     final isImageUrl = _isValidHttpUrl(offerDescription);
     print('🎯 OfferDescriptionBanner - Is Image URL: $isImageUrl');
-    final backgroundColor = theme.footerBackground;
-    final textColor = theme.footerTextColor ?? Colors.white;
-
-    if (isImageUrl) {
-      print('🎯 OfferDescriptionBanner - Loading image from URL: $offerDescription');
-      return Container(
-        width: responsive.width,
-        margin: EdgeInsets.symmetric(
-          horizontal: responsive.getMargin(10),
-          vertical: responsive.getMargin(8),
-        ),
-        height: responsive.getHeight(0.25),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(responsive.getBorderRadius(12)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: responsive.getPadding(6),
-              offset: Offset(0, responsive.getPadding(3)),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(responsive.getBorderRadius(12)),
-          child: Image.network(
-            offerDescription,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-            errorBuilder: (context, error, stackTrace) {
-              print('❌ OfferDescriptionBanner - Image load error: $error');
-              print('❌ StackTrace: $stackTrace');
-              return Container(
-                color: Colors.grey[300],
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.broken_image,
-                        size: responsive.getIconSize(48),
-                        color: Colors.grey[600],
-                      ),
-                      SizedBox(height: responsive.getSpacing(8)),
-                      Text(
-                        'Failed to load image',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: responsive.getFontSize(12),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) {
-                print('✅ OfferDescriptionBanner - Image loaded successfully');
-                return child;
-              }
-              print('⏳ OfferDescriptionBanner - Loading image... ${loadingProgress.cumulativeBytesLoaded}/${loadingProgress.expectedTotalBytes}');
-              return Container(
-                color: Colors.grey[200],
-                child: Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      );
+    
+    // Only show banner if it's an image URL, hide if it's just text
+    if (!isImageUrl) {
+      print('🎯 OfferDescriptionBanner - Text content detected, hiding banner');
+      return const SizedBox.shrink();
     }
 
+    print('🎯 OfferDescriptionBanner - Loading image from URL: $offerDescription');
     return Container(
       width: responsive.width,
       margin: EdgeInsets.symmetric(
         horizontal: responsive.getMargin(10),
         vertical: responsive.getMargin(8),
       ),
+      height: responsive.getHeight(0.25),
       decoration: BoxDecoration(
-        gradient: backgroundColor == null
-            ? const LinearGradient(
-                colors: [Color(0xFFFFC107), Color(0xFFFFA000)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
-            : null,
-        color: backgroundColor,
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(12)),
         boxShadow: [
           BoxShadow(
@@ -144,16 +66,58 @@ class OfferDescriptionBanner extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
-        padding: EdgeInsets.all(responsive.getPadding(20)),
-        child: Text(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(responsive.getBorderRadius(12)),
+        child: Image.network(
           offerDescription,
-          style: TextStyle(
-            fontSize: responsive.getFontSize(20),
-            fontWeight: FontWeight.bold,
-            color: textColor,
-          ),
-          textAlign: TextAlign.center,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+          errorBuilder: (context, error, stackTrace) {
+            print('❌ OfferDescriptionBanner - Image load error: $error');
+            print('❌ StackTrace: $stackTrace');
+            return Container(
+              color: Colors.grey[300],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.broken_image,
+                      size: responsive.getIconSize(48),
+                      color: Colors.grey[600],
+                    ),
+                    SizedBox(height: responsive.getSpacing(8)),
+                    Text(
+                      'Failed to load image',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: responsive.getFontSize(12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) {
+              print('✅ OfferDescriptionBanner - Image loaded successfully');
+              return child;
+            }
+            print('⏳ OfferDescriptionBanner - Loading image... ${loadingProgress.cumulativeBytesLoaded}/${loadingProgress.expectedTotalBytes}');
+            return Container(
+              color: Colors.grey[200],
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
