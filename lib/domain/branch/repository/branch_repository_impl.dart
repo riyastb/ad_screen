@@ -11,7 +11,8 @@ class BranchRepositoryImpl implements BranchRepository {
   late ExchangeRateServiceClient _client;
   
   BranchRepositoryImpl({String? host, int? port}) {
-    final serverHost = host ?? 'ratecontrol2.uat.lariexchange.com';
+    final serverHost = host ?? 'ratecontrol2.socotraex.com';
+ //   final serverHost = host ?? 'ratecontrol2.uat.lariexchange.com';
     final serverPort = port ?? 443;
 
     _channel = ClientChannel(
@@ -29,10 +30,13 @@ class BranchRepositoryImpl implements BranchRepository {
   Future<List<Branch>> getAllBranchByLongitudeAndLatitude(LocationRequest request) async {
     try {
       final getReq = GetReq()
+        ..latitude = '12.64766788482666'
+        ..longitude = '54.00967788696289';
         // ..latitude = request.latitude
         // ..longitude = request.longitude;
-        ..latitude = '12.6496964'
-        ..longitude = '54.0205833';
+        // ..latitude = '12.6496964'
+        // ..longitude = '54.0205833';
+
       
       if (request.branchCode != null) {
         getReq.branchCode = request.branchCode!;
