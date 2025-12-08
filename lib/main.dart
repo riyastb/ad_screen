@@ -3,6 +3,9 @@ import 'package:advertisment_screen/advertise/advertise_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:window_manager/window_manager.dart';
+
+import 'core/app_window_manager.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -12,10 +15,17 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
-  HttpOverrides.global = MyHttpOverrides();
+Future<void> main() async {
   // Lock orientation to portrait for 42-inch TV (1080x1920)
+
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
+
+
+  await windowManager.ensureInitialized();
+  await AppWindowManager.setWindowManagerService(false);
+
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
