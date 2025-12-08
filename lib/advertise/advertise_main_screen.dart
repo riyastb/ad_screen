@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:advertisment_screen/advertise/widgets/exchange_offers_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class _AdvertisementMainHomeScreenState
   bool _hasError = false;
   final FocusNode _keyboardFocusNode = FocusNode();
   bool _isLandscapeMode = false;
+  Timer? _refreshTimer;
   
   @override
   void initState() {
@@ -42,6 +44,10 @@ class _AdvertisementMainHomeScreenState
     _loadBranches();
     // Initialize orientation state - default to portrait
     _isLandscapeMode = false;
+    // Start timer to refresh branch rates every 20 seconds in the background
+    _refreshTimer = Timer.periodic(const Duration(seconds: 20), (timer) {
+      _loadBranches(backgroundRefresh: true);
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _keyboardFocusNode.requestFocus();
     });
@@ -77,17 +83,23 @@ class _AdvertisementMainHomeScreenState
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+    _refreshTimer?.cancel();
     _keyboardFocusNode.dispose();
     _branchService.dispose();
     super.dispose();
   }
 
-  Future<void> _loadBranches() async {
+  Future<void> _loadBranches({bool backgroundRefresh = false}) async {
     if (!mounted) return;
-    setState(() {
-      _isLoading = true;
-      _hasError = false;
-    });
+    
+    // Only show loading indicator for initial load, not for background refreshes
+    if (!backgroundRefresh) {
+      setState(() {
+        _isLoading = true;
+        _hasError = false;
+      });
+    }
+    
     try {
       final locationRequest = LocationRequest.defaultLocation();
 
@@ -103,11 +115,15 @@ class _AdvertisementMainHomeScreenState
       }
     } catch (_) {
       if (mounted) {
-        setState(() {
-          _branches = [];
-          _isLoading = false;
-          _hasError = true;
-        });
+        // Only update error state if not a background refresh
+        // Background refresh failures should be silent
+        if (!backgroundRefresh) {
+          setState(() {
+            _branches = [];
+            _isLoading = false;
+            _hasError = true;
+          });
+        }
       }
     }
   }
