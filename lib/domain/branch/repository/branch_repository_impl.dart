@@ -13,7 +13,7 @@ class BranchRepositoryImpl implements BranchRepository {
   BranchRepositoryImpl({String? host, int? port}) {
 
       final serverHost = host ?? 'ratecontrol2.socotraex.com';
-    //final serverHost = host ?? 'ratecontrol2.uat.lariexchange.com';
+   //final serverHost = host ?? 'ratecontrol2.uat.lariexchange.com';
     
     final serverPort = port ?? 443;
 

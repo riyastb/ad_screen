@@ -45,7 +45,7 @@ class _AdvertisementMainHomeScreenState
     // Initialize orientation state - default to portrait
     _isLandscapeMode = false;
     // Start timer to refresh branch rates every 20 seconds in the background
-    _refreshTimer = Timer.periodic(const Duration(seconds: 20), (timer) {
+    _refreshTimer = Timer.periodic(const Duration(seconds:100), (timer) {
       _loadBranches(backgroundRefresh: true);
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -220,6 +220,7 @@ class _AdvertisementMainHomeScreenState
                           child: NoDataFoundWidget(
                             theme: theme,
                             isError: _hasError,
+                            onRefresh: () => _loadBranches(),
                           ),
                         )
                       :
