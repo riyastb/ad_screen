@@ -38,7 +38,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
       final tickerText = (items.first.tickerBannerDescription ?? '').trim();
       final displayText = tickerText.isNotEmpty
           ? tickerText
-          : 'Welcome to Lari Exchange • Best rates • Fast and secure service';
+          : 'Welcome to our Exchange Services! Enjoy competitive rates and exceptional service.';
       
       if (displayText != _lastDisplayText) {
         _lastDisplayText = displayText;
@@ -71,7 +71,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
      final tickerText = (items.first.tickerBannerDescription ?? '').trim();
      final displayText = tickerText.isNotEmpty
          ? tickerText
-         : 'Welcome to Lari Exchange • Best rates • Fast and secure service';
+         : 'Welcome to our Exchange Services! Enjoy competitive rates and exceptional service.';
      
      // Initialize last display text on first build
      if (_lastDisplayText == null) {
