@@ -34,21 +34,16 @@ class OfferDescriptionBanner extends StatelessWidget {
     
     print('🎯 OfferDescriptionBanner - OfferDescription: $offerDescription');
     
-    if (offerDescription.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
+    // Default image URL to use if no image URL is provided
+    const defaultImageUrl = 'https://img.freepik.com/premium-vector/online-currency-exchange-concept-digital-payment-transaction-via-application_90099-557.jpg';
+    
     // Check if OfferDescription is an image URL
-    final isImageUrl = _isValidHttpUrl(offerDescription);
+    final isImageUrl = offerDescription.isNotEmpty && _isValidHttpUrl(offerDescription);
     print('🎯 OfferDescriptionBanner - Is Image URL: $isImageUrl');
     
-    // Only show banner if it's an image URL, hide if it's just text
-    if (!isImageUrl) {
-      print('🎯 OfferDescriptionBanner - Text content detected, hiding banner');
-      return const SizedBox.shrink();
-    }
-
-    print('🎯 OfferDescriptionBanner - Loading image from URL: $offerDescription');
+    // Use offerDescription if it's a valid URL, otherwise use default image
+    final imageUrl = isImageUrl ? offerDescription : defaultImageUrl;
+    print('🎯 OfferDescriptionBanner - Loading image from URL: $imageUrl');
     return Container(
       width: responsive.width,
       margin: EdgeInsets.symmetric(
@@ -69,7 +64,7 @@ class OfferDescriptionBanner extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(12)),
         child: Image.network(
-          offerDescription,
+          imageUrl,
           fit: BoxFit.cover,
           width: double.infinity,
           height: double.infinity,

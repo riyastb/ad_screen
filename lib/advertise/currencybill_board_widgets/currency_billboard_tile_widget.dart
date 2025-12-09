@@ -11,6 +11,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
   final double? remittanceRate;
   final String baseCurrencyCode;
   final BranchTheme theme;
+  final double? height;
 
   const CurrencyBillboardTileWidget({
     super.key,
@@ -21,6 +22,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
     this.remittanceRate,
     this.baseCurrencyCode = 'AED',
     required this.theme,
+    this.height,
   });
 
   @override
@@ -37,6 +39,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
     final sellColor = theme.sellRateTextColor ?? Colors.yellow;
 
     return Container(
+      height: height,
       margin: EdgeInsets.only(
         top: responsive.getMargin(4),
         right: responsive.getMargin(4),

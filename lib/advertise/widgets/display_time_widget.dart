@@ -139,17 +139,17 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Branch Name',
-                      style: GoogleFonts.robotoMono(
-                        color: branchLabelColor,
-                        fontSize: responsive.getFontSize(12),
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    // Text(
+                    //   'Branch Name',
+                    //   style: GoogleFonts.robotoMono(
+                    //     color: branchLabelColor,
+                    //     fontSize: responsive.getFontSize(12),
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
                     SizedBox(height: responsive.getSpacing(4)),
                     Text(
-                      widget.branchName,
+                      "Socotra Exchange",
                       style: GoogleFonts.poppins(
                         color: branchTextColor,
                         fontSize: responsive.getFontSize(16),

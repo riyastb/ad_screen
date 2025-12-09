@@ -197,7 +197,7 @@ class _AdvertisementMainHomeScreenState
             left: responsive.getPadding(10),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               DateTimeDisplay(
                 branchName: firstBranch?.branchName ?? 'Main Branch',
@@ -256,6 +256,7 @@ class _AdvertisementMainHomeScreenState
                                     CurrenceyBillBoardContainerWidget(
                                       branches: _branches,
                                       theme: theme,
+                                      tileHeight: responsive.getHeight(isLandscape ? 0.1056 : 0.0528),
                                     ),
                                     SizedBox(height: responsive.getSpacing(2)),
                                     if(!isLandscape)
@@ -268,6 +269,7 @@ class _AdvertisementMainHomeScreenState
                              //   ExchangeOffersCardWidget(branches: _branches, theme: null,),
                               ],
                             ),
+                            Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: responsive.getPadding(10),
