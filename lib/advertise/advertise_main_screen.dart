@@ -153,8 +153,16 @@ class _AdvertisementMainHomeScreenState
           final isMetaPressed = keyboard.isMetaPressed;
           final isShiftPressed = keyboard.isShiftPressed;
           final isP = event.logicalKey == LogicalKeyboardKey.keyP;
+          final isR = event.logicalKey == LogicalKeyboardKey.keyR;
+          final isF5 = event.logicalKey == LogicalKeyboardKey.f5;
 
           print('🔑 Key pressed: ${event.logicalKey}, Control: $isControlPressed, Meta: $isMetaPressed, Shift: $isShiftPressed, Mac: $isMac');
+
+          // Refresh functionality: Ctrl+R / Cmd+R or F5
+          if (isR && (isControlPressed || (isMac && isMetaPressed)) || isF5) {
+            print('🔄 Refresh triggered');
+            _loadBranches();
+          }
 
           // Windows/Linux: Ctrl+Shift+P
           // Mac: Cmd+Shift+P or Ctrl+Shift+P (both work)
