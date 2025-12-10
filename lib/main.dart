@@ -23,7 +23,7 @@ Future<void> main() async {
 
 
   await windowManager.ensureInitialized();
-  await AppWindowManager.setWindowManagerService(false);
+  await AppWindowManager.setWindowManagerService(true);
 
 
   SystemChrome.setPreferredOrientations([

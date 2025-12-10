@@ -13,6 +13,7 @@ import 'package:advertisment_screen/advertise/widgets/scroll_footer_widget.dart'
 import 'package:advertisment_screen/advertise/widgets/offer_description_banner.dart';
 import 'package:advertisment_screen/advertise/widgets/no_data_found_widget.dart';
 import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
+import 'package:advertisment_screen/core/widgets/custom_title_bar.dart';
 
 class AdvertisementMainHomeScreen extends StatefulWidget {
   final bool enableRemoteTheme;
@@ -143,7 +144,8 @@ class _AdvertisementMainHomeScreenState
         ? _isLandscapeMode
         : responsive.isLandscape;
 
-    return KeyboardListener(
+    return CustomTitleBar(
+      child: KeyboardListener(
       focusNode: _keyboardFocusNode,
       onKeyEvent: (KeyEvent event) {
         if (event is KeyDownEvent) {
@@ -273,7 +275,7 @@ class _AdvertisementMainHomeScreenState
                                       theme: theme,
                                       tileHeight: responsive.getHeight(isLandscape ? 0.1056 : 0.0528),
                                     ),
-                                    SizedBox(height: responsive.getSpacing(2)),
+                                    SizedBox(height: responsive.getSpacing(1)),
                                     if(!isLandscape)
                                     OfferDescriptionBanner(
                                       branches: _branches,
@@ -298,6 +300,8 @@ class _AdvertisementMainHomeScreenState
           ),
         ),
       ),
-    ));
+    ),
+    ),
+    );
   }
 }

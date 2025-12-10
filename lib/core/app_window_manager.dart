@@ -17,7 +17,7 @@ class AppWindowManager {
     // Ensure window manager is initialized
     await windowManager.ensureInitialized();
 
-    // Set title bar style for hidden title bar
+    // Set title bar style to frameless (we'll show custom buttons on hover)
     if (Platform.isWindows || Platform.isMacOS) {
       await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
     }
@@ -25,7 +25,7 @@ class AppWindowManager {
     WindowOptions windowOptions = WindowOptions(
       center: true,
       skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.hidden,
+      titleBarStyle: TitleBarStyle.hidden, // Frameless window
     );
 
     if (Platform.isWindows || Platform.isMacOS) {
@@ -70,7 +70,7 @@ class AppWindowManager {
         center: true,
         skipTaskbar: false,
         fullScreen: false, // We'll set this separately
-        titleBarStyle: TitleBarStyle.hidden,
+        titleBarStyle: TitleBarStyle.hidden, // Frameless window
         alwaysOnTop: false,
       );
     } catch (e) {
@@ -84,7 +84,7 @@ class AppWindowManager {
         center: true,
         skipTaskbar: false,
         fullScreen: false,
-        titleBarStyle: TitleBarStyle.hidden,
+        titleBarStyle: TitleBarStyle.hidden, // Frameless window
       );
     }
   }
@@ -104,7 +104,7 @@ class AppWindowManager {
       skipTaskbar: false,
       fullScreen: false,
       // resizable: false,
-      titleBarStyle: TitleBarStyle.hidden,
+      titleBarStyle: TitleBarStyle.hidden, // Frameless window
       alwaysOnTop: false,
     );
   }
@@ -193,30 +193,32 @@ class AppWindowManager {
       await windowManager.setSkipTaskbar(false);
       await windowManager.setMaximizable(true);
       await windowManager.setMinimizable(true);
+      await windowManager.setClosable(true);
+
+      // Keep frameless window (custom buttons will show on hover)
+      await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
 
       // Ensure window has shadow (looks better)
       await windowManager.setHasShadow(true);
 
-      // First maximize
-      print('Maximizing window...');
+      // Expanded option: Maximize the window to fill the screen
+      print('Expanding window to maximized state...');
       await windowManager.maximize();
-      await Future.delayed(const Duration(milliseconds: 200));
-
-      // Then set fullscreen
-      print('Setting fullscreen...');
-      await windowManager.setFullScreen(true);
       await Future.delayed(const Duration(milliseconds: 300));
 
-      // Verify fullscreen
-      final isFullScreen = await windowManager.isFullScreen();
-      print('Windows fullscreen verification: $isFullScreen');
+      // Verify maximized state
+      final isMaximized = await windowManager.isMaximized();
+      print('Windows maximized verification: $isMaximized');
 
-      if (!isFullScreen) {
-        print('Fullscreen not set, trying alternative method...');
-        await _windowsFullscreenWorkaround();
+      // If maximize didn't work, set size to screen size as fallback
+      if (!isMaximized) {
+        print('Maximize not set, using screen size as expanded option...');
+        await windowManager.setSize(screenSize);
+        await windowManager.center();
+        await Future.delayed(const Duration(milliseconds: 200));
       }
 
-      print('Windows window setup complete');
+      print('Windows window setup complete - Expanded mode');
     } catch (e) {
       print('Windows setup error: $e');
       rethrow;
@@ -265,7 +267,7 @@ class AppWindowManager {
       await windowManager.setSize(screenSize);
       await windowManager.setPosition(const Offset(0, 0));
 
-      // Remove window decorations
+      // Keep frameless window (custom buttons will show on hover)
       await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
 
       // Try to hide taskbar by maximizing
@@ -291,18 +293,18 @@ class AppWindowManager {
       await windowManager.setAlwaysOnTop(false);
 
       // Verify final state
-      final isFullScreen = await windowManager.isFullScreen();
       final isMaximized = await windowManager.isMaximized();
 
-      print('Final window state - Fullscreen: $isFullScreen, Maximized: $isMaximized');
+      print('Final window state - Maximized: $isMaximized');
 
-      // Last resort fallback
-      if (!isFullScreen && !isMaximized) {
-        print('Window not fullscreen or maximized, forcing maximize...');
+      // Ensure window is expanded/maximized
+      if (!isMaximized) {
+        print('Window not maximized, ensuring expanded state...');
         await windowManager.maximize();
+        await Future.delayed(const Duration(milliseconds: 200));
       }
 
-      print('Window setup finalized');
+      print('Window setup finalized - Expanded mode');
     } catch (e) {
       print('Error in finalizeWindowSetup: $e');
     }

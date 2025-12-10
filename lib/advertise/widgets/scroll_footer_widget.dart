@@ -82,7 +82,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
 
     return Container(
       width: responsive.width,
-      height: responsive.getHeight(0.053),
+      height: responsive.getHeight(0.050),
       decoration: BoxDecoration(
         gradient: widget.theme.footerBackgroundGradient != null
             ? LinearGradient(
