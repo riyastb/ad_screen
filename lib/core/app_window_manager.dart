@@ -201,24 +201,27 @@ class AppWindowManager {
       // Ensure window has shadow (looks better)
       await windowManager.setHasShadow(true);
 
-      // Expanded option: Maximize the window to fill the screen
-      print('Expanding window to maximized state...');
+      // First maximize to ensure proper window state
+      print('Maximizing window...');
       await windowManager.maximize();
       await Future.delayed(const Duration(milliseconds: 300));
 
-      // Verify maximized state
-      final isMaximized = await windowManager.isMaximized();
-      print('Windows maximized verification: $isMaximized');
+      // Set fullscreen to hide taskbar
+      print('Setting fullscreen to hide taskbar...');
+      await windowManager.setFullScreen(true);
+      await Future.delayed(const Duration(milliseconds: 300));
 
-      // If maximize didn't work, set size to screen size as fallback
-      if (!isMaximized) {
-        print('Maximize not set, using screen size as expanded option...');
-        await windowManager.setSize(screenSize);
-        await windowManager.center();
-        await Future.delayed(const Duration(milliseconds: 200));
+      // Verify fullscreen state
+      final isFullScreen = await windowManager.isFullScreen();
+      print('Windows fullscreen verification: $isFullScreen');
+
+      // If fullscreen didn't work, use workaround
+      if (!isFullScreen) {
+        print('Fullscreen not set, trying workaround to hide taskbar...');
+        await _windowsFullscreenWorkaround();
       }
 
-      print('Windows window setup complete - Expanded mode');
+      print('Windows window setup complete - Fullscreen mode (taskbar hidden)');
     } catch (e) {
       print('Windows setup error: $e');
       rethrow;

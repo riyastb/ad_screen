@@ -18,31 +18,52 @@ class CustomTitleBar extends StatefulWidget {
 class _CustomTitleBarState extends State<CustomTitleBar> {
   bool _isHovering = false;
   bool _isMaximized = false;
+  bool _isFullScreen = false;
 
   @override
   void initState() {
     super.initState();
-    _checkMaximizedState();
+    _checkWindowState();
   }
 
-  Future<void> _checkMaximizedState() async {
+  Future<void> _checkWindowState() async {
     if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
       final isMaximized = await windowManager.isMaximized();
+      final isFullScreen = await windowManager.isFullScreen();
       if (mounted) {
         setState(() {
           _isMaximized = isMaximized;
+          _isFullScreen = isFullScreen;
         });
       }
     }
   }
 
   Future<void> _toggleMaximize() async {
-    if (_isMaximized) {
-      await windowManager.restore();
+    if (Platform.isWindows) {
+      // On Windows, toggle fullscreen to hide/show taskbar
+      final isFullScreen = await windowManager.isFullScreen();
+      if (isFullScreen) {
+        // Exit fullscreen and restore window
+        await windowManager.setFullScreen(false);
+        await Future.delayed(const Duration(milliseconds: 200));
+        await windowManager.restore();
+      } else {
+        // Maximize first, then set fullscreen
+        await windowManager.maximize();
+        await Future.delayed(const Duration(milliseconds: 200));
+        await windowManager.setFullScreen(true);
+      }
     } else {
-      await windowManager.maximize();
+      // On macOS/Linux, use standard maximize/restore
+      if (_isMaximized) {
+        await windowManager.restore();
+      } else {
+        await windowManager.maximize();
+      }
     }
-    _checkMaximizedState();
+    await Future.delayed(const Duration(milliseconds: 300));
+    _checkWindowState();
   }
 
   @override
@@ -61,15 +82,19 @@ class _CustomTitleBarState extends State<CustomTitleBar> {
           right: 0,
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onPanStart: (details) {
+            onPanStart: (details) async {
               if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
-                windowManager.startDragging();
+                // Only allow dragging if not in fullscreen mode
+                final isFullScreen = await windowManager.isFullScreen();
+                if (!isFullScreen) {
+                  windowManager.startDragging();
+                }
               }
             },
             child: MouseRegion(
               onEnter: (_) {
                 setState(() => _isHovering = true);
-                _checkMaximizedState();
+                _checkWindowState();
               },
               onExit: (_) => setState(() => _isHovering = false),
               child: AnimatedContainer(
@@ -90,8 +115,12 @@ class _CustomTitleBarState extends State<CustomTitleBar> {
                       },
                     ),
                     _WindowButton(
-                      icon: _isMaximized ? Icons.fullscreen_exit : Icons.fullscreen,
-                      tooltip: _isMaximized ? 'Restore' : 'Maximize',
+                      icon: _isFullScreen || _isMaximized 
+                          ? Icons.fullscreen_exit 
+                          : Icons.fullscreen,
+                      tooltip: _isFullScreen || _isMaximized 
+                          ? 'Restore' 
+                          : 'Maximize',
                       onPressed: _toggleMaximize,
                     ),
                     _WindowButton(
