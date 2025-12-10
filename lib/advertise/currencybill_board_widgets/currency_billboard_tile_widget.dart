@@ -11,6 +11,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
   final double? remittanceRate;
   final String baseCurrencyCode;
   final BranchTheme theme;
+  final double? height;
 
   const CurrencyBillboardTileWidget({
     super.key,
@@ -21,21 +22,25 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
     this.remittanceRate,
     this.baseCurrencyCode = 'AED',
     required this.theme,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     final responsive = context.responsive;
     // Reduced base font size for portrait mode (1080x1920) to prevent overflow
-    final baseFontSize = responsive.width * 0.012;
+    // Increased by 50%: 0.012 * 1.5 = 0.018
+    final baseFontSize = responsive.width * 0.018;
     final fontSize = responsive.getFontSize(baseFontSize);
     final cardBackground = theme.rateCardBackground;
+    final cardBackgroundGradient = theme.rateCardBackgroundGradient;
     final currencyTextColor = theme.currencyTextColor ?? Colors.white;
     final transferColor = theme.transferRateTextColor ?? Colors.green;
     final buyColor = theme.buyRateTextColor ?? Colors.greenAccent;
     final sellColor = theme.sellRateTextColor ?? Colors.yellow;
 
     return Container(
+      height: height,
       margin: EdgeInsets.only(
         top: responsive.getMargin(4),
         right: responsive.getMargin(4),
@@ -45,14 +50,20 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
         vertical: responsive.getPadding(4.0),
       ),
       decoration: BoxDecoration(
-        gradient: cardBackground == null
-            ? const LinearGradient(
-                colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
+        gradient: cardBackgroundGradient != null
+            ? LinearGradient(
+                colors: cardBackgroundGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               )
-            : null,
-        color: cardBackground,
+            : cardBackground == null
+                ? const LinearGradient(
+                    colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
+        color: cardBackgroundGradient == null ? cardBackground : null,
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(14)),
         boxShadow: [
           BoxShadow(
@@ -71,18 +82,18 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
               children: [
                 if (countryCode != null && countryCode!.isNotEmpty)
                   SizedBox(
-                    width: responsive.getFontSize(40),
-                    height: responsive.getFontSize(30),
+                    width: responsive.getFontSize(60),
+                    height: responsive.getFontSize(45),
                     child: Image.asset(
                       'icons/flags/png100px/${countryCode!.toLowerCase().trim()}.png',
                       package: 'country_icons',
-                      width: responsive.getFontSize(40),
-                      height: responsive.getFontSize(30),
+                      width: responsive.getFontSize(60),
+                      height: responsive.getFontSize(45),
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) {
                         return Icon(
                           Icons.flag_outlined,
-                          size: responsive.getFontSize(30),
+                          size: responsive.getFontSize(45),
                           color: currencyTextColor,
                         );
                       },
@@ -91,7 +102,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
                 else
                   Icon(
                     Icons.flag_outlined,
-                    size: responsive.getFontSize(30),
+                    size: responsive.getFontSize(45),
                     color: currencyTextColor,
                   ),
                 SizedBox(width: responsive.getSpacing(10)),
@@ -99,7 +110,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
                   currencyCode ?? '-',
                   style: GoogleFonts.poppins(
                     color: currencyTextColor,
-                    fontSize: fontSize + responsive.getFontSize(1),
+                    fontSize: fontSize + responsive.getFontSize(1.5),
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
                   ),

@@ -19,7 +19,7 @@ class AdvertisementMainHomeScreen extends StatefulWidget {
 
   const AdvertisementMainHomeScreen({
     super.key,
-    this.enableRemoteTheme = false,
+    this.enableRemoteTheme = true,
   });
   @override
   State<AdvertisementMainHomeScreen> createState() =>
@@ -153,8 +153,16 @@ class _AdvertisementMainHomeScreenState
           final isMetaPressed = keyboard.isMetaPressed;
           final isShiftPressed = keyboard.isShiftPressed;
           final isP = event.logicalKey == LogicalKeyboardKey.keyP;
+          final isR = event.logicalKey == LogicalKeyboardKey.keyR;
+          final isF5 = event.logicalKey == LogicalKeyboardKey.f5;
 
           print('🔑 Key pressed: ${event.logicalKey}, Control: $isControlPressed, Meta: $isMetaPressed, Shift: $isShiftPressed, Mac: $isMac');
+
+          // Refresh functionality: Ctrl+R / Cmd+R or F5
+          if (isR && (isControlPressed || (isMac && isMetaPressed)) || isF5) {
+            print('🔄 Refresh triggered');
+            _loadBranches();
+          }
 
           // Windows/Linux: Ctrl+Shift+P
           // Mac: Cmd+Shift+P or Ctrl+Shift+P (both work)
@@ -175,14 +183,20 @@ class _AdvertisementMainHomeScreenState
       backgroundColor: theme.bodyBackground ?? Colors.transparent,
       body: Container(
         decoration: BoxDecoration(
-          gradient: theme.bodyBackground == null
-              ? const LinearGradient(
-                  colors: [Color(0xFF2C5364), Color(0xFF203A43), Color(0xFF0F2027)],
+          gradient: theme.bodyBackgroundGradient != null
+              ? LinearGradient(
+                  colors: theme.bodyBackgroundGradient!,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )
-              : null,
-          color: theme.bodyBackground,
+              : theme.bodyBackground == null
+                  ? const LinearGradient(
+                      colors: [Color(0xFF2C5364), Color(0xFF203A43), Color(0xFF0F2027)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    )
+                  : null,
+          color: theme.bodyBackgroundGradient == null ? theme.bodyBackground : null,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.3),
@@ -197,11 +211,12 @@ class _AdvertisementMainHomeScreenState
             left: responsive.getPadding(10),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               DateTimeDisplay(
                 branchName: firstBranch?.branchName ?? 'Main Branch',
                 headerBackgroundColor: theme.headerBackground,
+                headerBackgroundGradient: theme.headerBackgroundGradient,
                 branchNameTextColor: theme.branchNameTextColor,
                 clockTextColor: theme.clockTextColor,
                 calendarTextColor: theme.calendarTextColor,
@@ -256,6 +271,7 @@ class _AdvertisementMainHomeScreenState
                                     CurrenceyBillBoardContainerWidget(
                                       branches: _branches,
                                       theme: theme,
+                                      tileHeight: responsive.getHeight(isLandscape ? 0.1056 : 0.0528),
                                     ),
                                     SizedBox(height: responsive.getSpacing(2)),
                                     if(!isLandscape)
@@ -268,6 +284,7 @@ class _AdvertisementMainHomeScreenState
                              //   ExchangeOffersCardWidget(branches: _branches, theme: null,),
                               ],
                             ),
+                            Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: responsive.getPadding(10),

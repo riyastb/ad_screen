@@ -34,6 +34,36 @@ Color? colorFromHex(String? hex) {
   return Color(parsed);
 }
 
+/// Parses a pipe-separated color string into a list of Colors for gradients.
+/// Example: "FFF3F7FA|FFFFFFFF" or "#FFFFFF|#000308"
+/// Returns an empty list if invalid or null.
+List<Color> colorsFromHexGradient(String? hex) {
+  if (hex == null) return [];
+  final value = hex.trim();
+  if (value.isEmpty) return [];
+
+  if (!value.contains('|')) {
+    // Single color, return as list with one color
+    final color = colorFromHex(value);
+    return color != null ? [color] : [];
+  }
+
+  final parts = value.split('|');
+  final colors = <Color>[];
+  
+  for (final part in parts) {
+    final trimmed = part.trim();
+    if (trimmed.isNotEmpty) {
+      final color = colorFromHex(trimmed);
+      if (color != null) {
+        colors.add(color);
+      }
+    }
+  }
+  
+  return colors;
+}
+
 /// Returns either the parsed color or the provided [fallback].
 Color colorOrDefault(String? hex, Color fallback) {
   return colorFromHex(hex) ?? fallback;

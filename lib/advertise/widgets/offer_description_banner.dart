@@ -34,21 +34,13 @@ class OfferDescriptionBanner extends StatelessWidget {
     
     print('🎯 OfferDescriptionBanner - OfferDescription: $offerDescription');
     
-    if (offerDescription.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
+    // Default asset image to use if no image URL is provided
+    const defaultAssetImage = 'assets/images/image.png';
+    
     // Check if OfferDescription is an image URL
-    final isImageUrl = _isValidHttpUrl(offerDescription);
+    final isImageUrl = offerDescription.isNotEmpty && _isValidHttpUrl(offerDescription);
     print('🎯 OfferDescriptionBanner - Is Image URL: $isImageUrl');
     
-    // Only show banner if it's an image URL, hide if it's just text
-    if (!isImageUrl) {
-      print('🎯 OfferDescriptionBanner - Text content detected, hiding banner');
-      return const SizedBox.shrink();
-    }
-
-    print('🎯 OfferDescriptionBanner - Loading image from URL: $offerDescription');
     return Container(
       width: responsive.width,
       margin: EdgeInsets.symmetric(
@@ -68,57 +60,71 @@ class OfferDescriptionBanner extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(12)),
-        child: Image.network(
-          offerDescription,
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: double.infinity,
-          errorBuilder: (context, error, stackTrace) {
-            print('❌ OfferDescriptionBanner - Image load error: $error');
-            print('❌ StackTrace: $stackTrace');
-            return Container(
-              color: Colors.grey[300],
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.broken_image,
-                      size: responsive.getIconSize(48),
-                      color: Colors.grey[600],
-                    ),
-                    SizedBox(height: responsive.getSpacing(8)),
-                    Text(
-                      'Failed to load image',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: responsive.getFontSize(12),
+        child: isImageUrl
+            ? Image.network(
+                offerDescription,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+                errorBuilder: (context, error, stackTrace) {
+                  print('❌ OfferDescriptionBanner - Network image load error: $error');
+                  // Fallback to asset image if network image fails
+                  return Image.asset(
+                    defaultAssetImage,
+                    fit: BoxFit.contain,
+                    width: double.infinity,
+                    height: double.infinity,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey[300],
+                        child: Center(
+                          child: Icon(
+                            Icons.broken_image,
+                            size: responsive.getIconSize(48),
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    print('✅ OfferDescriptionBanner - Network image loaded successfully');
+                    return child;
+                  }
+                  return Container(
+                    color: Colors.grey[200],
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
                       ),
                     ),
-                  ],
-                ),
+                  );
+                },
+              )
+            : Image.asset(
+                defaultAssetImage,
+                fit: BoxFit.fill,
+                width: double.infinity,
+                height: double.infinity,
+                errorBuilder: (context, error, stackTrace) {
+                  print('❌ OfferDescriptionBanner - Asset image load error: $error');
+                  return Container(
+                    color: Colors.grey[300],
+                    child: Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        size: responsive.getIconSize(48),
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) {
-              print('✅ OfferDescriptionBanner - Image loaded successfully');
-              return child;
-            }
-            print('⏳ OfferDescriptionBanner - Loading image... ${loadingProgress.cumulativeBytesLoaded}/${loadingProgress.expectedTotalBytes}');
-            return Container(
-              color: Colors.grey[200],
-              child: Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                      : null,
-                ),
-              ),
-            );
-          },
-        ),
       ),
     );
   }

@@ -11,9 +11,15 @@ class CurrenceyBillBoardContainerWidget extends StatefulWidget {
   final CurrencyBillBoardController? controller;
   final List<Branch>? branches;
   final BranchTheme theme;
+  final double? tileHeight;
 
-  const CurrenceyBillBoardContainerWidget(
-      {super.key, this.controller, this.branches, required this.theme});
+  const CurrenceyBillBoardContainerWidget({
+    super.key,
+    this.controller,
+    this.branches,
+    required this.theme,
+    this.tileHeight,
+  });
 
   @override
   State<CurrenceyBillBoardContainerWidget> createState() =>
@@ -47,7 +53,7 @@ class _CurrenceyBillBoardContainerWidgetState
       final responsive = context.responsive;
       final isLandscape = responsive.isLandscape;
       _lastOrientation = isLandscape;
-      final visibleCards = isLandscape ? 9 : 13;
+      final visibleCards = isLandscape ? 8 : 10;
       _controller.initialize(effectiveLength, visibleCards: visibleCards);
       _isInitialized = true;
 
@@ -67,7 +73,7 @@ class _CurrenceyBillBoardContainerWidgetState
     final responsive = context.responsive;
     final isLandscape = responsive.isLandscape;
     // Portrait mode (1080x1920): show 12 cards, Landscape: show 8 cards
-    final visibleCards = isLandscape ? 9 : 13;
+    final visibleCards = isLandscape ? 8 : 10;
 
     // Reinitialize if branch count changed or orientation changed
     if (newLen != oldLen || _lastOrientation != isLandscape) {
@@ -116,7 +122,7 @@ class _CurrenceyBillBoardContainerWidgetState
       width: responsive.isLandscape ? responsive.width : responsive.width,
       height: responsive.isLandscape
           ? responsive.getHeight(0.7)
-          : responsive.getHeight(0.54),
+          : responsive.getHeight(0.55),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -155,29 +161,35 @@ class _CurrenceyBillBoardContainerWidgetState
                             ? rawCountryCode
                             : getCountryCodeFromCurrency(
                                 branch.currencyCode ?? '');
-                        return Expanded(
-                          child: FlipCardAnimationWidget(
-                            key: _controller.flipCardKeys[index],
-                            front: CurrencyBillboardTileWidget(
-                              countryCode: countryCode,
-                              currencyCode: branch.currencyCode,
-                              buyRate: branch.forexBuyRate,
-                              sellRate: branch.forexSellRate,
-                              remittanceRate: branch.remittanceRate,
-                              baseCurrencyCode: 'AED',
-                              theme: widget.theme,
-                            ),
-                            back: CurrencyBillboardTileWidget(
-                              countryCode: countryCode,
-                              currencyCode: branch.currencyCode,
-                              buyRate: branch.forexBuyRate,
-                              sellRate: branch.forexSellRate,
-                              remittanceRate: branch.remittanceRate,
-                              baseCurrencyCode: 'AED',
-                              theme: widget.theme,
-                            ),
+                        final tileWidget = FlipCardAnimationWidget(
+                          key: _controller.flipCardKeys[index],
+                          front: CurrencyBillboardTileWidget(
+                            countryCode: countryCode,
+                            currencyCode: branch.currencyCode,
+                            buyRate: branch.forexBuyRate,
+                            sellRate: branch.forexSellRate,
+                            remittanceRate: branch.remittanceRate,
+                            baseCurrencyCode: 'AED',
+                            theme: widget.theme,
+                            height: widget.tileHeight,
+                          ),
+                          back: CurrencyBillboardTileWidget(
+                            countryCode: countryCode,
+                            currencyCode: branch.currencyCode,
+                            buyRate: branch.forexBuyRate,
+                            sellRate: branch.forexSellRate,
+                            remittanceRate: branch.remittanceRate,
+                            baseCurrencyCode: 'AED',
+                            theme: widget.theme,
+                            height: widget.tileHeight,
                           ),
                         );
+                        return widget.tileHeight != null
+                            ? SizedBox(
+                                height: widget.tileHeight,
+                                child: tileWidget,
+                              )
+                            : Expanded(child: tileWidget);
                       },
                     ),
                   ),
