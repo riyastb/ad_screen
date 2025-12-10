@@ -19,7 +19,7 @@ class AdvertisementMainHomeScreen extends StatefulWidget {
 
   const AdvertisementMainHomeScreen({
     super.key,
-    this.enableRemoteTheme = false,
+    this.enableRemoteTheme = true,
   });
   @override
   State<AdvertisementMainHomeScreen> createState() =>
@@ -175,14 +175,20 @@ class _AdvertisementMainHomeScreenState
       backgroundColor: theme.bodyBackground ?? Colors.transparent,
       body: Container(
         decoration: BoxDecoration(
-          gradient: theme.bodyBackground == null
-              ? const LinearGradient(
-                  colors: [Color(0xFF2C5364), Color(0xFF203A43), Color(0xFF0F2027)],
+          gradient: theme.bodyBackgroundGradient != null
+              ? LinearGradient(
+                  colors: theme.bodyBackgroundGradient!,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )
-              : null,
-          color: theme.bodyBackground,
+              : theme.bodyBackground == null
+                  ? const LinearGradient(
+                      colors: [Color(0xFF2C5364), Color(0xFF203A43), Color(0xFF0F2027)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    )
+                  : null,
+          color: theme.bodyBackgroundGradient == null ? theme.bodyBackground : null,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.3),
@@ -202,6 +208,7 @@ class _AdvertisementMainHomeScreenState
               DateTimeDisplay(
                 branchName: firstBranch?.branchName ?? 'Main Branch',
                 headerBackgroundColor: theme.headerBackground,
+                headerBackgroundGradient: theme.headerBackgroundGradient,
                 branchNameTextColor: theme.branchNameTextColor,
                 clockTextColor: theme.clockTextColor,
                 calendarTextColor: theme.calendarTextColor,

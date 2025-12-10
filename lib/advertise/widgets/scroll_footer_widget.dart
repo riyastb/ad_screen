@@ -84,14 +84,20 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
       width: responsive.width,
       height: responsive.getHeight(0.053),
       decoration: BoxDecoration(
-        gradient: tickerBackground == null
-            ? const LinearGradient(
-                colors: [Color(0xFFFFC107), Color(0xFFFFA000)],
+        gradient: widget.theme.footerBackgroundGradient != null
+            ? LinearGradient(
+                colors: widget.theme.footerBackgroundGradient!,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               )
-            : null,
-        color: tickerBackground,
+            : tickerBackground == null
+                ? const LinearGradient(
+                    colors: [Color(0xFFFFC107), Color(0xFFFFA000)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
+        color: widget.theme.footerBackgroundGradient == null ? tickerBackground : null,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),

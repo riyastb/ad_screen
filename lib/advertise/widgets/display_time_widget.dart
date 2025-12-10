@@ -7,6 +7,7 @@ import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 class DateTimeDisplay extends StatefulWidget {
   final String branchName;
   final Color? headerBackgroundColor;
+  final List<Color>? headerBackgroundGradient;
   final Color? branchNameTextColor;
   final Color? clockTextColor;
   final Color? calendarTextColor;
@@ -16,6 +17,7 @@ class DateTimeDisplay extends StatefulWidget {
     super.key,
     this.branchName = 'Main Branch',
     this.headerBackgroundColor,
+    this.headerBackgroundGradient,
     this.branchNameTextColor,
     this.clockTextColor,
     this.calendarTextColor,
@@ -81,18 +83,24 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
           vertical: responsive.getPadding(12),
         ),
         decoration: BoxDecoration(
-          gradient: widget.headerBackgroundColor == null
-              ? const LinearGradient(
-                  colors: [
-                    Color(0xFF0F2027),
-                    Color(0xFF203A43),
-                    Color(0xFF2C5364),
-                  ],
+          gradient: widget.headerBackgroundGradient != null
+              ? LinearGradient(
+                  colors: widget.headerBackgroundGradient!,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )
-              : null,
-          color: widget.headerBackgroundColor,
+              : widget.headerBackgroundColor == null
+                  ? const LinearGradient(
+                      colors: [
+                        Color(0xFF0F2027),
+                        Color(0xFF203A43),
+                        Color(0xFF2C5364),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    )
+                  : null,
+          color: widget.headerBackgroundGradient == null ? widget.headerBackgroundColor : null,
           borderRadius: BorderRadius.circular(responsive.getBorderRadius(16)),
           boxShadow: [
             BoxShadow(

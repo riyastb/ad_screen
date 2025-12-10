@@ -33,6 +33,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
     final baseFontSize = responsive.width * 0.018;
     final fontSize = responsive.getFontSize(baseFontSize);
     final cardBackground = theme.rateCardBackground;
+    final cardBackgroundGradient = theme.rateCardBackgroundGradient;
     final currencyTextColor = theme.currencyTextColor ?? Colors.white;
     final transferColor = theme.transferRateTextColor ?? Colors.green;
     final buyColor = theme.buyRateTextColor ?? Colors.greenAccent;
@@ -49,14 +50,20 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
         vertical: responsive.getPadding(4.0),
       ),
       decoration: BoxDecoration(
-        gradient: cardBackground == null
-            ? const LinearGradient(
-                colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
+        gradient: cardBackgroundGradient != null
+            ? LinearGradient(
+                colors: cardBackgroundGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               )
-            : null,
-        color: cardBackground,
+            : cardBackground == null
+                ? const LinearGradient(
+                    colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
+        color: cardBackgroundGradient == null ? cardBackground : null,
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(14)),
         boxShadow: [
           BoxShadow(
