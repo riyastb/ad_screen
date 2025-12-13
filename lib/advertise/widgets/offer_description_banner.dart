@@ -2,6 +2,7 @@ import 'package:advertisment_screen/domain/branch/model/branch.dart';
 import 'package:flutter/material.dart';
 import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 import 'package:advertisment_screen/advertise/models/branch_theme.dart';
+import 'package:logger/logger.dart';
 
 class OfferDescriptionBanner extends StatelessWidget {
   final List<Branch>? branches;
@@ -32,7 +33,14 @@ class OfferDescriptionBanner extends StatelessWidget {
     final firstBranch = items.first;
     final offerDescription = (firstBranch.offerDescription ?? '').trim();
     
-  
+    // Log OfferDescription
+    Logger().d(
+      "----- OfferDescriptionBanner -----\n"
+      "OfferDescription: $offerDescription\n"
+      "Is Empty: ${offerDescription.isEmpty}\n"
+      "Is Image URL: ${offerDescription.isNotEmpty && _isValidHttpUrl(offerDescription)}\n"
+      "Length: ${offerDescription.length}",
+    );
     
     // Default asset image to use if no image URL is provided
     const defaultAssetImage = 'assets/images/image.png';

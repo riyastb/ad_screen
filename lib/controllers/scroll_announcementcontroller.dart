@@ -66,9 +66,11 @@ class ScrollFooterWidgetController {
     }
 
     _isScrolling = true;
-    // Calculate duration: scroll at ~2 pixels per second (very slow and readable)
-    // Convert to milliseconds: (maxScroll / 2) * 1000
-    final durationMs = ((maxScroll / 2) * 1000).round().clamp(5000, 180000);
+    // Calculate duration: scroll at constant speed regardless of text length
+    // Speed = distance / time, so time = distance / speed
+    // Convert to milliseconds: (maxScroll / speed) * 1000
+    const scrollSpeedPixelsPerSecond = 40.0;
+    final durationMs = ((maxScroll / scrollSpeedPixelsPerSecond) * 1000).round();
     scrollController
         .animateTo(
           maxScroll,

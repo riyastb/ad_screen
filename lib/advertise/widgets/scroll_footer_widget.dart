@@ -3,6 +3,7 @@ import 'package:advertisment_screen/domain/branch/model/branch.dart';
 import 'package:flutter/material.dart';
 import 'package:advertisment_screen/core/responsive/responsive_helper.dart';
 import 'package:advertisment_screen/advertise/models/branch_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ScrollFooterWidget extends StatefulWidget {
   final List<Branch>? branches;
@@ -122,7 +123,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
                  padding: EdgeInsets.only(right: responsive.getPadding(48.0)),
                   child: Text(
                     displayText,
-                    style: TextStyle(
+                    style: GoogleFonts.cairo(
                       color: tickerTextColor,
                       fontWeight: FontWeight.bold,
                       fontSize:responsive.isLandscape? responsive.getFontSize(responsive.width * 0.018):responsive.getFontSize(responsive.width * 0.030)

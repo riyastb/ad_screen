@@ -144,28 +144,30 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                         size: responsive.getIconSize(60),
                       ),
                 SizedBox(width: responsive.getSpacing(12)),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Text(
-                    //   'Branch Name',
-                    //   style: GoogleFonts.robotoMono(
-                    //     color: branchLabelColor,
-                    //     fontSize: responsive.getFontSize(12),
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // ),
-                    SizedBox(height: responsive.getSpacing(4)),
-                    Text(
-                      "Socotra Exchange",
-                      style: GoogleFonts.poppins(
-                        color: branchTextColor,
-                        fontSize: responsive.getFontSize(16),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
+               Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(
+      'Socotra Exchange Center',
+     style: GoogleFonts.cairo(
+        color: branchTextColor,
+        fontSize: responsive.getFontSize(18),
+        fontWeight: FontWeight.w700,
+      ),
+    ),
+    SizedBox(height: responsive.getSpacing(6)),
+    Text(
+     'مركز سقطرى للصرافة',
+      //textDirection: TextDirection.RTL,
+      style: GoogleFonts.cairo(
+        color: branchTextColor,
+        fontSize: responsive.getFontSize(18),
+        fontWeight: FontWeight.w700,
+      ),
+    ),
+  ],
+)
+
               ],
             ),
 
@@ -184,7 +186,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                     SizedBox(width: responsive.getSpacing(6)),
                     Text(
                       formattedDate,
-                      style: GoogleFonts.robotoMono(
+                      style: GoogleFonts.cairo(
                         color: calendarTextColor,
                         fontSize: responsive.getFontSize(14),
                         letterSpacing: 0.5,
@@ -208,7 +210,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                       builder: (context, child) {
                         return Text.rich(
                           TextSpan(
-                            style: GoogleFonts.robotoMono(
+                            style: GoogleFonts.cairo(
                               color: clockTextColor,
                               fontSize: responsive.getFontSize(32),
                               fontWeight: FontWeight.bold,

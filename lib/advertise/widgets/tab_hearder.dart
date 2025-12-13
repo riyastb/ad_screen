@@ -11,18 +11,18 @@ class TabHearder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final responsive = context.responsive;
-    // Increased by 50%: 0.012 * 1.5 = 0.018
+
+    // Font size calculation
     final baseFontSize = responsive.width * 0.018;
     final fontSize = responsive.getFontSize(baseFontSize);
+
     final currencyColor = theme.currencyTextColor ?? Colors.white;
     final transferColor = theme.transferRateTextColor ?? Colors.green;
     final buyColor = theme.buyRateTextColor ?? Colors.greenAccent;
     final sellColor = theme.sellRateTextColor ?? Colors.yellow;
-    
+
     return Container(
-      width: responsive.isLandscape
-          ? responsive.width
-          : responsive.width,
+      width: responsive.width,
       padding: EdgeInsets.symmetric(
         horizontal: responsive.getPadding(20),
         vertical: responsive.getPadding(12),
@@ -36,13 +36,20 @@ class TabHearder extends StatelessWidget {
               )
             : theme.rateCardBackground == null
                 ? const LinearGradient(
-                    colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
+                    colors: [
+                      Color(0xFF0F2027),
+                      Color(0xFF203A43),
+                      Color(0xFF2C5364),
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   )
                 : null,
-        color: theme.rateCardBackgroundGradient == null ? theme.rateCardBackground : null,
-        borderRadius: BorderRadius.circular(responsive.getBorderRadius(16)),
+        color: theme.rateCardBackgroundGradient == null
+            ? theme.rateCardBackground
+            : null,
+        borderRadius:
+            BorderRadius.circular(responsive.getBorderRadius(16)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
@@ -53,60 +60,95 @@ class TabHearder extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                'Currency',
-                style: GoogleFonts.poppins(
-                  color: currencyColor,
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.1,
-                ),
-              ),
-            ),
+          _buildHeaderItem(
+            en: 'Currency',
+            ar: 'العملة',
+            color: currencyColor,
+            fontSize: fontSize,
           ),
-          Expanded(
-            child: Center(
-              child: Text(
-                'Transfer',
-                style: GoogleFonts.poppins(
-                  color: transferColor,
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.1,
-                ),
-              ),
-            ),
+          _buildHeaderItem(
+            en: 'Transfer',
+            ar: 'التحويل',
+            color: transferColor,
+            fontSize: fontSize,
           ),
-          Expanded(
-            child: Center(
-              child: Text(
-                'Buy',
-                style: GoogleFonts.poppins(
-                  color: buyColor,
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.1,
-                ),
-              ),
-            ),
+          _buildHeaderItem(
+            en: 'Buy',
+            ar: 'شراء',
+            color: buyColor,
+            fontSize: fontSize,
           ),
-          Expanded(
-            child: Center(
-              child: Text(
-                'Sell',
-                style: GoogleFonts.poppins(
-                  color: sellColor,
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.1,
-                ),
-              ),
-            ),
+          _buildHeaderItem(
+            en: 'Sell',
+            ar: 'بيع',
+            color: sellColor,
+            fontSize: fontSize,
           ),
         ],
       ),
     );
+  }
+
+  /// Reusable bilingual header text
+  Widget _buildHeaderItem({
+    required String en,
+    required String ar,
+    required Color color,
+    required double fontSize,
+  }) {
+    return Expanded(
+  child: Center(
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+
+     // Arabic Text
+        Text(
+          ar,
+          textDirection: TextDirection.rtl,
+          style: GoogleFonts.cairo(
+            color: color.withOpacity(0.9),
+            fontSize: fontSize +2,
+            fontWeight: FontWeight.w600,
+            height: 1.2,
+          ),
+        ),
+
+
+      
+        // Divider
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: fontSize * 0.6),
+          height: fontSize + 6,
+          width: 1.5,
+          decoration: BoxDecoration(
+            color: Colors.grey,
+            //color.withOpacity(0.35),
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+
+
+          // English Text
+        Text(
+          en,
+             style: GoogleFonts.cairo(
+            color: color.withOpacity(0.9),
+            fontSize: fontSize +2,
+            fontWeight: FontWeight.w600,
+            height: 1.2,
+          ),
+        ),
+
+
+   
+      ],
+    ),
+  ),
+);
+
+
   }
 }

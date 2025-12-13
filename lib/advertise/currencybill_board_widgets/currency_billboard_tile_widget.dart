@@ -108,7 +108,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
                 SizedBox(width: responsive.getSpacing(10)),
                 Text(
                   currencyCode ?? '-',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.cairo(
                     color: currencyTextColor,
                     fontSize: fontSize + responsive.getFontSize(1.5),
                     fontWeight: FontWeight.bold,
@@ -197,7 +197,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
         children: [
           Text(
             value.toStringAsFixed(4),
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.cairo (
               color: color,
               fontSize: fontSize * 0.85,
               fontWeight: FontWeight.bold,
@@ -208,9 +208,9 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
           SizedBox(height: responsive.getSpacing(0.5)),
           Text(
             hintText,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.cairo(
               color: Colors.grey,
-              fontSize: fontSize * 0.45,
+              fontSize: fontSize * 0.65,
             ),
             textAlign: TextAlign.center,
             maxLines: 2,

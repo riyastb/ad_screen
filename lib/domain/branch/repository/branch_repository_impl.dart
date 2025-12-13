@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:grpc/grpc.dart';
+import 'package:logger/logger.dart';
 
 import '../model/exchangerate.pbgrpc.dart';
 import '../model/branch.dart';
 import '../model/location_request.dart';
 import 'branch_repository.dart';
+import '../../../core/logger/app_logger.dart';
 
 class BranchRepositoryImpl implements BranchRepository {
   late ClientChannel _channel;
@@ -25,7 +27,10 @@ class BranchRepositoryImpl implements BranchRepository {
         credentials: ChannelCredentials.secure(),
       ),
     );
-    _client = ExchangeRateServiceClient(_channel);
+    _client = ExchangeRateServiceClient(
+      _channel,
+      interceptors: [LoggerInterceptor.instance],
+    );
   }
 
   @override
@@ -55,6 +60,14 @@ class BranchRepositoryImpl implements BranchRepository {
       final rateData = await _client.getBranchRateByLongitudeAndLatitude(
         getReq,
         options: CallOptions(metadata: metadata),
+      );
+
+      // Log OfferDescription
+      Logger().d(
+        "----- OfferDescription -----\n"
+        "OfferDescription: ${rateData.offerDescription}\n"
+        "Is Empty: ${rateData.offerDescription.isEmpty}\n"
+        "Length: ${rateData.offerDescription.length}",
       );
 
       // print('✅ Response Received:');
