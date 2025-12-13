@@ -32,14 +32,14 @@ class OfferDescriptionBanner extends StatelessWidget {
     final firstBranch = items.first;
     final offerDescription = (firstBranch.offerDescription ?? '').trim();
     
-    print('🎯 OfferDescriptionBanner - OfferDescription: $offerDescription');
+  
     
     // Default asset image to use if no image URL is provided
     const defaultAssetImage = 'assets/images/image.png';
     
     // Check if OfferDescription is an image URL
     final isImageUrl = offerDescription.isNotEmpty && _isValidHttpUrl(offerDescription);
-    print('🎯 OfferDescriptionBanner - Is Image URL: $isImageUrl');
+
     
     return Container(
       width: responsive.width,
@@ -47,7 +47,7 @@ class OfferDescriptionBanner extends StatelessWidget {
         horizontal: responsive.getMargin(10),
         vertical: responsive.getMargin(8),
       ),
-      height: responsive.getHeight(0.25),
+      height: responsive.getHeight(0.26),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(responsive.getBorderRadius(12)),
         boxShadow: [
@@ -67,11 +67,11 @@ class OfferDescriptionBanner extends StatelessWidget {
                 width: double.infinity,
                 height: double.infinity,
                 errorBuilder: (context, error, stackTrace) {
-                  print('❌ OfferDescriptionBanner - Network image load error: $error');
+               
                   // Fallback to asset image if network image fails
                   return Image.asset(
                     defaultAssetImage,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.fill,
                     width: double.infinity,
                     height: double.infinity,
                     errorBuilder: (context, error, stackTrace) {
@@ -90,7 +90,7 @@ class OfferDescriptionBanner extends StatelessWidget {
                 },
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) {
-                    print('✅ OfferDescriptionBanner - Network image loaded successfully');
+                    
                     return child;
                   }
                   return Container(
@@ -112,7 +112,7 @@ class OfferDescriptionBanner extends StatelessWidget {
                 width: double.infinity,
                 height: double.infinity,
                 errorBuilder: (context, error, stackTrace) {
-                  print('❌ OfferDescriptionBanner - Asset image load error: $error');
+                //  print('❌ OfferDescriptionBanner - Asset image load error: $error');
                   return Container(
                     color: Colors.grey[300],
                     child: Center(

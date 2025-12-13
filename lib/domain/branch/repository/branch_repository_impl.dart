@@ -46,10 +46,10 @@ class BranchRepositoryImpl implements BranchRepository {
       // Attach required metadata
       final metadata = {'Action': 'NA'};
 
-      print('🚀 Request:');
-      print('  Latitude: ${getReq.latitude}');
-      print('  Longitude: ${getReq.longitude}');
-      print('  BranchCode: ${getReq.branchCode}');
+      // print('🚀 Request:');
+      // print('  Latitude: ${getReq.latitude}');
+      // print('  Longitude: ${getReq.longitude}');
+      // print('  BranchCode: ${getReq.branchCode}');
 
       // Unary call now returns RateData (with payload list + banner fields)
       final rateData = await _client.getBranchRateByLongitudeAndLatitude(
@@ -78,17 +78,17 @@ class BranchRepositoryImpl implements BranchRepository {
       int payloadIndex = 0;
       for (final payload in rateData.payload) {
         payloadIndex++;
-        print('📦 Payload #$payloadIndex:');
-        print('  Id: ${payload.id}');
-        print('  BranchName: ${payload.branchName}');
-        print('  BranchCode: ${payload.branchCode}');
-        print('  CurrencyCode: ${payload.currencyCode}');
-        print('  ForexBuyRate: ${payload.forexBuyRate}');
-        print('  ForexSellRate: ${payload.forexSellRate}');
-        print('  RemittanceRate: ${payload.remittanceRate}');
-        print('  PriorityCurrency: ${payload.priorityCurrency}');
-               print('  flah country: ${payload.countryFlag}');
-               print(' country code ${payload.countryCode}');
+       // print('📦 Payload #$payloadIndex:');
+        // print('  Id: ${payload.id}');
+        // print('  BranchName: ${payload.branchName}');
+        // print('  BranchCode: ${payload.branchCode}');
+        // print('  CurrencyCode: ${payload.currencyCode}');
+        // print('  ForexBuyRate: ${payload.forexBuyRate}');
+        // print('  ForexSellRate: ${payload.forexSellRate}');
+        // print('  RemittanceRate: ${payload.remittanceRate}');
+        // print('  PriorityCurrency: ${payload.priorityCurrency}');
+        //        print('  flah country: ${payload.countryFlag}');
+        //        print(' country code ${payload.countryCode}');
         
         final branch = Branch(
           id: payload.id,
@@ -131,7 +131,7 @@ class BranchRepositoryImpl implements BranchRepository {
         branches.add(branch);
       }
 
-      print('✅ Total Branches Created: ${branches.length}');
+      // print('✅ Total Branches Created: ${branches.length}');
       return branches;
     } catch (e, stackTrace) {
       print('❌ Error: $e');

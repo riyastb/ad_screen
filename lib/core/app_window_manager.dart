@@ -12,7 +12,7 @@ class AppWindowManager {
       bool isLoggedIn, {
         bool isLoggedInMinimize = false,
       }) async {
-    print('Setting window manager service. Logged in: $isLoggedIn');
+    // print('Setting window manager service. Logged in: $isLoggedIn');
 
     // Ensure window manager is initialized
     await windowManager.ensureInitialized();
@@ -37,7 +37,7 @@ class AppWindowManager {
     }
 
     await windowManager.waitUntilReadyToShow(windowOptions, () async {
-      print('Window ready to show. Setting up...');
+      // print('Window ready to show. Setting up...');
       if (isLoggedIn) {
         await setLoggedInOptions();
       } else {
@@ -110,7 +110,7 @@ class AppWindowManager {
   }
 
   static Future<void> setLoggedInOptions() async {
-    print('=== Setting logged in options ===');
+    // print('=== Setting logged in options ===');
 
     try {
       // Ensure window is visible and active
@@ -131,7 +131,7 @@ class AppWindowManager {
       // Final adjustments
       await _finalizeWindowSetup();
 
-      print('=== Logged in options set successfully ===');
+      // print('=== Logged in options set successfully ===');
     } catch (e) {
       print('!!! Error in setLoggedInOptions: $e');
       await _emergencyFallback();
@@ -139,7 +139,7 @@ class AppWindowManager {
   }
 
   static Future<void> _setupMacOSWindow() async {
-    print('Setting up macOS window...');
+    // print('Setting up macOS window...');
     try {
       final screen = await screenRetriever.getPrimaryDisplay();
       final screenSize = screen.size;
@@ -159,11 +159,11 @@ class AppWindowManager {
       await Future.delayed(const Duration(milliseconds: 100));
 
       // Enter fullscreen
-      print('Entering fullscreen on macOS...');
+      // print('Entering fullscreen on macOS...');
       await windowManager.setFullScreen(true);
       await Future.delayed(const Duration(milliseconds: 200));
 
-      print('macOS window setup complete');
+      // print('macOS window setup complete');
     } catch (e) {
       print('macOS setup error: $e');
       rethrow;
@@ -171,7 +171,7 @@ class AppWindowManager {
   }
 
   static Future<void> _setupWindowsWindow() async {
-    print('Setting up Windows window...');
+    // print('Setting up Windows window...');
     try {
       final screen = await screenRetriever.getPrimaryDisplay();
       final screenSize = screen.size;
@@ -202,26 +202,26 @@ class AppWindowManager {
       await windowManager.setHasShadow(true);
 
       // First maximize to ensure proper window state
-      print('Maximizing window...');
+      // print('Maximizing window...');
       await windowManager.maximize();
       await Future.delayed(const Duration(milliseconds: 300));
 
       // Set fullscreen to hide taskbar
-      print('Setting fullscreen to hide taskbar...');
+      // print('Setting fullscreen to hide taskbar...');
       await windowManager.setFullScreen(true);
       await Future.delayed(const Duration(milliseconds: 300));
 
       // Verify fullscreen state
       final isFullScreen = await windowManager.isFullScreen();
-      print('Windows fullscreen verification: $isFullScreen');
+      // print('Windows fullscreen verification: $isFullScreen');
 
       // If fullscreen didn't work, use workaround
       if (!isFullScreen) {
-        print('Fullscreen not set, trying workaround to hide taskbar...');
+        // print('Fullscreen not set, trying workaround to hide taskbar...');
         await _windowsFullscreenWorkaround();
       }
 
-      print('Windows window setup complete - Fullscreen mode (taskbar hidden)');
+      // print('Windows window setup complete - Fullscreen mode (taskbar hidden)');
     } catch (e) {
       print('Windows setup error: $e');
       rethrow;
@@ -229,7 +229,7 @@ class AppWindowManager {
   }
 
   static Future<void> _setupLinuxWindow() async {
-    print('Setting up Linux window...');
+    // print('Setting up Linux window...');
     try {
       final screen = await screenRetriever.getPrimaryDisplay();
       final screenSize = screen.size;
@@ -261,7 +261,7 @@ class AppWindowManager {
   }
 
   static Future<void> _windowsFullscreenWorkaround() async {
-    print('Applying Windows fullscreen workaround...');
+    // print('Applying Windows fullscreen workaround...');
     try {
       final screen = await screenRetriever.getPrimaryDisplay();
       final screenSize = screen.size;
@@ -277,14 +277,14 @@ class AppWindowManager {
       await windowManager.maximize();
       await Future.delayed(const Duration(milliseconds: 200));
 
-      print('Windows workaround applied');
+      // print('Windows workaround applied');
     } catch (e) {
       print('Windows workaround error: $e');
     }
   }
 
   static Future<void> _finalizeWindowSetup() async {
-    print('Finalizing window setup...');
+    // print('Finalizing window setup...');
     try {
       // Wait for everything to settle
       await Future.delayed(const Duration(milliseconds: 500));
@@ -298,23 +298,23 @@ class AppWindowManager {
       // Verify final state
       final isMaximized = await windowManager.isMaximized();
 
-      print('Final window state - Maximized: $isMaximized');
+      // print('Final window state - Maximized: $isMaximized');
 
       // Ensure window is expanded/maximized
       if (!isMaximized) {
-        print('Window not maximized, ensuring expanded state...');
+        // print('Window not maximized, ensuring expanded state...');
         await windowManager.maximize();
         await Future.delayed(const Duration(milliseconds: 200));
       }
 
-      print('Window setup finalized - Expanded mode');
+      // print('Window setup finalized - Expanded mode');
     } catch (e) {
       print('Error in finalizeWindowSetup: $e');
     }
   }
 
   static Future<void> _emergencyFallback() async {
-    print('!!! Using emergency fallback !!!');
+    // print('!!! Using emergency fallback !!!');
     try {
       // Simple reliable setup
       await windowManager.maximize();
@@ -330,7 +330,7 @@ class AppWindowManager {
       ));
       await windowManager.center();
 
-      print('Emergency fallback applied');
+      // print('Emergency fallback applied');
     } catch (e) {
       print('Emergency fallback also failed: $e');
     }
@@ -339,7 +339,7 @@ class AppWindowManager {
   static Future<void> _setLoggedOutOptions(bool isLoggedInMinimize) async {
     final size = isLoggedInMinimize ? loggedInMinSize : logInScreenSize;
 
-    print('Setting logged out options. Size: $size');
+    // print('Setting logged out options. Size: $size');
 
     try {
       // Exit fullscreen first
@@ -360,7 +360,7 @@ class AppWindowManager {
       await Future.delayed(const Duration(seconds: 1));
       await windowManager.setAlwaysOnTop(false);
 
-      print('Logged out options set successfully');
+      // print('Logged out options set successfully');
     } catch (e) {
       print('Error in _setLoggedOutOptions: $e');
       await _loggedOutEmergencyFallback(size);
@@ -410,7 +410,7 @@ class AppWindowManager {
   // ========== PUBLIC HELPER METHODS ==========
 
   static Future<void> forceFullscreen() async {
-    print('=== Forcing fullscreen ===');
+    // print('=== Forcing fullscreen ===');
     try {
       // Exit fullscreen if already in it
       await windowManager.setFullScreen(false);
@@ -427,7 +427,7 @@ class AppWindowManager {
       await Future.delayed(const Duration(milliseconds: 300));
       final isFullScreen = await windowManager.isFullScreen();
 
-      print('Force fullscreen result: $isFullScreen');
+      // print('Force fullscreen result: $isFullScreen');
 
       if (!isFullScreen && Platform.isWindows) {
         await _windowsFullscreenWorkaround();
@@ -439,35 +439,35 @@ class AppWindowManager {
   }
 
   static Future<void> validateAndFixWindow() async {
-    print('=== Validating window state ===');
+    // print('=== Validating window state ===');
     try {
       final isVisible = await windowManager.isVisible();
       final isMinimized = await windowManager.isMinimized();
       final isFullScreen = await windowManager.isFullScreen();
 
-      print('Current state - Visible: $isVisible, Minimized: $isMinimized, FullScreen: $isFullScreen');
+     // print('Current state - Visible: $isVisible, Minimized: $isMinimized, FullScreen: $isFullScreen');
 
       if (!isVisible) {
         await windowManager.show();
-        print('Window shown');
+      //  print('Window shown');
       }
 
       if (isMinimized) {
         await windowManager.restore();
-        print('Window restored');
+  //      print('Window restored');
       }
 
       // If window is supposed to be fullscreen but isn't
       if (!isFullScreen) {
-        print('Window not fullscreen, attempting to fix...');
+    //    print('Window not fullscreen, attempting to fix...');
         await forceFullscreen();
       }
 
       await windowManager.focus();
-      print('Window focused');
+   //   print('Window focused');
 
     } catch (e) {
-      print('Error in validateAndFixWindow: $e');
+//      print('Error in validateAndFixWindow: $e');
     }
   }
 
@@ -475,7 +475,7 @@ class AppWindowManager {
     try {
       await windowManager.minimize();
     } catch (e) {
-      print('Error minimizing window: $e');
+   //   print('Error minimizing window: $e');
     }
   }
 
@@ -547,7 +547,7 @@ class AppWindowManager {
       }
 
       if (needsFix) {
-        print('Adjusting window position to stay in bounds');
+     //   print('Adjusting window position to stay in bounds');
         await windowManager.setPosition(
           Offset(newLeft, newTop),
           animate: true,

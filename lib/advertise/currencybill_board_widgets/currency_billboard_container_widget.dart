@@ -122,7 +122,7 @@ class _CurrenceyBillBoardContainerWidgetState
       width: responsive.isLandscape ? responsive.width : responsive.width,
       height: responsive.isLandscape
           ? responsive.getHeight(0.7)
-          : responsive.getHeight(0.55),
+          : responsive.getHeight(0.53),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
