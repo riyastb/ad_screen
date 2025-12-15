@@ -13,7 +13,7 @@ class TabHearder extends StatelessWidget {
     final responsive = context.responsive;
 
     // Use backend font size if available, otherwise fall back to responsive calculation
-    final baseFontSize = responsive.width * 0.018;
+    final baseFontSize = responsive.width * 0.024;
     final fontSize = theme.ratesFontSize != null
         ? theme.ratesFontSize!
         : responsive.getFontSize(baseFontSize);
@@ -112,7 +112,7 @@ class TabHearder extends StatelessWidget {
           textDirection: TextDirection.rtl,
           style: GoogleFonts.cairo(
             color: color.withOpacity(0.9),
-            fontSize: fontSize +2,
+            fontSize: fontSize ,
             fontWeight: FontWeight.w600,
             height: 1.2,
           ),
@@ -138,7 +138,7 @@ class TabHearder extends StatelessWidget {
           en,
              style: GoogleFonts.cairo(
             color: color.withOpacity(0.9),
-            fontSize: fontSize +2,
+            fontSize: fontSize ,
             fontWeight: FontWeight.w600,
             height: 1.2,
           ),

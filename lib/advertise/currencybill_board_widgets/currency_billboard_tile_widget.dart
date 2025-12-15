@@ -20,7 +20,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
     required this.buyRate,
     required this.sellRate,
     this.remittanceRate,
-    this.baseCurrencyCode = 'AED',
+    this.baseCurrencyCode = 'YER',
     required this.theme,
     this.height,
   });
@@ -29,7 +29,7 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final responsive = context.responsive;
     // Use backend font size if available, otherwise fall back to responsive calculation
-    final baseFontSize = responsive.width * 0.018;
+    final baseFontSize = responsive.width * 0.028;
     final fontSize = theme.ratesFontSize != null
         ? theme.ratesFontSize!
         : responsive.getFontSize(baseFontSize);

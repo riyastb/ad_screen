@@ -86,11 +86,11 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
         ? widget.theme.scrollFooterFontSize!
         : (responsive.isLandscape
             ? responsive.getFontSize(responsive.width * 0.018)
-            : responsive.getFontSize(responsive.width * 0.030));
+            : responsive.getFontSize(responsive.width * 0.040));
 
     return Container(
       width: responsive.width,
-      height: responsive.getHeight(0.050),
+      height: responsive.getHeight(0.049),
       decoration: BoxDecoration(
         gradient: widget.theme.footerBackgroundGradient != null
             ? LinearGradient(

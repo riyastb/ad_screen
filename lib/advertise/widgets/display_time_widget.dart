@@ -84,7 +84,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
     // Use backend font sizes if available, otherwise fall back to responsive calculation
     final branchNameFontSize = widget.branchNameFontSize != null
         ? widget.branchNameFontSize!
-        : responsive.getFontSize(18);
+        : responsive.getFontSize(21);
     final dateFontSize = widget.dateFontSize != null
         ? widget.dateFontSize!
         : responsive.getFontSize(14);
@@ -135,8 +135,8 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
               children: [
                 widget.branchImageAsset != null && widget.branchImageAsset!.isNotEmpty
                     ? Container(
-                        width: responsive.getIconSize(60),
-                        height: responsive.getIconSize(60),
+                        width: responsive.getIconSize(68),
+                        height: responsive.getIconSize(68),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(responsive.getBorderRadius(8)),
                         ),
