@@ -12,9 +12,11 @@ class TabHearder extends StatelessWidget {
   Widget build(BuildContext context) {
     final responsive = context.responsive;
 
-    // Font size calculation
+    // Use backend font size if available, otherwise fall back to responsive calculation
     final baseFontSize = responsive.width * 0.018;
-    final fontSize = responsive.getFontSize(baseFontSize);
+    final fontSize = theme.ratesFontSize != null
+        ? theme.ratesFontSize!
+        : responsive.getFontSize(baseFontSize);
 
     final currencyColor = theme.currencyTextColor ?? Colors.white;
     final transferColor = theme.transferRateTextColor ?? Colors.green;

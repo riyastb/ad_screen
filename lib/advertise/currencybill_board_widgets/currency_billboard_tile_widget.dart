@@ -28,10 +28,11 @@ class CurrencyBillboardTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final responsive = context.responsive;
-    // Reduced base font size for portrait mode (1080x1920) to prevent overflow
-    // Increased by 50%: 0.012 * 1.5 = 0.018
+    // Use backend font size if available, otherwise fall back to responsive calculation
     final baseFontSize = responsive.width * 0.018;
-    final fontSize = responsive.getFontSize(baseFontSize);
+    final fontSize = theme.ratesFontSize != null
+        ? theme.ratesFontSize!
+        : responsive.getFontSize(baseFontSize);
     final cardBackground = theme.rateCardBackground;
     final cardBackgroundGradient = theme.rateCardBackgroundGradient;
     final currencyTextColor = theme.currencyTextColor ?? Colors.white;

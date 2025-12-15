@@ -21,6 +21,11 @@ class BranchTheme {
   final Color? currencyTextColor;
   final Color? clockTextColor;
   final Color? calendarTextColor;
+  final double? branchNameFontSize;
+  final double? dateFontSize;
+  final double? timeFontSize;
+  final double? scrollFooterFontSize;
+  final double? ratesFontSize;
 
   const BranchTheme({
     this.bodyBackground,
@@ -39,6 +44,11 @@ class BranchTheme {
     this.currencyTextColor,
     this.clockTextColor,
     this.calendarTextColor,
+    this.branchNameFontSize,
+    this.dateFontSize,
+    this.timeFontSize,
+    this.scrollFooterFontSize,
+    this.ratesFontSize,
   });
 
   /// Builds a theme from the first branch result. When no colors are provided
@@ -74,6 +84,21 @@ class BranchTheme {
       currencyTextColor: colorFromHex(branch.currencyTextColor),
       clockTextColor: colorFromHex(branch.clockTextColor),
       calendarTextColor: colorFromHex(branch.calenderTextColor),
+      branchNameFontSize: branch.branchNameFontSize != null && branch.branchNameFontSize!.isNotEmpty
+          ? double.tryParse(branch.branchNameFontSize!)
+          : null,
+      dateFontSize: branch.dateFontSize != null && branch.dateFontSize!.isNotEmpty
+          ? double.tryParse(branch.dateFontSize!)
+          : null,
+      timeFontSize: branch.timeFontSize != null && branch.timeFontSize!.isNotEmpty
+          ? double.tryParse(branch.timeFontSize!)
+          : null,
+      scrollFooterFontSize: branch.scrollFooterFontSize != null && branch.scrollFooterFontSize!.isNotEmpty
+          ? double.tryParse(branch.scrollFooterFontSize!)
+          : null,
+      ratesFontSize: branch.ratesFontSize != null && branch.ratesFontSize!.isNotEmpty
+          ? double.tryParse(branch.ratesFontSize!)
+          : null,
     );
   }
 }

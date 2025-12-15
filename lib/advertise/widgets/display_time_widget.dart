@@ -12,6 +12,9 @@ class DateTimeDisplay extends StatefulWidget {
   final Color? clockTextColor;
   final Color? calendarTextColor;
   final String? branchImageAsset;
+  final double? branchNameFontSize;
+  final double? dateFontSize;
+  final double? timeFontSize;
 
   const DateTimeDisplay({
     super.key,
@@ -22,6 +25,9 @@ class DateTimeDisplay extends StatefulWidget {
     this.clockTextColor,
     this.calendarTextColor,
     this.branchImageAsset,
+    this.branchNameFontSize,
+    this.dateFontSize,
+    this.timeFontSize,
   });
 
   @override
@@ -74,6 +80,17 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
     final branchLabelColor = branchTextColor.withOpacity(0.7);
     final clockTextColor = widget.clockTextColor ?? Colors.white;
     final calendarTextColor = widget.calendarTextColor ?? Colors.white70;
+    
+    // Use backend font sizes if available, otherwise fall back to responsive calculation
+    final branchNameFontSize = widget.branchNameFontSize != null
+        ? widget.branchNameFontSize!
+        : responsive.getFontSize(18);
+    final dateFontSize = widget.dateFontSize != null
+        ? widget.dateFontSize!
+        : responsive.getFontSize(14);
+    final timeFontSize = widget.timeFontSize != null
+        ? widget.timeFontSize!
+        : responsive.getFontSize(32);
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: responsive.getPadding(8.0)),
@@ -151,7 +168,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
       'Socotra Exchange Center',
      style: GoogleFonts.cairo(
         color: branchTextColor,
-        fontSize: responsive.getFontSize(18),
+        fontSize: branchNameFontSize,
         fontWeight: FontWeight.w700,
       ),
     ),
@@ -161,7 +178,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
       //textDirection: TextDirection.RTL,
       style: GoogleFonts.cairo(
         color: branchTextColor,
-        fontSize: responsive.getFontSize(18),
+        fontSize: branchNameFontSize,
         fontWeight: FontWeight.w700,
       ),
     ),
@@ -188,7 +205,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                       formattedDate,
                       style: GoogleFonts.cairo(
                         color: calendarTextColor,
-                        fontSize: responsive.getFontSize(14),
+                        fontSize: dateFontSize,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -212,7 +229,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                           TextSpan(
                             style: GoogleFonts.cairo(
                               color: clockTextColor,
-                              fontSize: responsive.getFontSize(32),
+                              fontSize: timeFontSize,
                               fontWeight: FontWeight.bold,
                             ),
                             children: [
@@ -234,7 +251,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> with SingleTickerProv
                               TextSpan(
                                 text: ampm,
                                 style: TextStyle(
-                                  fontSize: responsive.getFontSize(16),
+                                  fontSize: timeFontSize * 0.5,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),

@@ -45,6 +45,7 @@ const RateData$json = {
     {'1': 'FooterTextColor', '3': 13, '4': 1, '5': 9, '10': 'FooterTextColor'},
     {'1': 'HeaderBBColor', '3': 14, '4': 1, '5': 9, '10': 'HeaderBBColor'},
     {'1': 'OfferDescription', '3': 15, '4': 1, '5': 9, '10': 'OfferDescription'},
+    {'1': 'Fonts', '3': 16, '4': 1, '5': 11, '6': '.exchangerate.Fonts', '10': 'Fonts'},
   ],
 };
 
@@ -62,7 +63,7 @@ final $typed_data.Uint8List rateDataDescriptor = $convert.base64Decode(
     'RDb2xvchIqChBCdXlSYXRlVGV4dENvbG9yGAwgASgJUhBCdXlSYXRlVGV4dENvbG9yEigKD0Zv'
     'b3RlclRleHRDb2xvchgNIAEoCVIPRm9vdGVyVGV4dENvbG9yEiQKDUhlYWRlckJCQ29sb3IYDi'
     'ABKAlSDUhlYWRlckJCQ29sb3ISKgoQT2ZmZXJEZXNjcmlwdGlvbhgPIAEoCVIQT2ZmZXJEZXNj'
-    'cmlwdGlvbg==');
+    'cmlwdGlvbhIpCgVGb250cxgQIAEoCzITLmV4Y2hhbmdlcmF0ZS5Gb250c1IFRm9udHM=');
 
 @$core.Deprecated('Use payloadDescriptor instead')
 const Payload$json = {
@@ -127,6 +128,7 @@ const Banner$json = {
     {'1': 'FooterTextColor', '3': 13, '4': 1, '5': 9, '10': 'FooterTextColor'},
     {'1': 'HeaderBBColor', '3': 14, '4': 1, '5': 9, '10': 'HeaderBBColor'},
     {'1': 'BranchCode', '3': 15, '4': 1, '5': 9, '10': 'BranchCode'},
+    {'1': 'Fonts', '3': 16, '4': 1, '5': 11, '6': '.exchangerate.Fonts', '10': 'Fonts'},
   ],
 };
 
@@ -143,7 +145,27 @@ final $typed_data.Uint8List bannerDescriptor = $convert.base64Decode(
     'ZXh0Q29sb3ISLAoRQ3VycmVuY3lUZXh0Q29sb3IYCyABKAlSEUN1cnJlbmN5VGV4dENvbG9yEi'
     'oKEEJ1eVJhdGVUZXh0Q29sb3IYDCABKAlSEEJ1eVJhdGVUZXh0Q29sb3ISKAoPRm9vdGVyVGV4'
     'dENvbG9yGA0gASgJUg9Gb290ZXJUZXh0Q29sb3ISJAoNSGVhZGVyQkJDb2xvchgOIAEoCVINSG'
-    'VhZGVyQkJDb2xvchIeCgpCcmFuY2hDb2RlGA8gASgJUgpCcmFuY2hDb2Rl');
+    'VhZGVyQkJDb2xvchIeCgpCcmFuY2hDb2RlGA8gASgJUgpCcmFuY2hDb2RlEikKBUZvbnRzGBAg'
+    'ASgLMhMuZXhjaGFuZ2VyYXRlLkZvbnRzUgVGb250cw==');
+
+@$core.Deprecated('Use fontsDescriptor instead')
+const Fonts$json = {
+  '1': 'Fonts',
+  '2': [
+    {'1': 'BranchNameFontSize', '3': 1, '4': 1, '5': 9, '10': 'BranchNameFontSize'},
+    {'1': 'DateFontSize', '3': 2, '4': 1, '5': 9, '10': 'DateFontSize'},
+    {'1': 'TimeFontSize', '3': 3, '4': 1, '5': 9, '10': 'TimeFontSize'},
+    {'1': 'ScrollFooterFontSize', '3': 4, '4': 1, '5': 9, '10': 'ScrollFooterFontSize'},
+    {'1': 'RatesFontSize', '3': 5, '4': 1, '5': 9, '10': 'RatesFontSize'},
+  ],
+};
+
+/// Descriptor for `Fonts`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List fontsDescriptor = $convert.base64Decode(
+    'CgVGb250cxIuChJCcmFuY2hOYW1lRm9udFNpemUYASABKAlSEkJyYW5jaE5hbWVGb250U2l6ZR'
+    'IiCgxEYXRlRm9udFNpemUYAiABKAlSDERhdGVGb250U2l6ZRIiCgxUaW1lRm9udFNpemUYAyAB'
+    'KAlSDFRpbWVGb250U2l6ZRIyChRTY3JvbGxGb290ZXJGb250U2l6ZRgEIAEoCVIUU2Nyb2xsRm'
+    '9vdGVyRm9udFNpemUSJAoNUmF0ZXNGb250U2l6ZRgFIAEoCVINUmF0ZXNGb250U2l6ZQ==');
 
 @$core.Deprecated('Use responseDescriptor instead')
 const Response$json = {
@@ -208,16 +230,15 @@ const ImageInfo$json = {
     {'1': 'Id', '3': 1, '4': 1, '5': 9, '10': 'Id'},
     {'1': 'ImageID', '3': 2, '4': 1, '5': 9, '10': 'ImageID'},
     {'1': 'ImageType', '3': 3, '4': 1, '5': 9, '10': 'ImageType'},
-    {'1': 'flag', '3': 4, '4': 1, '5': 9, '10': 'flag'},
-    {'1': 'branchcode', '3': 5, '4': 1, '5': 9, '10': 'branchcode'},
+    {'1': 'BranchCode', '3': 4, '4': 1, '5': 9, '10': 'BranchCode'},
   ],
 };
 
 /// Descriptor for `ImageInfo`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List imageInfoDescriptor = $convert.base64Decode(
     'CglJbWFnZUluZm8SDgoCSWQYASABKAlSAklkEhgKB0ltYWdlSUQYAiABKAlSB0ltYWdlSUQSHA'
-    'oJSW1hZ2VUeXBlGAMgASgJUglJbWFnZVR5cGUSEgoEZmxhZxgEIAEoCVIEZmxhZxIeCgpicmFu'
-    'Y2hjb2RlGAUgASgJUgpicmFuY2hjb2Rl');
+    'oJSW1hZ2VUeXBlGAMgASgJUglJbWFnZVR5cGUSHgoKQnJhbmNoQ29kZRgEIAEoCVIKQnJhbmNo'
+    'Q29kZQ==');
 
 @$core.Deprecated('Use imageReqDescriptor instead')
 const ImageReq$json = {
@@ -225,12 +246,12 @@ const ImageReq$json = {
   '2': [
     {'1': 'Id', '3': 1, '4': 1, '5': 9, '10': 'Id'},
     {'1': 'ImageId', '3': 2, '4': 1, '5': 9, '10': 'ImageId'},
-    {'1': 'branchcode', '3': 3, '4': 1, '5': 9, '10': 'branchcode'},
+    {'1': 'BranchCode', '3': 3, '4': 1, '5': 9, '10': 'BranchCode'},
   ],
 };
 
 /// Descriptor for `ImageReq`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List imageReqDescriptor = $convert.base64Decode(
     'CghJbWFnZVJlcRIOCgJJZBgBIAEoCVICSWQSGAoHSW1hZ2VJZBgCIAEoCVIHSW1hZ2VJZBIeCg'
-    'picmFuY2hjb2RlGAMgASgJUgpicmFuY2hjb2Rl');
+    'pCcmFuY2hDb2RlGAMgASgJUgpCcmFuY2hDb2Rl');
 

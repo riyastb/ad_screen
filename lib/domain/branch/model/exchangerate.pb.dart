@@ -75,6 +75,7 @@ class RateData extends $pb.GeneratedMessage {
     $core.String? footerTextColor,
     $core.String? headerBBColor,
     $core.String? offerDescription,
+    Fonts? fonts,
   }) {
     final $result = create();
     if (payload != null) {
@@ -122,6 +123,9 @@ class RateData extends $pb.GeneratedMessage {
     if (offerDescription != null) {
       $result.offerDescription = offerDescription;
     }
+    if (fonts != null) {
+      $result.fonts = fonts;
+    }
     return $result;
   }
   RateData._() : super();
@@ -144,6 +148,7 @@ class RateData extends $pb.GeneratedMessage {
     ..aOS(13, _omitFieldNames ? '' : 'FooterTextColor', protoName: 'FooterTextColor')
     ..aOS(14, _omitFieldNames ? '' : 'HeaderBBColor', protoName: 'HeaderBBColor')
     ..aOS(15, _omitFieldNames ? '' : 'OfferDescription', protoName: 'OfferDescription')
+    ..aOM<Fonts>(16, _omitFieldNames ? '' : 'Fonts', protoName: 'Fonts', subBuilder: Fonts.create)
     ..hasRequiredFields = false
   ;
 
@@ -296,6 +301,17 @@ class RateData extends $pb.GeneratedMessage {
   $core.bool hasOfferDescription() => $_has(14);
   @$pb.TagNumber(15)
   void clearOfferDescription() => clearField(15);
+
+  @$pb.TagNumber(16)
+  Fonts get fonts => $_getN(15);
+  @$pb.TagNumber(16)
+  set fonts(Fonts v) { setField(16, v); }
+  @$pb.TagNumber(16)
+  $core.bool hasFonts() => $_has(15);
+  @$pb.TagNumber(16)
+  void clearFonts() => clearField(16);
+  @$pb.TagNumber(16)
+  Fonts ensureFonts() => $_ensure(15);
 }
 
 class Payload extends $pb.GeneratedMessage {
@@ -631,6 +647,7 @@ class Banner extends $pb.GeneratedMessage {
     $core.String? footerTextColor,
     $core.String? headerBBColor,
     $core.String? branchCode,
+    Fonts? fonts,
   }) {
     final $result = create();
     if (tickerBannerDescription != null) {
@@ -678,6 +695,9 @@ class Banner extends $pb.GeneratedMessage {
     if (branchCode != null) {
       $result.branchCode = branchCode;
     }
+    if (fonts != null) {
+      $result.fonts = fonts;
+    }
     return $result;
   }
   Banner._() : super();
@@ -700,6 +720,7 @@ class Banner extends $pb.GeneratedMessage {
     ..aOS(13, _omitFieldNames ? '' : 'FooterTextColor', protoName: 'FooterTextColor')
     ..aOS(14, _omitFieldNames ? '' : 'HeaderBBColor', protoName: 'HeaderBBColor')
     ..aOS(15, _omitFieldNames ? '' : 'BranchCode', protoName: 'BranchCode')
+    ..aOM<Fonts>(16, _omitFieldNames ? '' : 'Fonts', protoName: 'Fonts', subBuilder: Fonts.create)
     ..hasRequiredFields = false
   ;
 
@@ -858,6 +879,123 @@ class Banner extends $pb.GeneratedMessage {
   $core.bool hasBranchCode() => $_has(14);
   @$pb.TagNumber(15)
   void clearBranchCode() => clearField(15);
+
+  @$pb.TagNumber(16)
+  Fonts get fonts => $_getN(15);
+  @$pb.TagNumber(16)
+  set fonts(Fonts v) { setField(16, v); }
+  @$pb.TagNumber(16)
+  $core.bool hasFonts() => $_has(15);
+  @$pb.TagNumber(16)
+  void clearFonts() => clearField(16);
+  @$pb.TagNumber(16)
+  Fonts ensureFonts() => $_ensure(15);
+}
+
+class Fonts extends $pb.GeneratedMessage {
+  factory Fonts({
+    $core.String? branchNameFontSize,
+    $core.String? dateFontSize,
+    $core.String? timeFontSize,
+    $core.String? scrollFooterFontSize,
+    $core.String? ratesFontSize,
+  }) {
+    final $result = create();
+    if (branchNameFontSize != null) {
+      $result.branchNameFontSize = branchNameFontSize;
+    }
+    if (dateFontSize != null) {
+      $result.dateFontSize = dateFontSize;
+    }
+    if (timeFontSize != null) {
+      $result.timeFontSize = timeFontSize;
+    }
+    if (scrollFooterFontSize != null) {
+      $result.scrollFooterFontSize = scrollFooterFontSize;
+    }
+    if (ratesFontSize != null) {
+      $result.ratesFontSize = ratesFontSize;
+    }
+    return $result;
+  }
+  Fonts._() : super();
+  factory Fonts.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Fonts.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Fonts', package: const $pb.PackageName(_omitMessageNames ? '' : 'exchangerate'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'BranchNameFontSize', protoName: 'BranchNameFontSize')
+    ..aOS(2, _omitFieldNames ? '' : 'DateFontSize', protoName: 'DateFontSize')
+    ..aOS(3, _omitFieldNames ? '' : 'TimeFontSize', protoName: 'TimeFontSize')
+    ..aOS(4, _omitFieldNames ? '' : 'ScrollFooterFontSize', protoName: 'ScrollFooterFontSize')
+    ..aOS(5, _omitFieldNames ? '' : 'RatesFontSize', protoName: 'RatesFontSize')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Fonts clone() => Fonts()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Fonts copyWith(void Function(Fonts) updates) => super.copyWith((message) => updates(message as Fonts)) as Fonts;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Fonts create() => Fonts._();
+  Fonts createEmptyInstance() => create();
+  static $pb.PbList<Fonts> createRepeated() => $pb.PbList<Fonts>();
+  @$core.pragma('dart2js:noInline')
+  static Fonts getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Fonts>(create);
+  static Fonts? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get branchNameFontSize => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set branchNameFontSize($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasBranchNameFontSize() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearBranchNameFontSize() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get dateFontSize => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set dateFontSize($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDateFontSize() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDateFontSize() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get timeFontSize => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set timeFontSize($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasTimeFontSize() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearTimeFontSize() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get scrollFooterFontSize => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set scrollFooterFontSize($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasScrollFooterFontSize() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearScrollFooterFontSize() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get ratesFontSize => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set ratesFontSize($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasRatesFontSize() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearRatesFontSize() => clearField(5);
 }
 
 class Response extends $pb.GeneratedMessage {
@@ -1185,8 +1323,7 @@ class ImageInfo extends $pb.GeneratedMessage {
     $core.String? id,
     $core.String? imageID,
     $core.String? imageType,
-    $core.String? flag,
-    $core.String? branchcode,
+    $core.String? branchCode,
   }) {
     final $result = create();
     if (id != null) {
@@ -1198,11 +1335,8 @@ class ImageInfo extends $pb.GeneratedMessage {
     if (imageType != null) {
       $result.imageType = imageType;
     }
-    if (flag != null) {
-      $result.flag = flag;
-    }
-    if (branchcode != null) {
-      $result.branchcode = branchcode;
+    if (branchCode != null) {
+      $result.branchCode = branchCode;
     }
     return $result;
   }
@@ -1214,8 +1348,7 @@ class ImageInfo extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'Id', protoName: 'Id')
     ..aOS(2, _omitFieldNames ? '' : 'ImageID', protoName: 'ImageID')
     ..aOS(3, _omitFieldNames ? '' : 'ImageType', protoName: 'ImageType')
-    ..aOS(4, _omitFieldNames ? '' : 'flag')
-    ..aOS(5, _omitFieldNames ? '' : 'branchcode')
+    ..aOS(4, _omitFieldNames ? '' : 'BranchCode', protoName: 'BranchCode')
     ..hasRequiredFields = false
   ;
 
@@ -1268,29 +1401,20 @@ class ImageInfo extends $pb.GeneratedMessage {
   void clearImageType() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get flag => $_getSZ(3);
+  $core.String get branchCode => $_getSZ(3);
   @$pb.TagNumber(4)
-  set flag($core.String v) { $_setString(3, v); }
+  set branchCode($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasFlag() => $_has(3);
+  $core.bool hasBranchCode() => $_has(3);
   @$pb.TagNumber(4)
-  void clearFlag() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $core.String get branchcode => $_getSZ(4);
-  @$pb.TagNumber(5)
-  set branchcode($core.String v) { $_setString(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasBranchcode() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearBranchcode() => clearField(5);
+  void clearBranchCode() => clearField(4);
 }
 
 class ImageReq extends $pb.GeneratedMessage {
   factory ImageReq({
     $core.String? id,
     $core.String? imageId,
-    $core.String? branchcode,
+    $core.String? branchCode,
   }) {
     final $result = create();
     if (id != null) {
@@ -1299,8 +1423,8 @@ class ImageReq extends $pb.GeneratedMessage {
     if (imageId != null) {
       $result.imageId = imageId;
     }
-    if (branchcode != null) {
-      $result.branchcode = branchcode;
+    if (branchCode != null) {
+      $result.branchCode = branchCode;
     }
     return $result;
   }
@@ -1311,7 +1435,7 @@ class ImageReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ImageReq', package: const $pb.PackageName(_omitMessageNames ? '' : 'exchangerate'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'Id', protoName: 'Id')
     ..aOS(2, _omitFieldNames ? '' : 'ImageId', protoName: 'ImageId')
-    ..aOS(3, _omitFieldNames ? '' : 'branchcode')
+    ..aOS(3, _omitFieldNames ? '' : 'BranchCode', protoName: 'BranchCode')
     ..hasRequiredFields = false
   ;
 
@@ -1355,13 +1479,13 @@ class ImageReq extends $pb.GeneratedMessage {
   void clearImageId() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get branchcode => $_getSZ(2);
+  $core.String get branchCode => $_getSZ(2);
   @$pb.TagNumber(3)
-  set branchcode($core.String v) { $_setString(2, v); }
+  set branchCode($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasBranchcode() => $_has(2);
+  $core.bool hasBranchCode() => $_has(2);
   @$pb.TagNumber(3)
-  void clearBranchcode() => clearField(3);
+  void clearBranchCode() => clearField(3);
 }
 
 

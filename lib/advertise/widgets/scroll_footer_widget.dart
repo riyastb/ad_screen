@@ -80,6 +80,13 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
      }
     final tickerBackground = widget.theme.footerBackground;
     final tickerTextColor = widget.theme.footerTextColor ?? Colors.white;
+    
+    // Use backend font size if available, otherwise fall back to responsive calculation
+    final scrollFooterFontSize = widget.theme.scrollFooterFontSize != null
+        ? widget.theme.scrollFooterFontSize!
+        : (responsive.isLandscape
+            ? responsive.getFontSize(responsive.width * 0.018)
+            : responsive.getFontSize(responsive.width * 0.030));
 
     return Container(
       width: responsive.width,
@@ -126,7 +133,7 @@ class _ScrollFooterWidgetState extends State<ScrollFooterWidget> {
                     style: GoogleFonts.cairo(
                       color: tickerTextColor,
                       fontWeight: FontWeight.bold,
-                      fontSize:responsive.isLandscape? responsive.getFontSize(responsive.width * 0.018):responsive.getFontSize(responsive.width * 0.030)
+                      fontSize: scrollFooterFontSize,
                     ),
                   ),
                 ),

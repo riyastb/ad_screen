@@ -140,6 +140,11 @@ class BranchRepositoryImpl implements BranchRepository {
           buyRateTextColor: rateData.buyRateTextColor,
           footerTextColor: rateData.footerTextColor,
           headerBBColor: rateData.headerBBColor,
+          branchNameFontSize: rateData.hasFonts() ? rateData.fonts.branchNameFontSize : null,
+          dateFontSize: rateData.hasFonts() ? rateData.fonts.dateFontSize : null,
+          timeFontSize: rateData.hasFonts() ? rateData.fonts.timeFontSize : null,
+          scrollFooterFontSize: rateData.hasFonts() ? rateData.fonts.scrollFooterFontSize : null,
+          ratesFontSize: rateData.hasFonts() ? rateData.fonts.ratesFontSize : null,
         );
         branches.add(branch);
       }

@@ -37,6 +37,11 @@ class Branch {
   final String? buyRateTextColor;
   final String? footerTextColor;
   final String? headerBBColor;
+  final String? branchNameFontSize;
+  final String? dateFontSize;
+  final String? timeFontSize;
+  final String? scrollFooterFontSize;
+  final String? ratesFontSize;
 
   const Branch({
     required this.id,
@@ -75,6 +80,11 @@ class Branch {
     this.buyRateTextColor,
     this.footerTextColor,
     this.headerBBColor,
+    this.branchNameFontSize,
+    this.dateFontSize,
+    this.timeFontSize,
+    this.scrollFooterFontSize,
+    this.ratesFontSize,
   });
 
   factory Branch.fromJson(Map<String, dynamic> json) {
@@ -136,6 +146,11 @@ class Branch {
       buyRateTextColor: json['BuyRateTextColor'] ?? json['buyRateTextColor'],
       footerTextColor: json['FooterTextColor'] ?? json['footerTextColor'],
       headerBBColor: json['HeaderBBColor'] ?? json['headerBBColor'],
+      branchNameFontSize: json['BranchNameFontSize'] ?? json['branchNameFontSize'],
+      dateFontSize: json['DateFontSize'] ?? json['dateFontSize'],
+      timeFontSize: json['TimeFontSize'] ?? json['timeFontSize'],
+      scrollFooterFontSize: json['ScrollFooterFontSize'] ?? json['scrollFooterFontSize'],
+      ratesFontSize: json['RatesFontSize'] ?? json['ratesFontSize'],
     );
   }
 
@@ -177,6 +192,11 @@ class Branch {
       if (buyRateTextColor != null) 'buyRateTextColor': buyRateTextColor,
       if (footerTextColor != null) 'footerTextColor': footerTextColor,
       if (headerBBColor != null) 'headerBBColor': headerBBColor,
+      if (branchNameFontSize != null) 'branchNameFontSize': branchNameFontSize,
+      if (dateFontSize != null) 'dateFontSize': dateFontSize,
+      if (timeFontSize != null) 'timeFontSize': timeFontSize,
+      if (scrollFooterFontSize != null) 'scrollFooterFontSize': scrollFooterFontSize,
+      if (ratesFontSize != null) 'ratesFontSize': ratesFontSize,
     };
   }
 

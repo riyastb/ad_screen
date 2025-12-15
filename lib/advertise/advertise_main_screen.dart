@@ -223,6 +223,9 @@ class _AdvertisementMainHomeScreenState
                 clockTextColor: theme.clockTextColor,
                 calendarTextColor: theme.calendarTextColor,
                 branchImageAsset: 'assets/images/branch_logo.png', // Branch logo asset path
+                branchNameFontSize: theme.branchNameFontSize,
+                dateFontSize: theme.dateFontSize,
+                timeFontSize: theme.timeFontSize,
               ),
               _isLoading
                   ? Expanded(
