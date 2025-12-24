@@ -83,7 +83,7 @@ class CurrencyBillBoardController {
 
     // Flip cards one by one (front to back) and change data
     for (int i = 0; i < _currentDataIndices.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(milliseconds: 1500));
       if (!_isAnimating) {
         _isAnimationLoopRunning = false;
         return;
@@ -110,7 +110,7 @@ class CurrencyBillBoardController {
 
     // Flip cards back (back to front) and change data again
     for (int i = 0; i < _currentDataIndices.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(milliseconds: 1500));
       if (!_isAnimating) {
         _isAnimationLoopRunning = false;
         return;
