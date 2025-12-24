@@ -4,6 +4,7 @@ import 'package:advertisment_screen/advertise/currencybill_board_widgets/flippin
 class CurrencyBillBoardController {
   final List<GlobalKey<FlipCardAnimationWidgetState>> flipCardKeys = [];
   bool _isAnimating = false;
+  bool _isAnimationLoopRunning = false;
   int _totalItems = 0;
   int _visibleCards = 8;
   
@@ -13,11 +14,30 @@ class CurrencyBillBoardController {
   // Callback to notify when data changes
   Function()? onDataChanged;
 
-  void initialize(int length, {int visibleCards = 8}) {
+  void initialize(int length, {int visibleCards = 8, bool preserveState = false}) {
+    // Stop animation before reinitializing to prevent conflicts
+    final wasAnimating = _isAnimating;
+    if (wasAnimating) {
+      stopAnimation();
+    }
+    
     _totalItems = length;
     _visibleCards = visibleCards;
-    _initializeDataIndices();
+    
+    // Only reset data indices if not preserving state or if count/orientation changed significantly
+    if (!preserveState || _currentDataIndices.length != visibleCards) {
+      _initializeDataIndices();
+    }
     _updateFlipCardKeys();
+    
+    // Restart animation if it was running before
+    if (wasAnimating && length > 0) {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (!_isAnimating) {
+          startAnimation();
+        }
+      });
+    }
   }
 
   void _initializeDataIndices() {
@@ -41,21 +61,38 @@ class CurrencyBillBoardController {
   int get visibleCardCount => _currentDataIndices.length;
 
   void startAnimation() {
+    // Prevent starting multiple animation loops
+    if (_isAnimationLoopRunning) {
+      return;
+    }
     _isAnimating = true;
+    _isAnimationLoopRunning = true;
     _flipCardsSequentially();
   }
 
   void stopAnimation() {
     _isAnimating = false;
+    _isAnimationLoopRunning = false;
   }
 
   Future<void> _flipCardsSequentially() async {
-    if (!_isAnimating || _totalItems == 0) return;
+    if (!_isAnimating || _totalItems == 0) {
+      _isAnimationLoopRunning = false;
+      return;
+    }
 
     // Flip cards one by one (front to back) and change data
     for (int i = 0; i < _currentDataIndices.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 400));
-      if (!_isAnimating) return;
+      await Future.delayed(const Duration(milliseconds: 1000));
+      if (!_isAnimating) {
+        _isAnimationLoopRunning = false;
+        return;
+      }
+      
+      // Validate index before accessing
+      if (i >= flipCardKeys.length || flipCardKeys[i].currentState == null) {
+        continue;
+      }
       
       // Change data for this card before flipping
       _rotateDataForCard(i);
@@ -66,12 +103,23 @@ class CurrencyBillBoardController {
     }
 
     await Future.delayed(const Duration(seconds: 8));
-    if (!_isAnimating) return;
+    if (!_isAnimating) {
+      _isAnimationLoopRunning = false;
+      return;
+    }
 
     // Flip cards back (back to front) and change data again
     for (int i = 0; i < _currentDataIndices.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 400));
-      if (!_isAnimating) return;
+      await Future.delayed(const Duration(milliseconds: 1000));
+      if (!_isAnimating) {
+        _isAnimationLoopRunning = false;
+        return;
+      }
+      
+      // Validate index before accessing
+      if (i >= flipCardKeys.length || flipCardKeys[i].currentState == null) {
+        continue;
+      }
       
       // Change data for this card before flipping back
       _rotateDataForCard(i);
@@ -82,8 +130,10 @@ class CurrencyBillBoardController {
     }
 
     await Future.delayed(const Duration(seconds: 8));
-    if (_isAnimating) {
+    if (_isAnimating && _isAnimationLoopRunning) {
       _flipCardsSequentially(); // Continue looping
+    } else {
+      _isAnimationLoopRunning = false;
     }
   }
 

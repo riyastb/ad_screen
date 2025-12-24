@@ -78,13 +78,10 @@ class _CurrenceyBillBoardContainerWidgetState
     // Reinitialize if branch count changed or orientation changed
     if (newLen != oldLen || _lastOrientation != isLandscape) {
       _lastOrientation = isLandscape;
-      _controller.initialize(newLen, visibleCards: visibleCards);
-      // Optionally restart the animation to reflect new items
-      Future.microtask(() {
-        if (mounted) {
-          _controller.startAnimation();
-        }
-      });
+      // Preserve state if only orientation changed (not data count)
+      final preserveState = newLen == oldLen;
+      _controller.initialize(newLen, visibleCards: visibleCards, preserveState: preserveState);
+      // Animation will be restarted by initialize() if it was running
     }
   }
 
